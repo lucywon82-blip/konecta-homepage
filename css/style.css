@@ -106,8 +106,9 @@ body {
 }
 .hero-media {
   position: absolute;
-  inset: 0;
+  inset: -12% 0;
   z-index: 0;
+  will-change: transform;
 }
 .hero-media img {
   width: 100%;
@@ -458,9 +459,41 @@ section h2 {
   aspect-ratio: 1/1;
   transition: transform .5s cubic-bezier(0.16,1,0.3,1);
 }
-.photo-grid a:hover img, .photo-grid img:hover { transform: scale(1.04); }
+.photo-grid a:hover img, .photo-grid img:hover { transform: scale(1.06) rotate(-0.5deg); }
 .photo-grid .tall { grid-row: span 2; }
 .photo-grid .tall img { aspect-ratio: 1/2.05; }
+
+/* auto-scrolling marquee */
+.marquee-section { padding: 0; overflow: hidden; background: var(--navy-dark); }
+.marquee-row { overflow: hidden; }
+.marquee-row + .marquee-row { margin-top: 14px; }
+.marquee-track {
+  display: flex;
+  gap: 14px;
+  width: max-content;
+  animation: marquee-left 38s linear infinite;
+  padding: 14px 0;
+}
+.marquee-row.reverse .marquee-track { animation-name: marquee-right; animation-duration: 44s; }
+.marquee-track img {
+  height: 260px;
+  width: auto;
+  border-radius: 14px;
+  object-fit: cover;
+  flex-shrink: 0;
+  filter: brightness(0.96);
+  transition: transform .4s cubic-bezier(0.16,1,0.3,1), filter .4s ease;
+}
+.marquee-track img:hover { transform: scale(1.04); filter: brightness(1.04); }
+.marquee-section:hover .marquee-track { animation-play-state: paused; }
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes marquee-right {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
 
 .gallery-strip {
   display: flex;
@@ -535,6 +568,7 @@ section h2 {
 @media (max-width: 600px) {
   .hero h1 { font-size: 28px; }
   .hero { min-height: 78vh; }
+  .marquee-track img { height: 160px; }
   .page-hero { padding: 110px 0 60px; }
   .contact-buttons { flex-direction: column; align-items: center; }
   .grid-3, .grid-4, .flow-steps, .journal-grid { grid-template-columns: 1fr; }

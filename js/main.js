@@ -67,6 +67,22 @@ if (header) {
   }, { passive: true });
 }
 
+// scroll parallax on hero/page-hero background media
+const parallaxMedia = document.querySelectorAll('.hero-media');
+if (parallaxMedia.length) {
+  const applyParallax = () => {
+    parallaxMedia.forEach(el => {
+      const rect = el.parentElement.getBoundingClientRect();
+      const speed = 0.28;
+      const maxOffset = rect.height * 0.1;
+      const offset = Math.max(-maxOffset, Math.min(maxOffset, rect.top * speed));
+      el.style.transform = `translateY(${offset}px)`;
+    });
+  };
+  applyParallax();
+  window.addEventListener('scroll', () => requestAnimationFrame(applyParallax), { passive: true });
+}
+
 // subtle mouse parallax on hero media
 document.querySelectorAll('[data-parallax]').forEach(el => {
   el.addEventListener('mousemove', (e) => {
