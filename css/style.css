@@ -57,6 +57,34 @@ body {
   margin-left: 24px;
   font-size: 15px;
 }
+.header nav a.active {
+  color: var(--sub);
+  font-weight: 700;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: var(--sub);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.page-hero {
+  padding: 100px 0 70px;
+  text-align: center;
+}
+.page-hero h1 {
+  font-family: 'GmarketSansBold', sans-serif;
+  font-size: 36px;
+  line-height: 1.4;
+}
+.page-hero-sub {
+  margin-top: 16px;
+  color: #555;
+  font-size: 16px;
+}
 
 .hero {
   padding: 120px 0 100px;
@@ -89,6 +117,187 @@ body {
 .quote-sub {
   color: var(--sub);
   font-size: 17px;
+}
+
+.about-block {
+  padding: 90px 0;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  text-align: center;
+}
+.about-lead {
+  font-family: 'GmarketSansBold', sans-serif;
+  font-size: 24px;
+  margin-bottom: 24px;
+}
+.about-body {
+  max-width: 620px;
+  margin: 0 auto;
+  color: #444;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.value-section, .roadmap-section {
+  padding: 90px 0;
+  text-align: center;
+}
+.value-section h2, .roadmap-section h2, .journal-preview h2 {
+  font-family: 'GmarketSansBold', sans-serif;
+  font-size: 26px;
+  margin-bottom: 48px;
+}
+.value-grid, .roadmap-grid, .journal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.value-card, .roadmap-card, .journal-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  padding: 32px 24px;
+  text-align: left;
+}
+.value-num {
+  font-family: 'GmarketSansBold', sans-serif;
+  color: var(--sub);
+  font-size: 22px;
+}
+.value-card h3, .roadmap-card h3, .journal-card h3 {
+  font-family: 'GmarketSansBold', sans-serif;
+  font-size: 18px;
+  margin: 12px 0 8px;
+}
+.value-card p, .roadmap-card p, .journal-card p {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+}
+.phase-tag {
+  display: inline-block;
+  background: #eef1ff;
+  color: var(--sub);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 100px;
+}
+.roadmap-section { background: #fff; border-top: 1px solid #eee; }
+
+.product-teaser {
+  padding: 90px 0;
+  text-align: center;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+}
+.product-teaser h2 {
+  font-family: 'GmarketSansBold', sans-serif;
+  font-size: 30px;
+  margin-bottom: 12px;
+}
+.teaser-desc {
+  color: #555;
+  margin-bottom: 20px;
+}
+.badge-soon {
+  display: inline-block;
+  background: var(--ink);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 8px 18px;
+  border-radius: 100px;
+}
+
+.newsletter {
+  padding: 90px 0;
+  text-align: center;
+}
+.newsletter h2 {
+  font-family: 'GmarketSansBold', sans-serif;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+.newsletter p {
+  color: #555;
+  margin-bottom: 28px;
+}
+.newsletter-form {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  max-width: 420px;
+  margin: 0 auto;
+}
+.newsletter-form input {
+  flex: 1;
+  padding: 14px 16px;
+  border: 1px solid #ddd;
+  border-radius: 100px;
+  font-size: 14px;
+}
+.newsletter-form button {
+  padding: 14px 22px;
+  border: none;
+  border-radius: 100px;
+  background: var(--ink);
+  color: #fff;
+  font-family: 'GmarketSansBold', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.social-cta {
+  padding: 90px 0;
+  text-align: center;
+  background: #fff;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+.social-cta h2 {
+  font-family: 'GmarketSansBold', sans-serif;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+.social-cta p {
+  color: #555;
+  margin-bottom: 24px;
+}
+.btn-outline {
+  display: inline-block;
+  padding: 12px 26px;
+  border: 1.5px solid var(--ink);
+  border-radius: 100px;
+  text-decoration: none;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.journal-coming {
+  text-align: center;
+  padding-bottom: 60px;
+}
+.coming-desc {
+  margin-top: 16px;
+  color: #555;
+}
+.journal-preview {
+  padding: 0 0 90px;
+  text-align: center;
+}
+.journal-thumb {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+.journal-tag {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--sub);
+  margin-bottom: 4px;
 }
 
 .contact {
@@ -138,8 +347,21 @@ body {
   color: #999;
 }
 
+@media (max-width: 700px) {
+  .value-grid, .roadmap-grid, .journal-grid {
+    grid-template-columns: 1fr;
+  }
+  .newsletter-form { flex-direction: column; }
+}
+
 @media (max-width: 600px) {
   .hero h1 { font-size: 30px; }
   .hero { padding: 80px 0 60px; }
   .contact-buttons { flex-direction: column; align-items: center; }
+}
+
+@media (max-width: 480px) {
+  .header .wrap { height: auto; flex-wrap: wrap; padding: 12px 16px; gap: 6px 0; }
+  .logo { font-size: 17px; }
+  .header nav a { margin-left: 0; margin-right: 14px; font-size: 13px; }
 }
