@@ -83,17 +83,18 @@ if (parallaxMedia.length) {
   window.addEventListener('scroll', () => requestAnimationFrame(applyParallax), { passive: true });
 }
 
-// subtle mouse parallax on hero media
+// subtle mouse parallax on hero media (applied to a wrapper so it doesn't
+// fight the CSS kenburns animation running on the img itself)
 document.querySelectorAll('[data-parallax]').forEach(el => {
+  const inner = el.querySelector('.hero-media-inner');
+  if (!inner) return;
   el.addEventListener('mousemove', (e) => {
     const rect = el.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
-    const img = el.querySelector('img');
-    if (img) img.style.transform = `scale(1.06) translate(${x * -12}px, ${y * -12}px)`;
+    inner.style.transform = `translate(${x * -18}px, ${y * -12}px)`;
   });
   el.addEventListener('mouseleave', () => {
-    const img = el.querySelector('img');
-    if (img) img.style.transform = '';
+    inner.style.transform = '';
   });
 });
