@@ -3,8 +3,8 @@
 
 :root {
   --white: #FFFFFF;
-  --bg-gray: #F7F8FA;
-  --line-gray: #E4E7EC;
+  --bg-gray: #FBF6F3;
+  --line-gray: #E9E2DD;
   --navy: #2B3648;
   --navy-soft: #5B6472;
   --navy-dark: #1D2530;
@@ -28,7 +28,10 @@
 body {
   font-family: 'Pretendard', -apple-system, 'Malgun Gothic', sans-serif;
   color: var(--text);
-  background: var(--bg);
+  background:
+    radial-gradient(1100px 560px at 12% -8%, rgba(237,123,93,.10), transparent 60%),
+    radial-gradient(900px 500px at 100% 12%, rgba(237,123,93,.06), transparent 55%),
+    var(--bg);
   line-height: 1.6;
 }
 
@@ -121,6 +124,7 @@ body {
   height: 100%;
   object-fit: cover;
   transform-origin: 62% 42%;
+  filter: brightness(1.1) saturate(1.25) contrast(1.02);
   animation: kenburns 24s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
 }
 @keyframes kenburns {
@@ -132,8 +136,8 @@ body {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(100deg, rgba(29,37,48,.4) 0%, rgba(237,123,93,.14) 48%, rgba(29,37,48,.18) 100%),
-    linear-gradient(180deg, rgba(29,37,48,.1) 0%, rgba(29,37,48,.32) 55%, rgba(20,26,35,.92) 100%);
+    linear-gradient(100deg, rgba(29,37,48,.22) 0%, rgba(237,123,93,.16) 48%, rgba(29,37,48,.08) 100%),
+    linear-gradient(180deg, rgba(29,37,48,.02) 0%, rgba(29,37,48,.2) 55%, rgba(24,30,40,.82) 100%);
 }
 .hero .wrap { position: relative; z-index: 1; padding-bottom: 90px; text-align: left; }
 .hero .eyebrow { color: var(--coral); }
