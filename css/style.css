@@ -142,12 +142,15 @@ body {
 .hero .wrap { position: relative; z-index: 1; padding-bottom: 90px; text-align: left; }
 .hero .eyebrow { color: var(--coral); }
 .hero h1 {
-  font-size: 46px;
-  line-height: 1.35;
+  font-size: 40px;
+  line-height: 1.4;
   font-weight: 700;
   margin-bottom: 20px;
-  max-width: 640px;
+  max-width: 780px;
   text-shadow: 0 2px 24px rgba(0,0,0,.18);
+}
+@media (max-width: 780px) {
+  .hero h1 { font-size: 30px; max-width: 100%; }
 }
 .hero .sub {
   color: #E4E7EC;
