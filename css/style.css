@@ -3,8 +3,8 @@
 
 :root {
   --white: #FFFFFF;
-  --bg-gray: #F7F8FA;
-  --line-gray: #E4E7EC;
+  --bg-gray: #FBF6F3;
+  --line-gray: #E9E2DD;
   --navy: #2B3648;
   --navy-soft: #5B6472;
   --navy-dark: #1D2530;
@@ -28,7 +28,10 @@
 body {
   font-family: 'Pretendard', -apple-system, 'Malgun Gothic', sans-serif;
   color: var(--text);
-  background: var(--bg);
+  background:
+    radial-gradient(1100px 560px at 12% -8%, rgba(237,123,93,.10), transparent 60%),
+    radial-gradient(900px 500px at 100% 12%, rgba(237,123,93,.06), transparent 55%),
+    var(--bg);
   line-height: 1.6;
 }
 
@@ -121,6 +124,7 @@ body {
   height: 100%;
   object-fit: cover;
   transform-origin: 62% 42%;
+  filter: brightness(1.1) saturate(1.25) contrast(1.02);
   animation: kenburns 24s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate;
 }
 @keyframes kenburns {
@@ -132,18 +136,21 @@ body {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(100deg, rgba(29,37,48,.4) 0%, rgba(237,123,93,.14) 48%, rgba(29,37,48,.18) 100%),
-    linear-gradient(180deg, rgba(29,37,48,.1) 0%, rgba(29,37,48,.32) 55%, rgba(20,26,35,.92) 100%);
+    linear-gradient(100deg, rgba(29,37,48,.22) 0%, rgba(237,123,93,.16) 48%, rgba(29,37,48,.08) 100%),
+    linear-gradient(180deg, rgba(29,37,48,.02) 0%, rgba(29,37,48,.2) 55%, rgba(24,30,40,.82) 100%);
 }
 .hero .wrap { position: relative; z-index: 1; padding-bottom: 90px; text-align: left; }
 .hero .eyebrow { color: var(--coral); }
 .hero h1 {
-  font-size: 46px;
-  line-height: 1.35;
+  font-size: 40px;
+  line-height: 1.4;
   font-weight: 700;
   margin-bottom: 20px;
-  max-width: 640px;
+  max-width: 780px;
   text-shadow: 0 2px 24px rgba(0,0,0,.18);
+}
+@media (max-width: 780px) {
+  .hero h1 { font-size: 30px; max-width: 100%; }
 }
 .hero .sub {
   color: #E4E7EC;
@@ -531,6 +538,58 @@ section h2 {
 .photo-grid a:hover img, .photo-grid img:hover { transform: scale(1.06) rotate(-0.5deg); }
 .photo-grid .tall { grid-row: span 2; }
 .photo-grid .tall img { aspect-ratio: 1/2.05; }
+
+/* kinetic type marquee — bold looping headline band */
+.kinetic-marquee {
+  background: linear-gradient(100deg, var(--coral) 0%, var(--coral-deep) 55%, var(--coral) 100%);
+  background-size: 220% 100%;
+  animation: kinetic-glow 10s ease-in-out infinite;
+  overflow: hidden;
+  padding: 22px 0;
+}
+.kinetic-track {
+  display: flex;
+  width: max-content;
+  animation: kinetic-scroll 26s linear infinite;
+}
+.kinetic-group { display: flex; }
+.kinetic-track span {
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  padding-right: 40px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  font-size: clamp(28px, 5vw, 54px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--white);
+  white-space: nowrap;
+}
+.kinetic-track .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--navy-dark);
+  flex-shrink: 0;
+}
+.kinetic-track .star {
+  font-style: normal;
+  color: var(--navy-dark);
+  font-size: 0.65em;
+}
+.kinetic-marquee:hover .kinetic-track { animation-play-state: paused; }
+@keyframes kinetic-glow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes kinetic-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kinetic-track { animation: none; }
+}
 
 /* auto-scrolling marquee */
 .marquee-section { padding: 0; overflow: hidden; background: var(--navy-dark); }
