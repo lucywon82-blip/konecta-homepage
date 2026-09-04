@@ -539,6 +539,54 @@ section h2 {
 .photo-grid .tall { grid-row: span 2; }
 .photo-grid .tall img { aspect-ratio: 1/2.05; }
 
+/* kinetic type marquee — bold looping headline band */
+.kinetic-marquee {
+  background: var(--navy-dark);
+  overflow: hidden;
+  padding: 22px 0;
+  border-top: 1px solid rgba(255,255,255,.08);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.kinetic-track {
+  display: flex;
+  width: max-content;
+  animation: kinetic-scroll 26s linear infinite;
+}
+.kinetic-group { display: flex; }
+.kinetic-track span {
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  padding-right: 40px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  font-size: clamp(28px, 5vw, 54px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--white);
+  white-space: nowrap;
+}
+.kinetic-track .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--coral);
+  flex-shrink: 0;
+}
+.kinetic-track .star {
+  font-style: normal;
+  color: var(--coral);
+  font-size: 0.65em;
+}
+.kinetic-marquee:hover .kinetic-track { animation-play-state: paused; }
+@keyframes kinetic-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kinetic-track { animation: none; }
+}
+
 /* auto-scrolling marquee */
 .marquee-section { padding: 0; overflow: hidden; background: var(--navy-dark); }
 .marquee-row { overflow: hidden; }
