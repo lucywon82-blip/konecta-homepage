@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://konecta-homepage.netlify.app/sitemap.xml
