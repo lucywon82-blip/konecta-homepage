@@ -80,7 +80,7 @@
     <span class="pill-badge light">CONTACT</span>
     <h2>협업 · 투자 · 파트너 문의를 환영합니다</h2>
     <div class="contact-buttons">
-      <a class="btn" href="https://www.instagram.com/noriter_beautycenter" target="_blank" rel="noopener">
+      <a class="btn" href="https://www.instagram.com/konecta.co.kr/" target="_blank" rel="noopener">
         <span class="btn-title">인스타그램 DM</span>
         <span class="btn-desc">고객·일반 문의는 이쪽으로 편하게 남겨주세요</span>
       </a>
@@ -171,7 +171,7 @@ function render() {
     html += progressHtml(TOTAL);
     html += '<h2 class="quiz-qtitle">결과를 보내드릴 연락처를 알려주세요</h2>';
     html += '<div class="quiz-field"><label>이름</label><input id="nameInput" type="text" placeholder="이름을 입력해주세요" value="' + escapeHtml(state.name) + '"></div>';
-    html += '<div class="quiz-field"><label>연락처 (인스타그램 아이디 / 이메일 / 왓츠앱 번호)</label><input id="contactInput" type="text" placeholder="예: @noriter_beautycenter" value="' + escapeHtml(state.contact) + '"></div>';
+    html += '<div class="quiz-field"><label>연락처 (인스타그램 아이디 / 이메일 / 왓츠앱 번호)</label><input id="contactInput" type="text" placeholder="예: @konecta.co.kr" value="' + escapeHtml(state.contact) + '"></div>';
     if (state.error) html += '<div class="quiz-errmsg">' + escapeHtml(state.error) + '</div>';
     html += '<div class="quiz-spacer"></div>';
     html += '<button class="quiz-cta enabled" data-action="submit">' + (state.submitting ? "제출 중..." : "제출하기") + heartIcon(13, "#fff") + '</button>';
