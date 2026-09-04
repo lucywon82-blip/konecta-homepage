@@ -157,6 +157,7 @@ HEADER = """<header class="header">
       <a href="{root}brand.html">브랜드 소개</a>
       <a href="{root}journal.html">창업일기</a>
       <a href="{root}blog/index.html" class="active">블로그</a>
+      <a href="{root}quiz.html">피부진단</a>
       <a href="{root}index.html#contact">문의</a>
     </nav>
   </div>

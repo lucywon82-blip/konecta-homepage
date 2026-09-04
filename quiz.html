@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>피부 진단 | Konecta</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .quiz-card-wrap { max-width: 420px; margin: 0 auto; }
+  .quiz-card {
+    position: relative;
+    width: 100%;
+    background: var(--white);
+    border: 2px dashed var(--coral);
+    border-radius: 24px;
+    box-sizing: border-box;
+    padding: 34px 24px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-height: 420px;
+  }
+  .quiz-garland { position: absolute; top: -11px; left: 24px; right: 24px; display: flex; justify-content: space-between; pointer-events: none; }
+  .quiz-topbar { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+  .quiz-backbtn { display: flex; align-items: center; gap: 4px; background: none; border: none; color: var(--navy-soft); font-size: 12px; font-weight: 700; cursor: pointer; padding: 4px; visibility: hidden; font-family: inherit; }
+  .quiz-backbtn.show { visibility: visible; }
+  .quiz-badge { background: var(--coral-light); color: var(--coral-deep); font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 999px; white-space: nowrap; }
+  .quiz-hearts-row { display: flex; gap: 5px; margin: 2px 0 4px; flex-wrap: wrap; }
+  .quiz-qtitle { margin: 0; color: var(--navy); font-size: 19px; font-weight: 800; line-height: 1.4; }
+  .quiz-opts { display: flex; flex-direction: column; gap: 10px; margin-top: 2px; }
+  .quiz-opt { display: flex; align-items: center; gap: 10px; padding: 13px 16px; border-radius: 14px; border: 1.5px solid var(--border); color: var(--navy); font-size: 14px; font-weight: 600; cursor: pointer; background: var(--white); transition: background .12s, border-color .12s, color .12s; }
+  .quiz-opt:hover { border-color: var(--coral); }
+  .quiz-opt.selected { background: var(--coral-light); border-color: var(--coral); color: var(--coral-deep); font-weight: 700; }
+  .quiz-opt svg { flex-shrink: 0; }
+  .quiz-spacer { flex: 1; }
+  .quiz-cta { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 14px; border-radius: 16px; font-size: 15px; font-weight: 800; cursor: pointer; border: none; width: 100%; font-family: inherit; }
+  .quiz-cta.enabled { background: var(--coral); color: #fff; }
+  .quiz-cta.disabled { background: var(--border); color: #A6ADB8; cursor: not-allowed; }
+  .quiz-field { display: flex; flex-direction: column; gap: 6px; }
+  .quiz-field label { color: var(--navy-soft); font-size: 12px; font-weight: 700; }
+  .quiz-field input { padding: 13px 14px; border-radius: 12px; border: 1.5px solid var(--border); font-size: 14px; font-family: inherit; color: var(--navy); outline: none; }
+  .quiz-field input:focus { border-color: var(--coral); }
+  .quiz-errmsg { color: #D9534F; font-size: 12px; font-weight: 600; }
+  .quiz-done-body { align-items: center; text-align: center; justify-content: center; }
+  .quiz-done-body h2 { margin: 0; color: var(--navy); font-size: 21px; font-weight: 800; }
+  .quiz-done-body p { margin: 0; color: var(--navy-soft); font-size: 13px; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="wrap">
+    <a class="logo" href="index.html">konecta</a>
+    <nav>
+      <a href="brand.html">브랜드 소개</a>
+      <a href="journal.html">창업일기</a>
+      <a href="blog/index.html">블로그</a>
+      <a href="quiz.html" class="active">피부진단</a>
+      <a href="index.html#contact">문의</a>
+    </nav>
+  </div>
+</header>
+
+<section class="page-hero" style="min-height:auto; padding:80px 0 50px; color:var(--navy); background:var(--surface-alt); border-bottom:1px solid var(--border); text-align:center;">
+  <div class="wrap">
+    <span class="pill-badge light">SKIN TEST</span>
+    <h1 style="margin-top:14px;">Konecta 피부 MBTI 진단</h1>
+    <p class="page-hero-sub" style="color:var(--text-soft);">몇 가지 질문에 답하면 나에게 맞는 K-뷰티 큐레이션 방향을 알려드려요.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap quiz-card-wrap">
+    <div id="quiz-app" class="quiz-card"></div>
+  </div>
+</section>
+
+<section class="footer-contact">
+  <div class="wrap">
+    <span class="pill-badge light">CONTACT</span>
+    <h2>협업 · 투자 · 파트너 문의를 환영합니다</h2>
+    <div class="contact-buttons">
+      <a class="btn" href="https://www.instagram.com/noriter_beautycenter" target="_blank" rel="noopener">
+        <span class="btn-title">인스타그램 DM</span>
+        <span class="btn-desc">고객·일반 문의는 이쪽으로 편하게 남겨주세요</span>
+      </a>
+      <a class="btn" href="mailto:lucywon82@gmail.com">
+        <span class="btn-title">이메일 문의</span>
+        <span class="btn-desc">브랜드 협업 · 파트너십 문의는 이메일로</span>
+      </a>
+    </div>
+    <p class="copyright">&copy; 2026 Konecta. All rights reserved.</p>
+  </div>
+</section>
+
+<script src="js/main.js"></script>
+<script>
+var QUESTIONS = [
+  { id: "country", field: "거주 국가", title: "거주 국가가 어디신가요?", options: ["페루", "칠레", "기타 남미 국가", "남미 외 지역"] },
+  { id: "ageGroup", field: "연령대", title: "연령대가 어떻게 되시나요?", options: ["10대", "20대", "30대", "40대", "50대 이상"] },
+  { id: "contactMethod", field: "선호 연락 방법", title: "선호하는 연락 방법을 선택해주세요", options: ["인스타그램 DM", "왓츠앱", "이메일", "기타"] },
+  { id: "awarenessChannel", field: "브랜드 인지 경로", title: "저희 브랜드를 처음 알게 된 경로는요?", options: ["인스타그램", "틱톡", "유튜브", "홈페이지", "지인 추천", "기타"] },
+  { id: "kbeautyExperience", field: "한국 화장품 사용 경험", title: "한국 화장품을 사용해보신 경험이 있으신가요?", options: ["자주 사용함", "가끔 사용해봄", "이번이 처음"] },
+  { id: "skinType", field: "피부 타입", title: "세안 후 피부가 당길 때까지 얼마나 걸리나요?", options: ["바로 당김 (건성)", "1~2시간 후 당김 (중성)", "안 당기고 번들거림 (지성)", "부위마다 다름 (복합성)"] },
+  { id: "routineStyle", field: "스킨케어 루틴 스타일", title: "평소 스킨케어 루틴은 어떤 편인가요?", options: ["미니멀 (토너+로션 정도)", "기본 케어 (토너+에센스+크림)", "풀코스 케어 (에센스+세럼+크림+팩까지)"] },
+  { id: "budget", field: "한 번 구매 예상 지출", title: "한 번 구매하실 때 예상 지출은 어느 정도인가요?", options: ["20달러 이하", "20~50달러", "50~100달러", "100달러 이상"] },
+  { id: "firstPurchasePref", field: "첫 구매 방식 선호", title: "첫 구매는 어떤 방식을 선호하세요?", options: ["미니·트래블 사이즈로 먼저 테스트", "바로 정품 사이즈로 구매", "상관없음"] },
+  { id: "routineTime", field: "하루 스킨케어 소요 시간", title: "하루 스킨케어에 들이는 시간은 어느 정도인가요?", options: ["5분 이내 초간단 루틴", "10~15분 기본 루틴", "20분 이상 정성 케어"] }
+];
+var TOTAL = QUESTIONS.length;
+var CONTACT_STEP = TOTAL;
+var DONE_STEP = TOTAL + 1;
+
+var state = { step: 0, answers: {}, name: "", contact: "", error: "", submitting: false };
+
+function heartIcon(size, fill) {
+  return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.1C0.4 8.8 2 5 6 5c2 0 3.5 1.2 4 2.5C10.5 6.2 12 5 14 5c4 0 5.6 3.8 4 6.9C19.5 16.4 12 21 12 21z" fill="' + fill + '"/></svg>';
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+  });
+}
+
+function garlandHtml() {
+  var out = "";
+  for (var i = 0; i < 7; i++) out += heartIcon(13, "#ED7B5D");
+  return out;
+}
+
+function progressHtml(activeCount) {
+  var out = "";
+  for (var i = 0; i < TOTAL; i++) {
+    out += heartIcon(11, i < activeCount ? "#ED7B5D" : "#E4E7EC");
+  }
+  return '<div class="quiz-hearts-row">' + out + '</div>';
+}
+
+function render() {
+  var app = document.getElementById("quiz-app");
+  var html = "";
+
+  if (state.step < TOTAL) {
+    var q = QUESTIONS[state.step];
+    var selected = state.answers[q.id];
+    html += '<div class="quiz-garland">' + garlandHtml() + '</div>';
+    html += '<div class="quiz-topbar">';
+    html += '<button class="quiz-backbtn' + (state.step > 0 ? ' show' : '') + '" data-action="back">'
+      + '<svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="#5B6472" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>이전</button>';
+    html += '<span class="quiz-badge">Konecta 뷰티 진단 · Q' + (state.step + 1) + '/' + TOTAL + '</span>';
+    html += '</div>';
+    html += progressHtml(state.step);
+    html += '<h2 class="quiz-qtitle">' + escapeHtml(q.title) + '</h2>';
+    html += '<div class="quiz-opts">';
+    q.options.forEach(function (opt) {
+      var isSel = selected === opt;
+      html += '<div class="quiz-opt' + (isSel ? ' selected' : '') + '" data-action="select" data-qid="' + q.id + '" data-opt="' + escapeHtml(opt) + '">'
+        + heartIcon(14, isSel ? "#ED7B5D" : "#E4E7EC") + '<span>' + escapeHtml(opt) + '</span></div>';
+    });
+    html += '</div>';
+    html += '<div class="quiz-spacer"></div>';
+    html += '<button class="quiz-cta ' + (selected ? "enabled" : "disabled") + '" data-action="next" ' + (selected ? "" : "disabled") + '>다음' + heartIcon(13, "#fff") + '</button>';
+  } else if (state.step === CONTACT_STEP) {
+    html += '<div class="quiz-garland">' + garlandHtml() + '</div>';
+    html += '<div class="quiz-topbar">';
+    html += '<button class="quiz-backbtn show" data-action="back">'
+      + '<svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="#5B6472" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>이전</button>';
+    html += '<span class="quiz-badge">마지막 단계</span>';
+    html += '</div>';
+    html += progressHtml(TOTAL);
+    html += '<h2 class="quiz-qtitle">결과를 보내드릴 연락처를 알려주세요</h2>';
+    html += '<div class="quiz-field"><label>이름</label><input id="nameInput" type="text" placeholder="이름을 입력해주세요" value="' + escapeHtml(state.name) + '"></div>';
+    html += '<div class="quiz-field"><label>연락처 (인스타그램 아이디 / 이메일 / 왓츠앱 번호)</label><input id="contactInput" type="text" placeholder="예: @noriter_beautycenter" value="' + escapeHtml(state.contact) + '"></div>';
+    if (state.error) html += '<div class="quiz-errmsg">' + escapeHtml(state.error) + '</div>';
+    html += '<div class="quiz-spacer"></div>';
+    html += '<button class="quiz-cta enabled" data-action="submit">' + (state.submitting ? "제출 중..." : "제출하기") + heartIcon(13, "#fff") + '</button>';
+  } else {
+    html += '<div class="quiz-done-body" style="display:flex; flex-direction:column; gap:16px;">';
+    html += heartIcon(46, "#ED7B5D");
+    html += '<h2>진단이 완료됐어요!</h2>';
+    html += '<p>' + escapeHtml(state.name || "고객") + '님의 답변 ' + TOTAL + '개를 모두 받았어요.<br>피부 타입에 맞는 제품 추천을 곧 ' + escapeHtml(state.contact || "연락처") + '(으)로 보내드릴게요.</p>';
+    html += '</div>';
+  }
+
+  app.innerHTML = html;
+  attachHandlers();
+}
+
+function attachHandlers() {
+  var app = document.getElementById("quiz-app");
+  var opts = app.querySelectorAll('[data-action="select"]');
+  opts.forEach(function (el) {
+    el.addEventListener("click", function () {
+      state.answers[el.getAttribute("data-qid")] = el.getAttribute("data-opt");
+      render();
+    });
+  });
+  var back = app.querySelector('[data-action="back"]');
+  if (back) back.addEventListener("click", function () { if (state.step > 0) { state.step--; render(); } });
+  var next = app.querySelector('[data-action="next"]');
+  if (next) next.addEventListener("click", function () {
+    var q = QUESTIONS[state.step];
+    if (!state.answers[q.id]) return;
+    state.step++;
+    render();
+  });
+  var submitBtn = app.querySelector('[data-action="submit"]');
+  if (submitBtn) submitBtn.addEventListener("click", handleSubmit);
+  var nameInput = document.getElementById("nameInput");
+  if (nameInput) nameInput.addEventListener("input", function (e) { state.name = e.target.value; });
+  var contactInput = document.getElementById("contactInput");
+  if (contactInput) contactInput.addEventListener("input", function (e) { state.contact = e.target.value; });
+}
+
+function handleSubmit() {
+  if (!state.name.trim() || !state.contact.trim()) {
+    state.error = "이름과 연락처를 모두 입력해주세요";
+    render();
+    return;
+  }
+  state.error = "";
+  state.submitting = true;
+  render();
+
+  var payload = Object.assign({ name: state.name, contact: state.contact }, state.answers);
+
+  fetch('/.netlify/functions/submit-quiz', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+    .then(function (res) {
+      if (!res.ok) throw new Error('submit failed');
+      state.submitting = false;
+      state.step = DONE_STEP;
+      render();
+    })
+    .catch(function () {
+      state.submitting = false;
+      state.error = "제출 중 문제가 발생했어요. 잠시 후 다시 시도해주세요.";
+      render();
+    });
+}
+
+render();
+</script>
+</body>
+</html>
