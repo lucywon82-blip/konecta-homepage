@@ -449,6 +449,38 @@ section h2 {
   margin-bottom: 4px;
 }
 
+/* blog post content (rendered from Notion) */
+.post-content { font-size: 16px; line-height: 1.85; color: var(--text); }
+.post-content h2 { font-size: 24px; font-weight: 700; margin: 36px 0 14px; }
+.post-content h3 { font-size: 19px; font-weight: 700; margin: 28px 0 12px; }
+.post-content h4 { font-size: 16px; font-weight: 700; margin: 22px 0 10px; }
+.post-content p { margin-bottom: 16px; color: var(--text); }
+.post-content ul, .post-content ol { margin: 0 0 16px 22px; }
+.post-content li { margin-bottom: 6px; }
+.post-content blockquote {
+  margin: 20px 0;
+  padding: 14px 20px;
+  border-left: 3px solid var(--accent);
+  background: var(--accent-tint);
+  color: var(--text-soft);
+  border-radius: 0 10px 10px 0;
+}
+.post-content hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+.post-content pre {
+  background: var(--navy-dark);
+  color: #E4E7EC;
+  padding: 16px 20px;
+  border-radius: 12px;
+  overflow-x: auto;
+  margin-bottom: 16px;
+  font-size: 13.5px;
+}
+.post-content code { font-family: 'IBM Plex Mono', monospace; }
+.post-content .post-image { margin: 24px 0; }
+.post-content .post-image img { width: 100%; border-radius: 14px; display: block; }
+.post-content .post-image figcaption { margin-top: 8px; font-size: 13px; color: var(--text-soft); text-align: center; }
+.post-content .post-image-warning { font-size: 13px; color: var(--text-soft); font-style: italic; }
+
 /* pinned scrollytelling section */
 .pin-section { background: var(--surface); }
 .pin-layout {
