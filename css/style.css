@@ -456,6 +456,49 @@ section h2 {
   margin-bottom: 4px;
 }
 
+/* blog post content (rendered from Notion) */
+.post-content { font-size: 16px; line-height: 1.85; color: var(--text); }
+.post-content h2 { font-size: 24px; font-weight: 700; margin: 36px 0 14px; }
+.post-content h3 { font-size: 19px; font-weight: 700; margin: 28px 0 12px; }
+.post-content h4 { font-size: 16px; font-weight: 700; margin: 22px 0 10px; }
+.post-content p { margin-bottom: 16px; color: var(--text); }
+.post-content ul, .post-content ol { margin: 0 0 16px 22px; }
+.post-content li { margin-bottom: 6px; }
+.post-content blockquote {
+  margin: 36px 0;
+  padding: 32px 28px;
+  background: var(--accent-tint);
+  color: var(--navy);
+  border-radius: 16px;
+  text-align: center;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.5;
+  border-left: none;
+}
+
+.closing-cta-soft {
+  background: var(--surface-alt);
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.closing-cta-soft p { color: var(--text-soft); margin-bottom: 28px; }
+.post-content hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+.post-content pre {
+  background: var(--navy-dark);
+  color: #E4E7EC;
+  padding: 16px 20px;
+  border-radius: 12px;
+  overflow-x: auto;
+  margin-bottom: 16px;
+  font-size: 13.5px;
+}
+.post-content code { font-family: 'IBM Plex Mono', monospace; }
+.post-content .post-image { margin: 24px 0; }
+.post-content .post-image img { width: 100%; border-radius: 14px; display: block; }
+.post-content .post-image figcaption { margin-top: 8px; font-size: 13px; color: var(--text-soft); text-align: center; }
+.post-content .post-image-warning { font-size: 13px; color: var(--text-soft); font-style: italic; }
+
 /* pinned scrollytelling section */
 .pin-section { background: var(--surface); }
 .pin-layout {
@@ -577,6 +620,96 @@ section h2 {
 .flow-step img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
 .flow-step .flow-body { padding: 20px; }
 
+/* landing-page-brand-style components (blog list/detail) */
+.pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--coral);
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 7px 16px;
+  border-radius: 100px;
+}
+.pill-badge.light { background: var(--coral-light); color: var(--coral-deep); }
+
+.num-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--coral);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.list-block { display: flex; gap: 16px; align-items: flex-start; }
+.list-block h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.list-block p { font-size: 14px; color: var(--text-soft); line-height: 1.6; }
+
+.stat-compare {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.stat-compare .stat {
+  text-align: center;
+}
+.stat-compare .stat .value {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--text-soft);
+  line-height: 1.1;
+}
+.stat-compare .stat.win .value { color: var(--coral-deep); font-size: 52px; }
+.stat-compare .stat .label { margin-top: 8px; font-size: 13px; color: var(--text-soft); }
+.stat-compare .op { font-size: 28px; font-weight: 700; color: var(--text-soft); }
+
+.btn-pill {
+  display: inline-block;
+  background: var(--coral);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 15px;
+  padding: 15px 32px;
+  border-radius: 100px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.btn-pill:hover { background: var(--coral-deep); }
+
+.closing-cta {
+  background: var(--navy-dark);
+  color: var(--white);
+  text-align: center;
+}
+.closing-cta h2 { color: var(--white); }
+.closing-cta p { color: #C7CDD6; margin-bottom: 28px; }
+
+.footer-contact {
+  background: var(--navy-dark);
+  padding: 60px 0 32px;
+  text-align: center;
+}
+.footer-contact .pill-badge.light { margin-bottom: 16px; }
+.footer-contact h2 { color: var(--white); margin-bottom: 28px; }
+.footer-contact .contact-buttons { margin-bottom: 36px; }
+.footer-contact .btn { background: var(--navy); border-color: #3A4657; }
+.footer-contact .btn .btn-title { color: var(--white); }
+.footer-contact .btn .btn-desc { color: #AEB7C4; }
+.footer-contact .copyright { font-size: 13px; color: #8D97A6; border-top: 1px solid #3A4657; padding-top: 24px; }
+
 .footer {
   padding: 32px 0;
   text-align: center;
@@ -614,4 +747,6 @@ section h2 {
   .header .wrap { height: auto; flex-wrap: wrap; padding: 12px 16px; gap: 6px 0; }
   .logo { font-size: 16px; }
   .header nav a { margin-left: 0; margin-right: 14px; font-size: 13px; }
+  .stat-compare .stat .value { font-size: 32px; }
+  .stat-compare .stat.win .value { font-size: 40px; }
 }
