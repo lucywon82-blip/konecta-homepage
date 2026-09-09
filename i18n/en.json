@@ -1,0 +1,302 @@
+{
+  "common": {
+    "nav": {
+      "brand": "About",
+      "journal": "Journal",
+      "blog": "Blog",
+      "quiz": "Skin Quiz",
+      "contact": "Contact"
+    },
+    "footer": {
+      "copyright": "© 2026 Konecta. All rights reserved."
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "So Latin American consumers can experience K-beauty with zero pressure, and find the product that's actually right for their skin",
+      "sub": "Konecta — the K-beauty curation platform you try before you buy"
+    },
+    "process": {
+      "title": "From test to purchase, without the risk",
+      "s1": "Discover the product through social content",
+      "s2": "Pick up a mini test kit — low risk, low cost",
+      "s3": "Try it on your own skin",
+      "s4": "Love it? Get the full-size product"
+    },
+    "product": {
+      "title": "K-beauty Test Kit",
+      "desc": "We're putting together a mini-size K-beauty kit curated by skin type. We're still in the planning stage, before locking in product sourcing.",
+      "soon": "Coming Soon"
+    },
+    "compare": {
+      "eyebrow": "The Konecta curation",
+      "title": "The old way vs. Konecta — not the same thing",
+      "h_old": "The old way",
+      "h_new": "KONECTA",
+      "old1": "High-priced full-size products only",
+      "new1": "Try it first, at low cost",
+      "old2": "Buy without ever trying it first",
+      "new2": "Mini kits cut down on buyer's remorse",
+      "old3": "Choosing blind, with no real info",
+      "new3": "Curation based on your actual skin type"
+    },
+    "blogTeaser": {
+      "title": "Latest from the blog",
+      "cat": "Routine",
+      "post_title": "Planning to enter the Latin American market? Don't just look at Peru — look at the whole continent",
+      "post_desc": "Why, when you're building a one-person import business out of Peru, Lima should be your gateway to sizing up the whole South American market — not the end point.",
+      "viewall": "See all posts →"
+    },
+    "newsletter": {
+      "title": "Be the first to hear when we launch",
+      "desc": "Leave your email and we'll notify you the moment the test kit launches.",
+      "btn": "Notify me"
+    },
+    "instagram": {
+      "title": "Follow along on Instagram as Konecta comes to life",
+      "btn": "Visit Instagram"
+    }
+  },
+  "brand": {
+    "title": "The K-beauty platform connecting Korea and Latin America",
+    "intro": "Konecta is a beauty business connecting K-beauty with the Latin American market.",
+    "body": "As the name suggests — \"Korea\" plus the Spanish word \"conecta\" (to connect) — we introduce great Korean cosmetics to Latin American consumers, starting with Peru and Chile, and help Korean beauty brands connect with the Latin American market. We start by understanding local skin concerns and preferences; popularity back in Korea is never, on its own, a reason to recommend a product.",
+    "stat1": "Planning stage (Business stage)",
+    "stat2": "Initial target market (Peru & Chile)",
+    "stat3": "Core target age",
+    "stat4": "Content languages",
+    "now_title": "Konecta right now",
+    "stage_planning": "Planning stage",
+    "age_range": "20-35",
+    "phase1": "Stage 1",
+    "phase2": "Stage 2",
+    "phase3": "Stage 3",
+    "phase4": "Stage 4",
+    "diff_title": "What makes Konecta different",
+    "diff1_t": "Curation built for local skin",
+    "diff1_d": "We prioritize sun-care and hydration lines suited to real local skin concerns, from the Andes' intense UV to dry climates.",
+    "diff2_t": "Value over hype",
+    "diff2_d": "We care more about a product's real value than its popularity in Korea, and only curate items with a clear, honest value — without the high price tag.",
+    "diff3_t": "We sell the experience, not just the product",
+    "diff3_d": "Mini test kits let you try it first, with zero risk.",
+    "biz_title": "How we operate (Business model)",
+    "biz1_t": "One-off sales",
+    "biz1_d": "Margin on test kits and full-size product sales",
+    "biz2_t": "Subscription test kit",
+    "biz2_d": "A recurring-purchase model built around a periodic subscription.",
+    "biz3_t": "Brand-partner commission",
+    "biz3_d": "A commission for onboarding Korean beauty brands onto the platform.",
+    "biz4_t": "Influencer collab revenue",
+    "biz4_d": "Revenue from social content and influencer partnerships.",
+    "road_title": "What's next for Konecta",
+    "road1_t": "Stage 1 · Test sales",
+    "road1_d": "Validate early response with mini test kits.",
+    "road2_t": "Stage 2 · Launch the subscription model",
+    "road2_d": "Expand validated products into a recurring-subscription format.",
+    "road3_t": "Stage 3 · Brand partnerships",
+    "road3_d": "Formalize partnerships with Korean beauty brands.",
+    "road4_t": "Stage 4 · Expand across Latin America",
+    "road4_d": "Grow beyond Peru and Chile to the wider region.",
+    "quote": "“I lived in Chile for three years and saw real local buying behavior firsthand. Interest in K-beauty runs high, but I watched up close how the lack of a chance to actually try a product first keeps that interest from ever turning into a purchase.”",
+    "tag1": "3 years living in Chile",
+    "tag2": "Deep understanding of local consumers",
+    "tag3": "Drive to execute in K-beauty",
+    "dl_title": "Our values and vision, in one document",
+    "dl_desc": "Download the Konecta company deck using the button below.",
+    "dl_btn": "Download deck",
+    "dl_note": "* Currently available in Korean only"
+  },
+  "journal": {
+    "title": "Founder Journal & Routines·Reviews",
+    "intro": "Instead of presenting a finished brand, we document the process of building Konecta exactly as it happens.",
+    "now_title": "What we're writing right now",
+    "e1_cat": "Brand",
+    "e1_t": "Why we chose the name Konecta",
+    "e1_d": "We document how we compared name candidates on the way from our working name, Noriter Beauty Center, to Konecta.",
+    "e2_cat": "Sourcing",
+    "e2_t": "First sourcing trip to Dongdaemun wholesale market",
+    "e2_d": "A vlog-style log of setting curation criteria and hand-picking products by walking the market myself.",
+    "e3_cat": "Logistics",
+    "e3_t": "Comparing freight forwarder quotes",
+    "e3_d": "An honest record of comparing quotes when the terminology and the numbers were still unfamiliar.",
+    "e4_cat": "Regulatory",
+    "e4_t": "Researching sanitary registration",
+    "e4_d": "A rundown of what I learned looking into Peru's NSO and Chile's ISP registration.",
+    "later_title": "Content coming after launch",
+    "later_desc": "Once the test kit launches, we'll fill this page with real users' daily routines and honest reviews.",
+    "l1_t": "Daily routine",
+    "l1_d": "Morning-and-night routines, logged with photos",
+    "l2_t": "Reviews",
+    "l2_d": "Results and satisfaction from early testers",
+    "l3_t": "Before & after",
+    "l3_d": "Documented changes before and after testing",
+    "cta_title": "You'll be the first to know",
+    "cta_desc": "Leave your email and we'll let you know as soon as the routines & reviews content goes live.",
+    "cta_btn": "Notify me"
+  },
+  "blog": {
+    "title": "The Konecta Blog",
+    "sub": "Posts I write in Notion get published here automatically.",
+    "why_title": "Everything you wanted to know about building a business in Latin America, all in one place",
+    "why_desc": "From sourcing to customs to on-the-ground market research — sharing what I've learned the hard way with anyone weighing a move into Latin America.",
+    "time1": "3+ hrs",
+    "time1_label": "searching and piecing it together yourself",
+    "time2": "5 min",
+    "time2_label": "with one post that's already done the work",
+    "topics_title": "3 things this blog covers",
+    "t1_t": "Local market research",
+    "t1_d": "Breaking down consumers and distribution structures across Peru, Chile, and other Latin American markets.",
+    "t2_t": "Sourcing & logistics in practice",
+    "t2_d": "Documenting the real process, from Dongdaemun sourcing to forwarder quotes to customs.",
+    "t3_t": "Startup progress",
+    "t3_d": "Sharing the process of building Konecta, unfiltered.",
+    "why_read_title": "Why read the Konecta blog",
+    "r1_t": "Written by a founder in the trenches",
+    "r1_d": "Not theory — a startup process that's actually happening right now.",
+    "r2_t": "Real experience in Latin America",
+    "r2_d": "Written from 3 years living in Chile.",
+    "r3_t": "Practical, not theoretical",
+    "r3_d": "Concrete procedures and real numbers, not vague advice.",
+    "r4_t": "Honest trial and error",
+    "r4_d": "I write about the mistakes and course-corrections, not just the wins.",
+    "recent_title": "Recent posts",
+    "p1_cat": "Routine",
+    "p1_t": "Planning to enter the Latin American market? Don't just look at Peru — look at the whole continent",
+    "p1_d": "Why, when you're building a one-person import business out of Peru, Lima should be your gateway to sizing up the whole South American market — not the end point.",
+    "p2_cat": "Routine",
+    "p2_t": "Entering the Latin American market as a solo trader: start small",
+    "p2_d": "How to lower your risk by starting with small-batch orders — and how to line up sourcing, customs, and forwarders — when you're taking on markets like Peru or Chile solo.",
+    "p3_cat": "News",
+    "p3_t": "Launching the blog",
+    "p3_d": "The first post on the Konecta blog.",
+    "next_title": "We'll tell you about the next post on Instagram first",
+    "next_desc": "When something new goes up, we post about it on Instagram too.",
+    "next_btn": "Follow on Instagram"
+  },
+  "contact": {
+    "title": "Open to collaborations, investment & partnerships",
+    "ig_t": "Instagram DM",
+    "ig_d": "For customer or general questions, reach us here",
+    "ig_link": "Send a DM →",
+    "mail_t": "Email",
+    "mail_d": "For brand collabs or partnerships, email us",
+    "mail_link": "Send an email →"
+  },
+  "quiz": {
+    "title": "Konecta Skin Quiz",
+    "subtitle": "Answer a few questions and we'll tell you which K-beauty curation direction fits you best.",
+    "progressLabel": "Konecta Beauty Quiz",
+    "backButton": "Back",
+    "nextButton": "Next",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Which country do you live in?",
+        "options": [
+          "Peru",
+          "Chile",
+          "Another Latin American country",
+          "Outside Latin America"
+        ]
+      },
+      {
+        "id": 2,
+        "question": "What's your age range?",
+        "options": [
+          "Under 20",
+          "20s",
+          "30s",
+          "40s",
+          "50 or older"
+        ]
+      },
+      {
+        "id": 3,
+        "question": "What's your preferred way to be contacted?",
+        "options": [
+          "Instagram DM",
+          "WhatsApp",
+          "Email",
+          "Other"
+        ]
+      },
+      {
+        "id": 4,
+        "question": "How did you first hear about us?",
+        "options": [
+          "Instagram",
+          "TikTok",
+          "YouTube",
+          "Our website",
+          "Word of mouth",
+          "Other"
+        ]
+      },
+      {
+        "id": 5,
+        "question": "Have you used Korean cosmetics before?",
+        "options": [
+          "I use them often",
+          "I've tried them a few times",
+          "This would be my first time"
+        ]
+      },
+      {
+        "id": 6,
+        "question": "After washing your face, how long before your skin feels tight?",
+        "options": [
+          "Feels tight right away (dry skin)",
+          "Feels tight after 1-2 hours (normal skin)",
+          "Doesn't feel tight, gets shiny instead (oily skin)",
+          "Depends on the area (combination skin)"
+        ]
+      },
+      {
+        "id": 7,
+        "question": "What's your usual skincare routine like?",
+        "options": [
+          "Minimal (just toner + lotion)",
+          "Basic care (toner + essence + cream)",
+          "Full routine (essence + serum + cream + mask)"
+        ]
+      },
+      {
+        "id": 8,
+        "question": "About how much do you expect to spend per purchase?",
+        "options": [
+          "Under $20",
+          "$20–$50",
+          "$50–$100",
+          "Over $100"
+        ]
+      },
+      {
+        "id": 9,
+        "question": "How would you prefer to make your first purchase?",
+        "options": [
+          "Try a mini/travel size first",
+          "Go straight for the full size",
+          "No preference"
+        ]
+      },
+      {
+        "id": 10,
+        "question": "How much time do you spend on skincare each day?",
+        "options": [
+          "Under 5 minutes — quick routine",
+          "10–15 minutes — basic routine",
+          "20+ minutes — dedicated care"
+        ]
+      }
+    ],
+    "finalStep": {
+      "stepLabel": "Final step",
+      "title": "Tell us where to send your result",
+      "nameLabel": "Name",
+      "contactLabel": "Contact (Instagram handle / email / WhatsApp number)",
+      "submitButton": "Submit",
+      "thanksTitle": "Thanks for submitting!",
+      "thanksDescription": "We'll send your result to the contact you left."
+    }
+  }
+}

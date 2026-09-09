@@ -1,0 +1,302 @@
+{
+  "common": {
+    "nav": {
+      "brand": "Marca",
+      "journal": "Bitácora",
+      "blog": "Blog",
+      "quiz": "Diagnóstico",
+      "contact": "Contacto"
+    },
+    "footer": {
+      "copyright": "© 2026 Konecta. All rights reserved."
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "Para que los consumidores latinoamericanos vivan el K-beauty sin presión y encuentren el producto ideal para su piel",
+      "sub": "Konecta, la plataforma de curaduría K-beauty que se prueba antes de comprar"
+    },
+    "process": {
+      "title": "De la prueba a la compra, sin riesgo",
+      "s1": "Descubres el producto en redes sociales",
+      "s2": "Compras un mini kit de prueba, sin compromiso",
+      "s3": "Lo pruebas directamente en tu piel",
+      "s4": "Si te convence, compras el producto de tamaño completo"
+    },
+    "product": {
+      "title": "Kit de prueba K-beauty",
+      "desc": "Estamos preparando un kit K-beauty de tamaño mini, curado según tu tipo de piel. Todavía estamos en la etapa de planificación, antes de confirmar el sourcing de los productos.",
+      "soon": "Próximamente"
+    },
+    "compare": {
+      "eyebrow": "La curaduría de Konecta",
+      "title": "La forma tradicional y Konecta no son lo mismo",
+      "h_old": "Método tradicional",
+      "h_new": "KONECTA",
+      "old1": "Venta centrada en productos originales de precio alto",
+      "new1": "Primero pruebas a bajo costo",
+      "old2": "Compras sin poder probar antes",
+      "new2": "El mini kit reduce el riesgo de comprar mal",
+      "old3": "Eliges sin información real",
+      "new3": "Curaduría basada en tu tipo de piel"
+    },
+    "blogTeaser": {
+      "title": "Lo último del blog",
+      "cat": "Rutina",
+      "post_title": "Si piensas entrar a Latinoamérica, no mires solo Perú: mira todo el continente",
+      "post_desc": "Por qué, al preparar un emprendimiento de comercio unipersonal en Perú, conviene usar Lima como puerta de entrada y mirar el mercado sudamericano en su conjunto.",
+      "viewall": "Ver todo el blog →"
+    },
+    "newsletter": {
+      "title": "Sé el primero en enterarte del lanzamiento",
+      "desc": "Déjanos tu correo y te avisamos primero cuando lancemos el kit de prueba.",
+      "btn": "Quiero que me avisen"
+    },
+    "instagram": {
+      "title": "Sigue en Instagram cómo se está construyendo Konecta",
+      "btn": "Ir a Instagram"
+    }
+  },
+  "brand": {
+    "title": "La plataforma K-beauty que conecta Corea con Latinoamérica",
+    "intro": "Konecta es un negocio de belleza que conecta el K-beauty con el mercado latinoamericano.",
+    "body": "Como sugiere el nombre —la unión de “Korea” y “conecta”—, presentamos los mejores cosméticos coreanos a los consumidores latinoamericanos, empezando por Perú y Chile, y acompañamos a las marcas de belleza coreanas en su entrada al mercado latino. Primero entendemos las preocupaciones de piel y los gustos locales; la popularidad en Corea nunca es, por sí sola, motivo para recomendar un producto.",
+    "stat1": "Etapa de planificación (Etapa del negocio)",
+    "stat2": "Mercado de primer ingreso (Perú y Chile)",
+    "stat3": "Edad objetivo principal",
+    "stat4": "Idiomas de contenido",
+    "now_title": "Konecta ahora mismo",
+    "stage_planning": "Etapa de planificación",
+    "age_range": "20-35 años",
+    "phase1": "Etapa 1",
+    "phase2": "Etapa 2",
+    "phase3": "Etapa 3",
+    "phase4": "Etapa 4",
+    "diff_title": "Qué hace diferente a Konecta",
+    "diff1_t": "Curaduría hecha a la medida local",
+    "diff1_d": "Priorizamos líneas de protección solar e hidratación pensadas en retos reales de la piel local: el sol intenso de los Andes, el clima seco y más.",
+    "diff2_t": "Enfocados en el valor real",
+    "diff2_d": "Priorizamos el valor real del producto por encima de su popularidad en Corea, y seleccionamos solo lo que ofrece un beneficio claro sin ser caro.",
+    "diff3_t": "Vendemos experiencia, no solo producto",
+    "diff3_d": "Con kits de prueba en tamaño mini, puedes probarlo primero sin ningún riesgo.",
+    "biz_title": "Cómo operamos (Modelo de negocio)",
+    "biz1_t": "Venta unitaria",
+    "biz1_d": "Margen por venta de kits de prueba y productos de tamaño completo",
+    "biz2_t": "Kit de prueba por suscripción",
+    "biz2_d": "Diseñamos un modelo de compra recurrente mediante suscripción periódica.",
+    "biz3_t": "Comisión por marcas asociadas",
+    "biz3_d": "Comisión por el ingreso de marcas de belleza coreanas a la plataforma.",
+    "biz4_t": "Ingresos por colaboración con influencers",
+    "biz4_d": "Ingresos generados a través de contenido en redes sociales y colaboraciones con influencers.",
+    "road_title": "Los próximos pasos de Konecta",
+    "road1_t": "Etapa 1 · Venta de prueba",
+    "road1_d": "Validamos la respuesta inicial con mini kits de prueba.",
+    "road2_t": "Etapa 2 · Lanzamiento del modelo por suscripción",
+    "road2_d": "Ampliamos los productos ya validados a un formato de suscripción periódica.",
+    "road3_t": "Etapa 3 · Alianzas de marca",
+    "road3_d": "Formalizamos alianzas con marcas de belleza coreanas.",
+    "road4_t": "Etapa 4 · Expansión en Latinoamérica",
+    "road4_d": "Vamos más allá de Perú y Chile para llegar a toda la región.",
+    "quote": "“Viví tres años en Chile y experimenté de primera mano el comportamiento real de compra de los consumidores locales. Vi muy de cerca cómo, aunque el interés por el K-beauty es alto, la falta de oportunidades para ‘probar antes de comprar’ impide que ese interés se convierta en compra.”",
+    "tag1": "3 años viviendo en Chile",
+    "tag2": "Comprensión del consumidor local",
+    "tag3": "Determinación para ejecutar en K-beauty",
+    "dl_title": "Nuestros valores y visión, en un solo documento",
+    "dl_desc": "Descarga el dossier de Konecta con el botón de abajo.",
+    "dl_btn": "Descargar dossier",
+    "dl_note": "* Por ahora, disponible solo en coreano"
+  },
+  "journal": {
+    "title": "Bitácora del emprendimiento y rutinas·reseñas",
+    "intro": "En lugar de mostrar una marca ya terminada, documentamos tal cual el proceso de construir Konecta.",
+    "now_title": "Lo que estamos escribiendo ahora",
+    "e1_cat": "Marca",
+    "e1_t": "Por qué elegimos el nombre Konecta",
+    "e1_d": "Documentamos cómo comparamos candidatos, desde el nombre de trabajo Noriter Beauty Center hasta llegar a Konecta.",
+    "e2_cat": "Sourcing",
+    "e2_t": "Mi primera compra en el mercado mayorista de Dongdaemun",
+    "e2_d": "Un vlog y registro de cómo definí criterios de curaduría y elegí productos recorriendo el mercado en persona.",
+    "e3_cat": "Logística",
+    "e3_t": "Comparando cotizaciones de forwarders",
+    "e3_d": "Dejo constancia, tal cual, del proceso de comparar cotizaciones cuando ni los términos ni los números me eran familiares.",
+    "e4_cat": "Regulación",
+    "e4_t": "Investigando el registro sanitario",
+    "e4_d": "Resumo lo que aprendí investigando el registro NSO en Perú y el ISP en Chile.",
+    "later_title": "Contenido que llegará tras el lanzamiento",
+    "later_desc": "Cuando lancemos el kit de prueba, iremos llenando esta página con las rutinas diarias y reseñas honestas de usuarias reales.",
+    "l1_t": "Rutina diaria",
+    "l1_d": "Rutinas de mañana y noche, registradas con fotos",
+    "l2_t": "Reseñas",
+    "l2_d": "Cambios y satisfacción de quienes lo probaron primero",
+    "l3_t": "Antes y después",
+    "l3_d": "Registro de cambios antes y después de la prueba",
+    "cta_title": "Serás de los primeros en saberlo",
+    "cta_desc": "Déjanos tu correo y te avisamos en cuanto abramos el contenido de rutinas y reseñas.",
+    "cta_btn": "Quiero que me avisen"
+  },
+  "blog": {
+    "title": "Blog de Konecta",
+    "sub": "Los artículos que escribo en Notion se publican aquí automáticamente.",
+    "why_title": "Todo lo que quisiste saber sobre emprender en Latinoamérica, está aquí",
+    "why_desc": "Desde el sourcing hasta la aduana y la investigación de mercado local — comparto lo que aprendí a pulso con quienes están pensando en entrar a Latinoamérica.",
+    "time1": "3+ hrs",
+    "time1_label": "si lo buscas y organizas tú mismo",
+    "time2": "5 min",
+    "time2_label": "con un artículo ya resumido",
+    "topics_title": "3 temas que cubre este blog",
+    "t1_t": "Investigación de mercado local",
+    "t1_d": "Resumo el perfil del consumidor y la estructura de distribución en Perú, Chile y otros países de Latinoamérica.",
+    "t2_t": "Sourcing y logística en la práctica",
+    "t2_d": "Registro el proceso real, desde el sourcing en Dongdaemun hasta las cotizaciones de forwarders y la aduana.",
+    "t3_t": "Avance del emprendimiento",
+    "t3_d": "Comparto sin filtros el proceso de construir Konecta.",
+    "why_read_title": "Por qué vale la pena leer el blog de Konecta",
+    "r1_t": "Escrito por una emprendedora en acción",
+    "r1_d": "No es teoría: es un proceso real que está ocurriendo ahora.",
+    "r2_t": "Experiencia real en Latinoamérica",
+    "r2_d": "Escrito desde mis 3 años viviendo en Chile.",
+    "r3_t": "Enfoque práctico",
+    "r3_d": "Procesos concretos y números reales, nada de consejos abstractos.",
+    "r4_t": "Ensayo y error, sin filtro",
+    "r4_d": "Comparto tanto lo que funcionó como los errores y ajustes en el camino.",
+    "recent_title": "Artículos recientes",
+    "p1_cat": "Rutina",
+    "p1_t": "Si piensas entrar a Latinoamérica, no mires solo Perú: mira todo el continente",
+    "p1_d": "Por qué, al preparar un emprendimiento de comercio unipersonal en Perú, conviene usar Lima como puerta de entrada y mirar el mercado sudamericano en su conjunto.",
+    "p2_cat": "Rutina",
+    "p2_t": "Cómo entrar a Latinoamérica con comercio unipersonal: empieza con lotes pequeños",
+    "p2_d": "Un resumen de cómo bajar el riesgo empezando con lotes pequeños mientras preparas sourcing, aduana y forwarders, al aventurarte solo en mercados como Perú o Chile.",
+    "p3_cat": "Novedades",
+    "p3_t": "Damos inicio al blog",
+    "p3_d": "La primera entrada del blog de Konecta.",
+    "next_title": "Te avisamos del próximo artículo primero en Instagram",
+    "next_desc": "Cuando publicamos algo nuevo, también lo compartimos en Instagram.",
+    "next_btn": "Seguir en Instagram"
+  },
+  "contact": {
+    "title": "Abiertos a colaboraciones, inversión y alianzas",
+    "ig_t": "DM por Instagram",
+    "ig_d": "Para consultas generales o de clientes, escríbenos por aquí",
+    "ig_link": "Enviar DM →",
+    "mail_t": "Contacto por correo",
+    "mail_d": "Para colaboraciones de marca o alianzas, escríbenos por correo",
+    "mail_link": "Enviar correo →"
+  },
+  "quiz": {
+    "title": "Test de piel Konecta",
+    "subtitle": "Responde algunas preguntas y te diremos qué curaduría K-beauty se ajusta mejor a ti.",
+    "progressLabel": "Diagnóstico de belleza Konecta",
+    "backButton": "Anterior",
+    "nextButton": "Siguiente",
+    "questions": [
+      {
+        "id": 1,
+        "question": "¿En qué país vives?",
+        "options": [
+          "Perú",
+          "Chile",
+          "Otro país de Latinoamérica",
+          "Fuera de Latinoamérica"
+        ]
+      },
+      {
+        "id": 2,
+        "question": "¿Cuál es tu rango de edad?",
+        "options": [
+          "Menos de 20",
+          "20 a 29",
+          "30 a 39",
+          "40 a 49",
+          "50 o más"
+        ]
+      },
+      {
+        "id": 3,
+        "question": "¿Cuál es tu forma de contacto preferida?",
+        "options": [
+          "DM de Instagram",
+          "WhatsApp",
+          "Correo electrónico",
+          "Otro"
+        ]
+      },
+      {
+        "id": 4,
+        "question": "¿Cómo conociste nuestra marca por primera vez?",
+        "options": [
+          "Instagram",
+          "TikTok",
+          "YouTube",
+          "Nuestro sitio web",
+          "Recomendación de un conocido",
+          "Otro"
+        ]
+      },
+      {
+        "id": 5,
+        "question": "¿Has usado cosméticos coreanos antes?",
+        "options": [
+          "Los uso con frecuencia",
+          "Los he probado alguna vez",
+          "Esta sería mi primera vez"
+        ]
+      },
+      {
+        "id": 6,
+        "question": "¿Cuánto tarda tu piel en sentirse tirante después de lavarte la cara?",
+        "options": [
+          "Se siente tirante de inmediato (piel seca)",
+          "Se siente tirante después de 1-2 horas (piel normal)",
+          "No se siente tirante, más bien grasa (piel grasa)",
+          "Depende de la zona (piel mixta)"
+        ]
+      },
+      {
+        "id": 7,
+        "question": "¿Cómo es tu rutina de cuidado facial habitual?",
+        "options": [
+          "Minimalista (tónico + loción, más o menos)",
+          "Cuidado básico (tónico + esencia + crema)",
+          "Rutina completa (esencia + sérum + crema + mascarilla)"
+        ]
+      },
+      {
+        "id": 8,
+        "question": "¿Cuánto sueles gastar en una compra?",
+        "options": [
+          "Hasta 20 dólares",
+          "Entre 20 y 50 dólares",
+          "Entre 50 y 100 dólares",
+          "Más de 100 dólares"
+        ]
+      },
+      {
+        "id": 9,
+        "question": "¿Cómo prefieres hacer tu primera compra?",
+        "options": [
+          "Probar primero con un tamaño mini o de viaje",
+          "Comprar directamente el tamaño completo",
+          "Me da igual"
+        ]
+      },
+      {
+        "id": 10,
+        "question": "¿Cuánto tiempo le dedicas al cuidado de la piel al día?",
+        "options": [
+          "Menos de 5 minutos, rutina exprés",
+          "10 a 15 minutos, rutina básica",
+          "Más de 20 minutos, cuidado dedicado"
+        ]
+      }
+    ],
+    "finalStep": {
+      "stepLabel": "Último paso",
+      "title": "Cuéntanos cómo enviarte tu resultado",
+      "nameLabel": "Nombre",
+      "contactLabel": "Contacto (usuario de Instagram / correo / número de WhatsApp)",
+      "submitButton": "Enviar",
+      "thanksTitle": "¡Gracias por enviarlo!",
+      "thanksDescription": "Te enviaremos tu resultado al contacto que dejaste."
+    }
+  }
+}
