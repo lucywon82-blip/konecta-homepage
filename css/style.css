@@ -70,6 +70,31 @@ body {
 }
 .header nav a.active { color: var(--accent-strong); font-weight: 600; }
 
+.header nav { display: inline-flex; align-items: center; }
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 24px;
+  padding-left: 20px;
+  border-left: 1px solid var(--border);
+}
+.lang-switch button {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-soft);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 7px;
+  border-radius: 6px;
+  transition: background .12s, color .12s;
+}
+.lang-switch button:hover { color: var(--navy); }
+.lang-switch button.active { color: var(--white); background: var(--accent); }
+
 .eyebrow {
   display: inline-flex;
   align-items: center;
