@@ -52,6 +52,19 @@
       "desc": "Déjanos tu correo y te avisamos primero cuando lancemos el kit de prueba.",
       "btn": "Quiero que me avisen"
     },
+    "booking": {
+      "title": "Reserva una consulta de piel 1:1",
+      "desc": "Déjanos algunos datos y coordinamos la consulta en el horario que prefieras.",
+      "nameLabel": "Nombre",
+      "contactLabel": "Contacto (teléfono o correo)",
+      "dateLabel": "Fecha y hora deseada",
+      "memoLabel": "Cuéntanos más",
+      "memoPlaceholder": "Escribe tus dudas o inquietudes sobre tu piel",
+      "btn": "Reservar consulta",
+      "submitting": "Enviando reserva...",
+      "success": "¡Tu reserva fue recibida! Te contactaremos pronto.",
+      "error": "No se pudo enviar la reserva. Intenta de nuevo en un momento."
+    },
     "instagram": {
       "title": "Sigue en Instagram cómo se está construyendo Konecta",
       "btn": "Ir a Instagram"

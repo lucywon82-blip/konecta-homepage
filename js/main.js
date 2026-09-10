@@ -98,3 +98,53 @@ document.querySelectorAll('[data-parallax]').forEach(el => {
     inner.style.transform = '';
   });
 });
+
+// 1:1 피부 상담 예약 폼 — 코넥타 업무 프로그램(/app)의 워커 API로 전송됩니다.
+// 노션 API 키는 여기 없고, 워커 쪽 서버 환경변수에만 있습니다.
+const bookingForm = document.getElementById('bookingForm');
+if (bookingForm) {
+  const t = (path, fallback) => {
+    const data = window.konectaI18nData;
+    const val = data && window.konectaI18n ? window.konectaI18n.getByPath(data, path) : undefined;
+    return typeof val === 'string' ? val : fallback;
+  };
+
+  bookingForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const statusEl = document.getElementById('bookingStatus');
+    const btn = bookingForm.querySelector('.booking-submit');
+    const payload = {
+      name: bookingForm.name.value.trim(),
+      phone: bookingForm.contact.value.trim(),
+      datetime: bookingForm.datetime.value ? `${bookingForm.datetime.value}:00` : '',
+      service: '상담',
+      memo: bookingForm.memo.value.trim(),
+    };
+
+    btn.disabled = true;
+    statusEl.className = 'booking-status';
+    statusEl.textContent = t('home.booking.submitting', '예약 접수 중...');
+
+    fetch('/app/api/reservations', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error('reservation request failed');
+        return res.json();
+      })
+      .then(() => {
+        statusEl.className = 'booking-status ok';
+        statusEl.textContent = t('home.booking.success', '예약 신청이 접수되었어요. 곧 연락드릴게요!');
+        bookingForm.reset();
+      })
+      .catch(() => {
+        statusEl.className = 'booking-status err';
+        statusEl.textContent = t('home.booking.error', '예약 접수에 실패했어요. 잠시 후 다시 시도해주세요.');
+      })
+      .finally(() => {
+        btn.disabled = false;
+      });
+  });
+}

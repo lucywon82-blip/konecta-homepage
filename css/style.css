@@ -429,6 +429,56 @@ section h2 {
 }
 .newsletter-form button:hover { background: var(--accent-strong); }
 
+/* booking (1:1 skin consultation reservation) */
+.booking { text-align: center; background: var(--surface-alt); border-top: 1px solid var(--border); }
+.booking h2 { margin-bottom: 10px; }
+.booking p { color: var(--text-soft); margin-bottom: 28px; }
+.booking-form {
+  max-width: 440px;
+  margin: 0 auto;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.booking-field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.booking-field input,
+.booking-field textarea {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--white);
+}
+.booking-field input:focus,
+.booking-field textarea:focus { outline: none; border-color: var(--accent); }
+.booking-field textarea { resize: vertical; min-height: 80px; }
+.booking-submit {
+  padding: 14px 24px;
+  border: none;
+  border-radius: 100px;
+  background: var(--accent);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.booking-submit:hover { background: var(--accent-strong); }
+.booking-submit:disabled { opacity: 0.6; cursor: default; }
+.booking-status { font-size: 13px; margin-top: 4px; min-height: 18px; }
+.booking-status.ok { color: var(--accent-strong); }
+.booking-status.err { color: #C0392B; }
+
 /* contact */
 .contact { text-align: center; background: var(--surface-alt); border-top: 1px solid var(--border); }
 .contact-buttons { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }

@@ -52,6 +52,19 @@
       "desc": "Leave your email and we'll notify you the moment the test kit launches.",
       "btn": "Notify me"
     },
+    "booking": {
+      "title": "Book a 1:1 skin consultation",
+      "desc": "Leave a few details and we'll set up the consultation at a time that works for you.",
+      "nameLabel": "Name",
+      "contactLabel": "Contact (phone or email)",
+      "dateLabel": "Preferred date & time",
+      "memoLabel": "Anything else?",
+      "memoPlaceholder": "Tell us your questions or skin concerns",
+      "btn": "Book consultation",
+      "submitting": "Sending...",
+      "success": "Your booking request was received. We'll be in touch soon!",
+      "error": "Couldn't send your booking. Please try again shortly."
+    },
     "instagram": {
       "title": "Follow along on Instagram as Konecta comes to life",
       "btn": "Visit Instagram"
