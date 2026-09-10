@@ -44,14 +44,14 @@
 
   // ---------- API ----------
   async function fetchEvents(start, end) {
-    const res = await fetch(`/api/events?start=${toISODate(start)}&end=${toISODate(end)}`);
+    const res = await fetch(`api/events?start=${toISODate(start)}&end=${toISODate(end)}`);
     if (!res.ok) throw new Error('일정을 불러오지 못했습니다.');
     const data = await res.json();
     return data.events || [];
   }
 
   async function fetchSales(start, end) {
-    const res = await fetch(`/api/sales?start=${toISODate(start)}&end=${toISODate(end)}`);
+    const res = await fetch(`api/sales?start=${toISODate(start)}&end=${toISODate(end)}`);
     if (!res.ok) throw new Error('매출을 불러오지 못했습니다.');
     return res.json();
   }

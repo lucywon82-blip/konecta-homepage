@@ -2,3 +2,17 @@
   functions = "netlify/functions"
   publish = "."
   command = "pip3 install --user -r scripts/requirements.txt && python3 scripts/build_blog.py"
+
+# /app 이하 요청은 코넥타 업무 프로그램(클라우드플레어 워커)으로 그대로 전달한다.
+# 도메인 DNS는 안 건드리고, 넷리파이가 대신 그 워커로 요청을 넘겨주는 방식(리버스 프록시)이다.
+[[redirects]]
+  from = "/app"
+  to = "/app/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/app/*"
+  to = "https://konecta-app.konecta.workers.dev/:splat"
+  status = 200
+  force = true
