@@ -1,3 +1,7 @@
 [build]
   functions = "netlify/functions"
   publish = "."
+  command = "pip3 install --user -r scripts/requirements.txt && python3 scripts/build_blog.py"
+
+[functions."scheduled-blog-rebuild"]
+  schedule = "@hourly"
