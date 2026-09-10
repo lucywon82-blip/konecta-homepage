@@ -1,0 +1,368 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+
+:root {
+  --white: #FFFFFF;
+  --bg-gray: #FBF6F3;
+  --line-gray: #E9E2DD;
+  --navy: #2B3648;
+  --navy-soft: #5B6472;
+  --navy-dark: #1D2530;
+  --coral: #ED7B5D;
+  --coral-light: #FCEEE8;
+  --coral-deep: #D9633F;
+
+  --cat-개인: var(--navy);
+  --cat-사업미팅: var(--coral);
+  --cat-가족: var(--navy-soft);
+  --cat-교육: var(--coral-deep);
+  --cat-기타: #B7AFA8;
+  --cat-예약: var(--coral-deep);
+
+  --tabbar-h: 60px;
+  --topbar-h: 56px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--bg-gray);
+}
+
+body {
+  font-family: 'Pretendard', -apple-system, 'Malgun Gothic', sans-serif;
+  color: var(--navy);
+  line-height: 1.5;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#app {
+  max-width: 960px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  position: relative;
+}
+
+/* ---------- 상단바 ---------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  height: var(--topbar-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background: var(--white);
+  border-bottom: 1px solid var(--line-gray);
+}
+.brand {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--navy);
+  white-space: nowrap;
+}
+.month-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.period-label {
+  font-weight: 600;
+  font-size: 16px;
+  min-width: 96px;
+  text-align: center;
+}
+.nav-btn {
+  border: none;
+  background: none;
+  font-size: 20px;
+  color: var(--navy);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.nav-btn:active { background: var(--bg-gray); }
+.today-btn {
+  border: 1px solid var(--line-gray);
+  background: var(--white);
+  color: var(--navy-soft);
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+/* ---------- 월/주 토글 (모바일 전용) ---------- */
+.view-toggle {
+  display: flex;
+  gap: 8px;
+  padding: 10px 16px;
+}
+.toggle-btn {
+  flex: 1;
+  padding: 8px 0;
+  border-radius: 10px;
+  border: 1px solid var(--line-gray);
+  background: var(--white);
+  color: var(--navy-soft);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.toggle-btn.active {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--white);
+}
+
+/* ---------- 본문 ---------- */
+main {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: calc(var(--tabbar-h) + 16px);
+}
+
+.view { display: none; padding: 0 12px; }
+.view.active { display: block; }
+
+.weekday-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 6px 4px;
+  font-size: 12px;
+  color: var(--navy-soft);
+  text-align: center;
+}
+.weekday-row .sun { color: var(--coral-deep); }
+.weekday-row .sat { color: var(--navy); }
+
+/* ---------- 캘린더 그리드 ---------- */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+.calendar-grid.week { grid-auto-rows: minmax(220px, auto); }
+
+.day-cell {
+  border: 1px solid var(--line-gray);
+  border-radius: 10px;
+  padding: 6px 5px;
+  min-height: 64px;
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  cursor: pointer;
+}
+.calendar-grid.week .day-cell { min-height: 220px; }
+.day-cell.other-month { opacity: 0.35; }
+.day-cell.today { border-color: var(--coral); border-width: 2px; }
+
+.day-num {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--navy-soft);
+}
+.day-cell.today .day-num { color: var(--coral-deep); }
+
+.event-dot-row { display: flex; flex-direction: column; gap: 2px; }
+.event-chip {
+  font-size: 10px;
+  padding: 2px 5px;
+  border-radius: 5px;
+  color: var(--white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.event-more {
+  font-size: 10px;
+  color: var(--navy-soft);
+  padding-left: 2px;
+}
+
+/* ---------- 범례 ---------- */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  padding: 14px 6px 6px;
+}
+.chip {
+  font-size: 11px;
+  color: var(--navy-soft);
+  padding-left: 14px;
+  position: relative;
+}
+.chip::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 3px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--cat-기타);
+}
+.chip[data-cat="개인"]::before { background: var(--cat-개인); }
+.chip[data-cat="사업미팅"]::before { background: var(--cat-사업미팅); }
+.chip[data-cat="가족"]::before { background: var(--cat-가족); }
+.chip[data-cat="교육"]::before { background: var(--cat-교육); }
+.chip[data-cat="기타"]::before { background: var(--cat-기타); }
+.chip[data-cat="예약"]::before { background: var(--cat-예약); }
+
+/* ---------- 하루 상세 패널 (바텀시트) ---------- */
+.day-panel-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(29,37,48,0.35);
+  z-index: 29;
+}
+.day-panel {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 960px;
+  max-height: 70vh;
+  background: var(--white);
+  border-radius: 18px 18px 0 0;
+  box-shadow: 0 -8px 24px rgba(29,37,48,0.18);
+  z-index: 30;
+  padding: 8px 18px 20px;
+  overflow-y: auto;
+}
+.day-panel-handle {
+  width: 36px; height: 4px;
+  background: var(--line-gray);
+  border-radius: 2px;
+  margin: 4px auto 10px;
+}
+.day-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line-gray);
+  margin-bottom: 10px;
+}
+
+.event-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.event-item {
+  display: flex;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--bg-gray);
+}
+.event-item .bar { width: 4px; border-radius: 2px; background: var(--cat-기타); }
+.event-item.cat-개인 .bar { background: var(--cat-개인); }
+.event-item.cat-사업미팅 .bar { background: var(--cat-사업미팅); }
+.event-item.cat-가족 .bar { background: var(--cat-가족); }
+.event-item.cat-교육 .bar { background: var(--cat-교육); }
+.event-item.cat-기타 .bar { background: var(--cat-기타); }
+.event-item.cat-예약 .bar { background: var(--cat-예약); }
+
+.event-item .info { flex: 1; min-width: 0; }
+.event-item .title { font-weight: 600; font-size: 14px; }
+.event-item .meta { font-size: 12px; color: var(--navy-soft); margin-top: 2px; }
+.event-item .badge {
+  display: inline-block;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: var(--coral-light);
+  color: var(--coral-deep);
+  margin-left: 6px;
+}
+
+/* ---------- 매출 화면 ---------- */
+.sales-total-card {
+  margin: 14px 6px;
+  padding: 20px;
+  border-radius: 16px;
+  background: var(--navy);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.sales-total-label { font-size: 12px; opacity: 0.75; }
+.sales-total-amount { font-size: 26px; font-weight: 700; color: var(--coral); }
+
+.sales-staff-list {
+  list-style: none;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 0 6px 10px;
+}
+.sales-staff-list li {
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--coral-light);
+  color: var(--coral-deep);
+  font-weight: 600;
+}
+
+.sales-list { list-style: none; padding: 0 6px; display: flex; flex-direction: column; gap: 8px; }
+.sales-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line-gray);
+}
+.sales-list .s-item { font-weight: 600; font-size: 14px; }
+.sales-list .s-meta { font-size: 12px; color: var(--navy-soft); }
+.sales-list .s-amount { font-weight: 700; color: var(--coral-deep); white-space: nowrap; }
+
+.empty-state {
+  text-align: center;
+  color: var(--navy-soft);
+  font-size: 13px;
+  padding: 40px 0;
+}
+
+/* ---------- 하단 탭바 ---------- */
+.bottom-tabs {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  height: var(--tabbar-h);
+  display: flex;
+  background: var(--white);
+  border-top: 1px solid var(--line-gray);
+}
+.tab {
+  flex: 1;
+  border: none;
+  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font-size: 11px;
+  color: var(--navy-soft);
+  cursor: pointer;
+}
+.tab.active { color: var(--coral-deep); font-weight: 700; }
+.tab-icon { font-size: 18px; }
+
+/* ---------- 데스크톱(웹): 월간 고정, 주간 토글 숨김 ---------- */
+@media (min-width: 768px) {
+  #app { border-left: 1px solid var(--line-gray); border-right: 1px solid var(--line-gray); }
+  .view-toggle { display: none; }
+  .day-cell { min-height: 96px; }
+  .calendar-grid.week .day-cell { min-height: 96px; }
+  .period-label { min-width: 120px; font-size: 18px; }
+}

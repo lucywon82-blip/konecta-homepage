@@ -220,6 +220,33 @@
   </div>
 </section>
 
+<section id="booking" class="booking">
+  <div class="wrap">
+    <h2 class="reveal" data-i18n="home.booking.title">1:1 피부 상담을 예약해보세요</h2>
+    <p class="reveal" data-i18n="home.booking.desc">간단한 정보만 남겨주시면, 원하시는 시간에 맞춰 상담을 도와드릴게요.</p>
+    <form class="booking-form reveal" id="bookingForm">
+      <div class="booking-field">
+        <label for="bookingName" data-i18n="home.booking.nameLabel">이름</label>
+        <input id="bookingName" name="name" type="text" required>
+      </div>
+      <div class="booking-field">
+        <label for="bookingContact" data-i18n="home.booking.contactLabel">연락처 (전화번호 또는 이메일)</label>
+        <input id="bookingContact" name="contact" type="text" required>
+      </div>
+      <div class="booking-field">
+        <label for="bookingDatetime" data-i18n="home.booking.dateLabel">희망 상담 일시</label>
+        <input id="bookingDatetime" name="datetime" type="datetime-local" required>
+      </div>
+      <div class="booking-field">
+        <label for="bookingMemo" data-i18n="home.booking.memoLabel">남기고 싶은 말</label>
+        <textarea id="bookingMemo" name="memo" data-i18n-placeholder="home.booking.memoPlaceholder" placeholder="궁금한 점이나 피부 고민을 적어주세요"></textarea>
+      </div>
+      <button type="submit" class="booking-submit" data-i18n="home.booking.btn">상담 예약하기</button>
+      <p id="bookingStatus" class="booking-status" role="status"></p>
+    </form>
+  </div>
+</section>
+
 <section class="social-cta">
   <div class="wrap">
     <h2 class="reveal">@konecta.co.kr</h2>
