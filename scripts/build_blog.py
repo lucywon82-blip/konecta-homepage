@@ -5,6 +5,7 @@
 
 실행: python scripts/build_blog.py
 """
+import os
 import sys
 import shutil
 from pathlib import Path
@@ -22,13 +23,16 @@ BLOG_DIR = ROOT / "blog"
 
 
 def load_env():
-    env = {}
-    for line in ENV_FILE.read_text(encoding="utf-8").splitlines():
-        line = line.strip()
-        if not line or line.startswith("#") or "=" not in line:
-            continue
-        k, v = line.split("=", 1)
-        env[k.strip()] = v.strip()
+    # 네틀리파이 빌드 환경에는 .env.local이 없고 대신 사이트 환경변수로 주입되므로
+    # os.environ을 기본값으로 삼고, 로컬에 .env.local이 있으면 그 값으로 덮어쓴다.
+    env = dict(os.environ)
+    if ENV_FILE.exists():
+        for line in ENV_FILE.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            k, v = line.split("=", 1)
+            env[k.strip()] = v.strip()
     return env
 
 
