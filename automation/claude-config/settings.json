@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "defaultMode": "bypassPermissions",
+    "allow": [
+      "mcp__claude-in-chrome__find",
+      "mcp__claude-in-chrome__get_page_text",
+      "mcp__claude-in-chrome__tabs_context_mcp",
+      "mcp__980f351e-065c-401a-b981-a4e670dfcd0b__notion-fetch",
+      "mcp__Claude_Browser__get_page_text",
+      "mcp__Claude_Browser__find",
+      "mcp__980f351e-065c-401a-b981-a4e670dfcd0b__notion-query-data-sources",
+      "mcp__980f351e-065c-401a-b981-a4e670dfcd0b__notion-search",
+      "mcp__Claude_Browser__read_console_messages",
+      "mcp__claude-in-chrome__read_network_requests",
+      "mcp__Claude_Browser__read_network_requests",
+      "mcp__scheduled-tasks__list_scheduled_tasks"
+    ],
+    "ask": [
+      "Bash(rm *)",
+      "PowerShell(Remove-Item *)",
+      "Bash(git push*)",
+      "PowerShell(git push*)",
+      "Bash(git reset --hard*)",
+      "PowerShell(git reset --hard*)",
+      "Bash(git clean*)",
+      "PowerShell(git clean*)",
+      "Bash(git branch -D*)",
+      "Bash(reg add*)",
+      "Bash(reg delete*)",
+      "PowerShell(Set-ItemProperty*)",
+      "PowerShell(Remove-ItemProperty*)",
+      "PowerShell(Stop-Service*)",
+      "PowerShell(Set-Service*)",
+      "Edit(C:\\Users\\kkimg\\.claude\\settings.json)",
+      "Write(C:\\Users\\kkimg\\.claude\\settings.json)"
+    ]
+  }
+}
