@@ -1,8 +1,23 @@
 # 코넥타 업무 프로그램 (/app)
 
 개인 일정, konecta.co.kr 예약, 매출(담당자 E 등)을 한 화면에서 보는 개인용 업무
-프로그램. `konecta-homepage` 레포 안 `/app` 하위 폴더에 있고, 배포되면
-`konecta.co.kr/app` 경로로 열릴 예정 (아직 배포 안 함).
+프로그램. `konecta-homepage` 레포 안 `/app` 하위 폴더에 있다.
+
+## 현재 상태 (2026-09-10 기준)
+
+- **클라우드플레어 워커스에 배포 완료.** 실제 접속 주소:
+  `https://konecta-app.konecta.workers.dev`
+- 로컬 PC·모바일 브라우저에서 노션 데이터 연동까지 실제로 확인됨 (일정 표시,
+  매출 대시보드 모두 정상).
+- 코드는 PR [#6](https://github.com/lucywon82-blip/konecta-homepage/pull/6)로
+  `main`에 이미 병합됨.
+- **`konecta.co.kr/app`로 연결하는 넷리파이 리다이렉트(`netlify.toml`)는 코드에
+  이미 있지만, 아직 실제 홈페이지에는 반영 안 됨.** 이유: 넷리파이 팀이
+  "운영 크레딧" 상태라 새 배포(production deploy)가 막혀 있음. 결제 주기가
+  9월 27일에 갱신되므로, 그날 이후에 app.netlify.com에서 "Trigger deploy"를
+  한 번 눌러줘야 `konecta.co.kr/app`이 실제로 연결된다 (9/27 리마인더를 이미
+  예약해둠 — 이 세션이 살아있으면 그날 먼저 알려줄 예정).
+- 그때까지는 위 workers.dev 주소를 그대로 폰 홈 화면에 설치해서 쓰면 된다.
 
 ## 큰 그림
 
@@ -90,10 +105,11 @@ app/
 
 ## 아직 안 한 것 / 다음에 할 것
 
-- [ ] 배포 (사용자가 "배포해줘"라고 할 때까지 보류)
-- [ ] `konecta.co.kr/app` 경로로 실제 라우팅 연결 — 지금 홈페이지는 넷리파이,
-      이 앱은 클라우드플레어 워커스라서, 배포 시 도메인 DNS를 클라우드플레어로
-      옮기거나 워커 라우트 설정이 필요함 (배포 요청 시 다시 설계)
+- [ ] 넷리파이 "Trigger deploy" (9/27 결제 주기 갱신 이후) → `konecta.co.kr/app`
+      실제 연결 마무리. 배포되면 워커의 `public/js/app.js`가 상대경로
+      (`api/events` 등)로 API를 호출하고, 넷리파이 `netlify.toml`의
+      `/app/*` 리다이렉트가 `https://konecta-app.konecta.workers.dev`로
+      그대로 전달해주는 구조라 코드 추가 수정은 필요 없음.
 - [ ] 아이콘 임시본 → 실제 로고로 교체
 - [ ] 지금은 로그인/비밀번호 없이 누구나 URL을 알면 볼 수 있음 — 필요하면
       간단한 암호 잠금(클라우드플레어 Access 등) 추가 검토
