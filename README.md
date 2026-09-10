@@ -18,30 +18,32 @@ K-뷰티를 남미(페루·칠레) 시장과 연결하는 뷰티 플랫폼 Konec
 
 ## 노션 블로그 자동 업로드 (네틀리파이)
 
-노션 "블로그 글 목록" 데이터베이스에서 **발행 체크박스를 켠 글**이 매시간 자동으로
-네틀리파이 사이트에 반영됩니다. 더 이상 `python scripts/build_blog.py`를 로컬에서
-돌려 커밋·푸시할 필요가 없습니다.
+노션 "홈페이지 블로그" 데이터베이스에서 **발행 체크박스를 켠 글**이, 네틀리파이에서
+**배포할 때마다** 자동으로 홈페이지 블로그 페이지로 반영됩니다. 더 이상
+`python scripts/build_blog.py`를 로컬에서 돌려 커밋·푸시할 필요가 없습니다.
 
-동작 방식:
-1. `netlify/functions/scheduled-blog-rebuild.js`가 1시간마다 실행되어 네틀리파이
-   빌드훅(Build Hook)을 호출합니다. (`netlify.toml`의 `functions."scheduled-blog-rebuild".schedule`)
-2. 빌드훅이 새 배포를 시작하면, `netlify.toml`의 빌드 명령이 `scripts/build_blog.py`를
-   실행해 노션에서 발행된 글을 가져와 `blog/` 폴더를 다시 만듭니다.
-3. 새로 생성된 페이지가 그대로 배포됩니다.
+동작 방식: `netlify.toml`의 빌드 명령이 배포 시마다 `scripts/build_blog.py`를 실행해
+노션에서 발행된 글을 가져와 `blog/` 폴더를 새로 만들고, 그대로 배포합니다.
 
-**최초 1회, 네틀리파이 대시보드에서 아래 설정을 해주셔야 합니다** (코드만으로는 할 수 없는 부분):
+이미 설정 완료된 것 (2026-09-10 기준):
+- 네틀리파이 환경변수 `NOTION_TOKEN`, `NOTION_DATA_SOURCE_ID` 등록됨
+- 노션 "홈페이지 블로그" 페이지 ↔ "Konecta 블로그" 통합 연결 확인됨
+- 위 빌드 자동화 코드 `main` 브랜치 반영 완료
 
-1. **환경변수 등록** — Site settings → Environment variables 에서 추가:
-   - `NOTION_TOKEN` — 노션 통합(integration) 토큰
-   - `NOTION_DATA_SOURCE_ID` — `scripts/setup_notion.py` 실행 후 `.env.local`에 저장된 값
-2. **빌드훅 생성** — Site settings → Build & deploy → Build hooks 에서
-   "notion-blog-sync" 같은 이름으로 훅을 하나 만들고, 생성된 URL을 복사합니다.
-3. 그 URL을 다시 환경변수로 등록: `NETLIFY_BUILD_HOOK_URL` = (복사한 빌드훅 URL)
-4. 저장 후 아무 커밋이나 한 번 푸시하거나 "Trigger deploy"를 눌러 첫 배포를 실행하면
-   그 다음부터는 매시간 자동으로 노션 내용을 확인해 갱신됩니다.
+### 다음에 홈페이지를 발행(배포)할 때 해야 할 일
 
-더 자주(예: 30분마다) 갱신하고 싶다면 `netlify.toml`의 `schedule = "@hourly"`를
-크론 표현식(`"*/30 * * * *"` 등)으로 바꿔주세요.
+1. 노션 "홈페이지 블로그" 데이터베이스에 글을 쓰고 **"발행" 체크박스를 켠다**
+2. 네틀리파이(app.netlify.com) → **코넥타 홈페이지 프로젝트** 로 들어간다
+3. (배너에 "운영 크레딧" 관련 경고가 떠서 배포가 막혀 있으면, 팀 업그레이드 하거나
+   다음 결제 주기까지 기다려야 배포가 가능하다)
+4. **"Trigger deploy"** 버튼을 눌러 새 배포를 실행한다
+5. 배포가 끝나면 노션에 쓴 글이 자동으로 `/blog` 페이지에 올라와 있다
+
+→ 즉, 로컬에서 스크립트를 돌리거나 git에 커밋할 필요 없이 **노션에 발행 체크 → 네틀리파이에서 Trigger deploy 클릭**, 이 두 가지만 하면 됩니다.
+
+수동으로 매번 누르지 않고 노션 발행 즉시(또는 정기적으로) 자동 반영되게 하고
+싶어지면, 네틀리파이 Build hook을 하나 만들어 스케줄 함수나 노션 자동화(Automation)에서
+호출하도록 확장할 수 있습니다 — 필요해지면 다시 요청해주세요.
 
 ## GitHub Pages로 배포하기
 
