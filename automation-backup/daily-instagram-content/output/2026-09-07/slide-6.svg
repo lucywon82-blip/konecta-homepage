@@ -1,0 +1,29 @@
+<svg width="1080" height="1350" viewBox="0 0 1080 1350" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard','Noto Sans KR','Malgun Gothic',-apple-system,BlinkMacSystemFont,sans-serif">
+  <defs>
+    <linearGradient id="lightBg6" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDEEE7"/>
+      <stop offset="100%" stop-color="#FFFFFF"/>
+    </linearGradient>
+    <clipPath id="clip"><rect width="1080" height="1350"/></clipPath>
+  </defs>
+  <g clip-path="url(#clip)">
+    <rect width="1080" height="1350" fill="url(#lightBg6)"/>
+    <circle cx="1000" cy="1280" r="260" fill="none" stroke="#ED7B5D" stroke-opacity="0.18" stroke-width="2"/>
+    <circle cx="900" cy="1340" r="200" fill="none" stroke="#ED7B5D" stroke-opacity="0.18" stroke-width="2"/>
+
+    <text x="96" y="112" font-size="40" font-weight="700" fill="#2B3648">Konecta</text>
+    <text x="984" y="110" font-size="32" font-weight="500" fill="#5B6472" text-anchor="end">06 / 07</text>
+    <line x1="96" y1="150" x2="984" y2="150" stroke="#E4E7EC" stroke-width="1.5"/>
+
+    <rect x="96" y="600" width="210" height="66" rx="33" fill="none" stroke="#ED7B5D" stroke-width="1.5"/>
+    <text x="128" y="643" font-size="26" font-weight="700" fill="#ED7B5D">브랜드명 확정</text>
+
+    <text x="96" y="820" font-size="84" font-weight="800" fill="#2B3648">Konecta</text>
+
+    <text x="96" y="964" font-size="34" font-weight="400" fill="#5B6472">Korea + Conecta</text>
+    <text x="96" y="1010" font-size="34" font-weight="400" fill="#5B6472">스페인어로 '연결하다'라는 뜻이에요</text>
+
+    <rect x="96" y="1245" width="56" height="6" fill="#ED7B5D"/>
+    <text x="984" y="1258" font-size="28" font-weight="500" fill="#5B6472" text-anchor="end">다음 이야기 →</text>
+  </g>
+</svg>

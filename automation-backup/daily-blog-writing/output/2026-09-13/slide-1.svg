@@ -1,0 +1,26 @@
+<svg width="1080" height="1350" viewBox="0 0 1080 1350" xmlns="http://www.w3.org/2000/svg" font-family="'Pretendard','Noto Sans KR','Malgun Gothic',-apple-system,BlinkMacSystemFont,sans-serif">
+  <defs>
+    <clipPath id="clip"><rect width="1080" height="1350"/></clipPath>
+  </defs>
+  <g clip-path="url(#clip)">
+    <rect width="1080" height="1350" fill="#1D2530"/>
+    <circle cx="1000" cy="1280" r="260" fill="none" stroke="#ED7B5D" stroke-opacity="0.18" stroke-width="2"/>
+    <circle cx="900" cy="1340" r="200" fill="none" stroke="#ED7B5D" stroke-opacity="0.18" stroke-width="2"/>
+
+    <text x="96" y="112" font-size="40" font-weight="700" fill="#FFFFFF">Konecta</text>
+    <text x="984" y="110" font-size="32" font-weight="500" fill="#8D97A6" text-anchor="end">01 / 06</text>
+    <line x1="96" y1="150" x2="984" y2="150" stroke="#3A4657" stroke-width="1.5"/>
+
+    <rect x="96" y="600" width="200" height="66" rx="33" fill="none" stroke="#ED7B5D" stroke-width="1.5"/>
+    <text x="128" y="643" font-size="26" font-weight="700" fill="#ED7B5D">시장정보</text>
+
+    <text x="96" y="770" font-size="60" font-weight="800" fill="#FFFFFF">페루·칠레 뷰티 시장</text>
+    <text x="96" y="846" font-size="60" font-weight="800" fill="#FFFFFF">궁금한 것들 정리했어요</text>
+
+    <text x="96" y="964" font-size="34" font-weight="400" fill="#AEB7C4">확인된 사실만</text>
+    <text x="96" y="1010" font-size="34" font-weight="400" fill="#AEB7C4">담아봤습니다</text>
+
+    <rect x="96" y="1245" width="56" height="6" fill="#ED7B5D"/>
+    <text x="984" y="1258" font-size="28" font-weight="500" fill="#8D97A6" text-anchor="end">다음 이야기 →</text>
+  </g>
+</svg>
