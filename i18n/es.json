@@ -173,18 +173,12 @@
     "r4_t": "Ensayo y error, sin filtro",
     "r4_d": "Comparto tanto lo que funcionó como los errores y ajustes en el camino.",
     "recent_title": "Artículos recientes",
-    "p1_cat": "Rutina",
-    "p1_t": "Si piensas entrar a Latinoamérica, no mires solo Perú: mira todo el continente",
-    "p1_d": "Por qué, al preparar un emprendimiento de comercio unipersonal en Perú, conviene usar Lima como puerta de entrada y mirar el mercado sudamericano en su conjunto.",
-    "p2_cat": "Rutina",
-    "p2_t": "Cómo entrar a Latinoamérica con comercio unipersonal: empieza con lotes pequeños",
-    "p2_d": "Un resumen de cómo bajar el riesgo empezando con lotes pequeños mientras preparas sourcing, aduana y forwarders, al aventurarte solo en mercados como Perú o Chile.",
-    "p3_cat": "Novedades",
-    "p3_t": "Damos inicio al blog",
-    "p3_d": "La primera entrada del blog de Konecta.",
     "next_title": "Te avisamos del próximo artículo primero en Instagram",
     "next_desc": "Cuando publicamos algo nuevo, también lo compartimos en Instagram.",
-    "next_btn": "Seguir en Instagram"
+    "next_btn": "Seguir en Instagram",
+    "back_to_list": "← Volver al blog",
+    "post_next_title": "¿Quieres saber qué sigue para Konecta?",
+    "post_next_desc": "Cuando publiquemos algo nuevo, te avisaremos primero en Instagram."
   },
   "contact": {
     "title": "Abiertos a colaboraciones, inversión y alianzas",
@@ -310,6 +304,32 @@
       "submitButton": "Enviar",
       "thanksTitle": "¡Gracias por enviarlo!",
       "thanksDescription": "Te enviaremos tu resultado al contacto que dejaste."
+    }
+  },
+  "posts": {
+    "naming-konecta-brand-story": {
+      "category": "Rutina",
+      "title": "Por qué elegimos el nombre Konecta: cómo comparamos las opciones",
+      "summary": "Cómo llegamos a Konecta después de partir del nombre provisional Noriter Beauty Center: los criterios que usamos para comparar candidatos y el significado que lleva el nombre.",
+      "content": "<p>Antes de llegar al nombre Konecta, ya tenía otro nombre elegido, para el que incluso había creado una cuenta de Instagram: Noriter Beauty Center, con el usuario @noriter_beautycenter. Pero nunca llegué a lanzar el negocio con ese nombre.</p>\n<p>La razón era simple. Cuando le decía la palabra “Noriter” a alguien que hablaba español o inglés por primera vez, sonaba extraño y no comunicaba ningún significado. Si el nombre de una marca no explica lo que hace el negocio, ya pierdes la mitad de la partida antes de poder dar una buena explicación.</p>\n<blockquote>Al final, el nombre es la primera frase que muestra qué puente va a construir esta marca.</blockquote>\n<p>Así que volví a revisar los nombres candidatos y reduje los criterios a tres. Primero, ¿es fácil de pronunciar tanto para hispanohablantes como para angloparlantes? Segundo, ¿están disponibles el usuario de Instagram y el dominio para usarlos de verdad? Tercero, ¿el nombre en sí explica lo que hace el negocio — conectar los cosméticos coreanos con el mercado latinoamericano? Sorprendentemente, muy pocos nombres cumplían las tres cosas a la vez.</p>\n<p>Después de comparar varios candidatos, el nombre en el que terminé fue Konecta — una combinación de “Korea” y la palabra en español “conecta”. Es fácil de pronunciar en ambos idiomas y, sobre todo, lleva el significado de “conexión” incorporado en el propio nombre.</p>\n<p>Partiendo de que cada uno de los distintos climas de los Andes trae consigo distintas preocupaciones de piel, y conectando a los consumidores latinoamericanos con productos que realmente se ajustan a sus necesidades reales — en lugar de simplemente traer lo que se vende bien en Corea — eso es el núcleo de lo que Konecta quiere lograr. Por eso, en definitiva, pasé tanto tiempo pensando en un solo nombre: creía que el nombre en sí debía mostrar qué puente iba a construir esta marca.</p>"
+    },
+    "peru-startup-look-beyond-latin-america": {
+      "category": "Rutina",
+      "title": "Si piensas entrar a Latinoamérica, no mires solo Perú: mira todo el continente",
+      "summary": "Por qué, al preparar un emprendimiento de comercio unipersonal en Perú, conviene usar Lima como puerta de entrada y mirar el mercado sudamericano en su conjunto.",
+      "content": "<p>¿Estás preparando tu entrada a Latinoamérica pensando solo en el mercado peruano? Hay algo que suelen pasar por alto quienes dan sus primeros pasos en Perú como comerciantes unipersonales. Perú es sin duda un buen punto de partida, pero visto en el conjunto de Latinoamérica, es solo uno más entre varios mercados.</p>\n<p>Lima es la capital de Perú y, a la vez, una ciudad por la que suelen pasar los comerciantes unipersonales que se preparan para entrar a Latinoamérica. Esto se debe a que tiene buen acceso logístico, con puerto y aeropuerto cercanos, y también funciona como puerta de entrada hacia otros países sudamericanos. Por eso, empezar tu negocio en Perú te da naturalmente la oportunidad de entender al mismo tiempo el flujo de todo el mercado latinoamericano.</p>\n<blockquote>Al final, la clave de emprender en Perú es no quedarse únicamente en Perú.</blockquote>\n<p>Incluso dentro de Latinoamérica, las tendencias de consumo y la estructura de distribución cambian de un país a otro. Eso significa que un enfoque que funciona en Perú podría no funcionar igual en Chile o Colombia. Por eso, en lugar de preparar varios países a la vez desde el inicio, recomiendo primero confirmar la respuesta con lotes pequeños en Perú y luego expandirse país por país hacia otros mercados latinoamericanos.</p>\n<p>Si observas casos reales de comerciantes unipersonales que empezaron en Lima y se expandieron por toda Latinoamérica, ninguno se quedó encerrado en un solo país desde el principio. Llevaron consigo la experiencia de emprendimiento que acumularon en Perú junto con la investigación de mercados vecinos, y aprovecharon directamente esa experiencia al pasar al siguiente mercado.</p>\n<p>Al final, la clave de emprender en Perú es no quedarse únicamente en Perú. Creo que usar Lima como puerta de entrada y trazar un mapa más amplio de toda Latinoamérica es el enfoque más seguro para quienes se lanzan por primera vez a un mercado como comerciantes unipersonales.</p>"
+    },
+    "solo-trade-latin-america-small-batch": {
+      "category": "Rutina",
+      "title": "Cómo entrar a Latinoamérica con comercio unipersonal: empieza con lotes pequeños",
+      "summary": "Un resumen de cómo bajar el riesgo empezando con lotes pequeños mientras preparas sourcing, aduana y forwarders, al aventurarte solo en mercados como Perú o Chile.",
+      "content": "<p>Si quieres aventurarte en un mercado como Perú o Chile, donde los cosméticos coreanos todavía no son muy conocidos, te recomiendo empezar con lotes pequeños como comerciante unipersonal en lugar de invertir mucho capital desde el principio. El comercio unipersonal es una forma de hacer negocios en la que una persona puede tratar directamente con compradores extranjeros sin necesidad de una empresa aparte ni una gran organización, y últimamente cada vez más gente lo usa para aventurarse en mercados emergentes como Latinoamérica.</p>\n<p>El error más común de quienes recién empiezan en el comercio es fijar un volumen de pedido demasiado alto desde el inicio. En un mercado como Latinoamérica, donde es difícil predecir la respuesta del consumidor, es más seguro confirmar primero esa respuesta con lotes pequeños y luego ir aumentando el volumen poco a poco. La mayor ventaja de los lotes pequeños es que, aunque cometas un error, todavía tienes margen para recuperarte.</p>\n<blockquote>La mayor ventaja de los lotes pequeños es que, aunque cometas un error, todavía tienes margen para recuperarte.</blockquote>\n<p>El trabajo práctico que debes preparar en las primeras etapas de un emprendimiento se puede dividir en tres áreas principales: sourcing, aduana y forwarders. El sourcing es el proceso de decidir qué productos vas a conseguir y en qué condiciones; la aduana se refiere a los documentos y trámites necesarios para pasar la aduana local en Latinoamérica; y el forwarder es la empresa que se encarga de transportar realmente la carga. Como el registro sanitario y los criterios aduaneros varían de un país a otro en Latinoamérica, es más seguro revisarlos con anticipación para cada país al que planeas entrar.</p>\n<p>Perú y Chile también tienen diferencias en las tendencias de consumo y la estructura de distribución, así que es difícil aplicar la experiencia de un país directamente al otro. También hay que tener en cuenta que los tiempos de envío pueden alargarse más de lo esperado, y la forma más segura de familiarizarte con estas variables es enfrentarlas directamente mediante lotes pequeños.</p>\n<p>En resumen, la clave para entrar al mercado latinoamericano como comerciante unipersonal es reducir el riesgo con lotes pequeños mientras aprendes, uno a uno, los procesos de sourcing, aduana y forwarders. En lugar de esperar a estar perfectamente preparado para empezar, comenzar en pequeño e ir acumulando experiencia es el enfoque más seguro en un mercado con tantas variables como Latinoamérica.</p>"
+    },
+    "welcome": {
+      "category": "Novedades",
+      "title": "Damos inicio al blog",
+      "summary": "La primera entrada del blog de Konecta.",
+      "content": "<h3>Bienvenidos</h3>\n<p>Esta entrada se importó automáticamente desde Notion como ejemplo. Borra este párrafo y escribe aquí tu artículo real.</p>"
     }
   }
 }

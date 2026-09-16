@@ -195,11 +195,16 @@ const HEADER = (root) => `<header class="header">
   <div class="wrap">
     <a class="logo" href="${root}index.html">konecta</a>
     <nav>
-      <a href="${root}brand.html">브랜드 소개</a>
-      <a href="${root}journal.html">창업일기</a>
-      <a href="${root}blog/index.html" class="active">블로그</a>
-      <a href="${root}quiz.html">피부진단</a>
-      <a href="${root}index.html#contact">문의</a>
+      <a href="${root}brand.html" data-i18n="common.nav.brand">브랜드 소개</a>
+      <a href="${root}journal.html" data-i18n="common.nav.journal">창업일기</a>
+      <a href="${root}blog/index.html" class="active" data-i18n="common.nav.blog">블로그</a>
+      <a href="${root}quiz.html" data-i18n="common.nav.quiz">피부진단</a>
+      <a href="${root}index.html#contact" data-i18n="common.nav.contact">문의</a>
+      <div class="lang-switch">
+        <button data-lang="ko">KO</button>
+        <button data-lang="es">ES</button>
+        <button data-lang="en">EN</button>
+      </div>
     </nav>
   </div>
 </header>`;
@@ -207,21 +212,22 @@ const HEADER = (root) => `<header class="header">
 const FOOTER = (root) => `<section class="footer-contact">
   <div class="wrap">
     <span class="pill-badge light">CONTACT</span>
-    <h2>협업 · 투자 · 파트너 문의를 환영합니다</h2>
+    <h2 data-i18n="contact.title">협업 · 투자 · 파트너 문의를 환영합니다</h2>
     <div class="contact-buttons">
       <a class="btn" href="https://www.instagram.com/konecta.co.kr/" target="_blank" rel="noopener">
-        <span class="btn-title">인스타그램 DM</span>
-        <span class="btn-desc">고객·일반 문의는 이쪽으로 편하게 남겨주세요</span>
+        <span class="btn-title" data-i18n="contact.ig_t">인스타그램 DM</span>
+        <span class="btn-desc" data-i18n="contact.ig_d">고객·일반 문의는 이쪽으로 편하게 남겨주세요</span>
       </a>
       <a class="btn" href="mailto:lucywon82@gmail.com">
-        <span class="btn-title">이메일 문의</span>
-        <span class="btn-desc">브랜드 협업 · 파트너십 문의는 이메일로</span>
+        <span class="btn-title" data-i18n="contact.mail_t">이메일 문의</span>
+        <span class="btn-desc" data-i18n="contact.mail_d">브랜드 협업 · 파트너십 문의는 이메일로</span>
       </a>
     </div>
-    <p class="copyright">&copy; 2026 Konecta. All rights reserved.</p>
+    <p class="copyright" data-i18n="common.footer.copyright">&copy; 2026 Konecta. All rights reserved.</p>
   </div>
 </section>
 
+<script src="${root}js/i18n.js"></script>
 <script src="${root}js/main.js"></script>`;
 
 function pageTemplate({ title, root, body }) {
@@ -246,15 +252,18 @@ ${FOOTER(root)}
 }
 
 function renderListPage(posts) {
+  // New posts pulled from Notion only exist in Korean until someone adds a
+  // matching "posts.<slug>" entry to i18n/en.json and i18n/es.json by hand —
+  // until then, switching language just leaves that card's text in Korean.
   const cards = posts
     .map(
       (p) => `
       <a class="card card-photo reveal" href="${p.slug}/index.html" style="text-decoration:none; color:inherit;">
         ${p.cover_html}
         <div class="card-body">
-          <span class="journal-tag">${escapeHtml(p.category || "글")}</span>
-          <h3>${escapeHtml(p.title)}</h3>
-          <p>${escapeHtml(p.summary)}</p>
+          <span class="journal-tag" data-i18n="posts.${p.slug}.category">${escapeHtml(p.category || "글")}</span>
+          <h3 data-i18n="posts.${p.slug}.title">${escapeHtml(p.title)}</h3>
+          <p data-i18n="posts.${p.slug}.summary">${escapeHtml(p.summary)}</p>
         </div>
       </a>`
     )
@@ -266,16 +275,16 @@ function renderListPage(posts) {
   </div>
   <div class="wrap">
     <span class="pill-badge">BLOG</span>
-    <h1 style="margin-top:14px;">Konecta 블로그</h1>
-    <p class="page-hero-sub">노션에 쓴 글이 자동으로 이 페이지에 올라옵니다.</p>
+    <h1 style="margin-top:14px;" data-i18n="blog.title">Konecta 블로그</h1>
+    <p class="page-hero-sub" data-i18n="blog.sub">노션에 쓴 글이 자동으로 이 페이지에 올라옵니다.</p>
   </div>
 </section>
 
 <section class="about-block" style="text-align:center;">
   <div class="wrap">
     <span class="pill-badge light reveal">WHY THIS BLOG</span>
-    <p class="about-lead reveal" style="margin-top:16px;">궁금했던 남미 창업 이야기,<br>여기서 다 정리합니다</p>
-    <p class="about-body reveal">소싱부터 통관, 현지 시장 조사까지 — 직접 부딪히며 배운 것들을 남미 진출을 고민하는 분들과 나눕니다.</p>
+    <p class="about-lead reveal" style="margin-top:16px;" data-i18n="blog.why_title">궁금했던 남미 창업 이야기,<br>여기서 다 정리합니다</p>
+    <p class="about-body reveal" data-i18n="blog.why_desc">소싱부터 통관, 현지 시장 조사까지 — 직접 부딪히며 배운 것들을 남미 진출을 고민하는 분들과 나눕니다.</p>
   </div>
 </section>
 
@@ -284,13 +293,13 @@ function renderListPage(posts) {
     <h2 class="reveal">혼자 알아보면 오래 걸립니다</h2>
     <div class="stat-compare reveal">
       <div class="stat">
-        <div class="value">3시간+</div>
-        <div class="label">혼자 검색해서 정리하면</div>
+        <div class="value" data-i18n="blog.time1">3시간+</div>
+        <div class="label" data-i18n="blog.time1_label">혼자 검색해서 정리하면</div>
       </div>
       <div class="op">&gt;</div>
       <div class="stat win">
-        <div class="value">5분</div>
-        <div class="label">정리된 글 하나로</div>
+        <div class="value" data-i18n="blog.time2">5분</div>
+        <div class="label" data-i18n="blog.time2_label">정리된 글 하나로</div>
       </div>
     </div>
   </div>
@@ -298,19 +307,19 @@ function renderListPage(posts) {
 
 <section style="text-align:center;">
   <div class="wrap">
-    <h2 class="reveal">이 블로그에서 다루는 3가지</h2>
+    <h2 class="reveal" data-i18n="blog.topics_title">이 블로그에서 다루는 3가지</h2>
     <div class="grid-3">
       <div class="list-block reveal reveal-1">
         <span class="num-badge">1</span>
-        <div><h3>현지 시장 조사</h3><p>페루·칠레를 비롯한 남미 각국의 소비자와 유통 구조를 정리합니다.</p></div>
+        <div><h3 data-i18n="blog.t1_t">현지 시장 조사</h3><p data-i18n="blog.t1_d">페루·칠레를 비롯한 남미 각국의 소비자와 유통 구조를 정리합니다.</p></div>
       </div>
       <div class="list-block reveal reveal-2">
         <span class="num-badge">2</span>
-        <div><h3>소싱·물류 실무</h3><p>동대문 소싱부터 포워더 견적, 통관까지 실제 겪은 과정을 기록합니다.</p></div>
+        <div><h3 data-i18n="blog.t2_t">소싱·물류 실무</h3><p data-i18n="blog.t2_d">동대문 소싱부터 포워더 견적, 통관까지 실제 겪은 과정을 기록합니다.</p></div>
       </div>
       <div class="list-block reveal reveal-3">
         <span class="num-badge">3</span>
-        <div><h3>창업 진행 상황</h3><p>Konecta가 만들어지는 과정을 꾸미지 않고 그대로 공유합니다.</p></div>
+        <div><h3 data-i18n="blog.t3_t">창업 진행 상황</h3><p data-i18n="blog.t3_d">Konecta가 만들어지는 과정을 꾸미지 않고 그대로 공유합니다.</p></div>
       </div>
     </div>
   </div>
@@ -318,23 +327,23 @@ function renderListPage(posts) {
 
 <section style="background:var(--surface-alt); border-top:1px solid var(--border); text-align:center;">
   <div class="wrap">
-    <h2 class="reveal">왜 Konecta 블로그를 봐야 할까요</h2>
+    <h2 class="reveal" data-i18n="blog.why_read_title">왜 Konecta 블로그를 봐야 할까요</h2>
     <div class="grid-4">
       <div class="list-block reveal reveal-1" style="flex-direction:column;">
         <span class="num-badge">1</span>
-        <div><h3>현직 창업자의 기록</h3><p>이론이 아니라 실제 진행 중인 창업 과정입니다.</p></div>
+        <div><h3 data-i18n="blog.r1_t">현직 창업자의 기록</h3><p data-i18n="blog.r1_d">이론이 아니라 실제 진행 중인 창업 과정입니다.</p></div>
       </div>
       <div class="list-block reveal reveal-2" style="flex-direction:column;">
         <span class="num-badge">2</span>
-        <div><h3>남미 현지 경험</h3><p>칠레 3년 거주 경험을 바탕으로 씁니다.</p></div>
+        <div><h3 data-i18n="blog.r2_t">남미 현지 경험</h3><p data-i18n="blog.r2_d">칠레 3년 거주 경험을 바탕으로 씁니다.</p></div>
       </div>
       <div class="list-block reveal reveal-3" style="flex-direction:column;">
         <span class="num-badge">3</span>
-        <div><h3>실무 중심</h3><p>추상적인 조언 대신 구체적인 절차와 숫자를 다룹니다.</p></div>
+        <div><h3 data-i18n="blog.r3_t">실무 중심</h3><p data-i18n="blog.r3_d">추상적인 조언 대신 구체적인 절차와 숫자를 다룹니다.</p></div>
       </div>
       <div class="list-block reveal reveal-4" style="flex-direction:column;">
         <span class="num-badge">4</span>
-        <div><h3>솔직한 시행착오</h3><p>잘된 것만이 아니라 실수와 수정 과정도 그대로 씁니다.</p></div>
+        <div><h3 data-i18n="blog.r4_t">솔직한 시행착오</h3><p data-i18n="blog.r4_d">잘된 것만이 아니라 실수와 수정 과정도 그대로 씁니다.</p></div>
       </div>
     </div>
   </div>
@@ -342,7 +351,7 @@ function renderListPage(posts) {
 
 <section class="journal-preview">
   <div class="wrap">
-    <h2 class="reveal">최근 글</h2>
+    <h2 class="reveal" data-i18n="blog.recent_title">최근 글</h2>
     <div class="journal-grid">${cards || '<p style="text-align:center;">아직 발행된 글이 없습니다.</p>'}
     </div>
   </div>
@@ -350,9 +359,9 @@ function renderListPage(posts) {
 
 <section class="closing-cta">
   <div class="wrap">
-    <h2 class="reveal">다음 글은 인스타그램에서 먼저 알려드려요</h2>
-    <p class="reveal">새 글이 올라오면 인스타그램에도 소식을 남깁니다.</p>
-    <a class="btn-pill reveal" href="https://www.instagram.com/konecta.co.kr/" target="_blank" rel="noopener">인스타그램 팔로우하기</a>
+    <h2 class="reveal" data-i18n="blog.next_title">다음 글은 인스타그램에서 먼저 알려드려요</h2>
+    <p class="reveal" data-i18n="blog.next_desc">새 글이 올라오면 인스타그램에도 소식을 남깁니다.</p>
+    <a class="btn-pill reveal" href="https://www.instagram.com/konecta.co.kr/" target="_blank" rel="noopener" data-i18n="blog.next_btn">인스타그램 팔로우하기</a>
   </div>
 </section>`;
 
@@ -367,18 +376,22 @@ function renderPostPage(post) {
   const subStyle = cover ? "" : ' style="color: var(--text-soft);"';
   const badgeClass = cover ? "pill-badge" : "pill-badge light";
 
+  // A brand-new post's content_html is Korean-only from Notion. To make this
+  // post switch language too, add a matching "posts.<slug>" entry (category,
+  // title, content as HTML) to i18n/en.json and i18n/es.json by hand — Notion
+  // doesn't give us translated text, so this step can't be automated here.
   const body = `<section class="page-hero" style="${heroStyle}">
   ${cover}
   <div class="wrap">
-    <span class="${badgeClass}">${escapeHtml(post.category || "글")}</span>
-    <h1 style="margin-top:14px;">${escapeHtml(post.title)}</h1>
+    <span class="${badgeClass}" data-i18n="posts.${post.slug}.category">${escapeHtml(post.category || "글")}</span>
+    <h1 style="margin-top:14px;" data-i18n="posts.${post.slug}.title">${escapeHtml(post.title)}</h1>
     <p class="page-hero-sub"${subStyle}>${escapeHtml(post.date)}</p>
   </div>
 </section>
 
 <section class="about-block" style="text-align:left; border-bottom:none;">
   <div class="wrap" style="max-width:720px;">
-    <div class="post-content">
+    <div class="post-content" data-i18n-html="posts.${post.slug}.content">
 ${post.content_html}
     </div>
   </div>
@@ -386,15 +399,15 @@ ${post.content_html}
 
 <section style="padding-top:0; text-align:center;">
   <div class="wrap" style="max-width:720px;">
-    <a class="btn-outline" href="../index.html">&larr; 블로그 목록으로</a>
+    <a class="btn-outline" href="../index.html" data-i18n="blog.back_to_list">&larr; 블로그 목록으로</a>
   </div>
 </section>
 
 <section class="closing-cta-soft">
   <div class="wrap">
-    <h2 class="reveal">Konecta의 다음 이야기가 궁금하다면</h2>
-    <p class="reveal">새 글이 올라오면 인스타그램에서 가장 먼저 알려드려요.</p>
-    <a class="btn-pill reveal" href="https://www.instagram.com/konecta.co.kr/" target="_blank" rel="noopener">인스타그램 팔로우하기</a>
+    <h2 class="reveal" data-i18n="blog.post_next_title">Konecta의 다음 이야기가 궁금하다면</h2>
+    <p class="reveal" data-i18n="blog.post_next_desc">새 글이 올라오면 인스타그램에서 가장 먼저 알려드려요.</p>
+    <a class="btn-pill reveal" href="https://www.instagram.com/konecta.co.kr/" target="_blank" rel="noopener" data-i18n="blog.next_btn">인스타그램 팔로우하기</a>
   </div>
 </section>`;
 

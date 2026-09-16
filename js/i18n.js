@@ -41,6 +41,13 @@
       if (typeof val === 'string') el.setAttribute('placeholder', val);
     });
 
+    // Rich content (paragraphs, blockquotes) that must preserve HTML markup,
+    // used for blog post bodies which aren't flat strings like other UI text.
+    document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
+      var val = getByPath(data, el.getAttribute('data-i18n-html'));
+      if (typeof val === 'string') el.innerHTML = val;
+    });
+
     // Count-up suffixes (e.g. "개국"/"countries") aren't in the i18n JSON —
     // they're set directly as per-language attributes on the element.
     document.querySelectorAll('[data-suffix-ko]').forEach(function (el) {

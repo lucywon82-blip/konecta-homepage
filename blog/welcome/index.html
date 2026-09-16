@@ -12,27 +12,32 @@
   <div class="wrap">
     <a class="logo" href="../../index.html">konecta</a>
     <nav>
-      <a href="../../brand.html">브랜드 소개</a>
-      <a href="../../journal.html">창업일기</a>
-      <a href="../../blog/index.html" class="active">블로그</a>
-      <a href="../../quiz.html">피부진단</a>
-      <a href="../../index.html#contact">문의</a>
+      <a href="../../brand.html" data-i18n="common.nav.brand">브랜드 소개</a>
+      <a href="../../journal.html" data-i18n="common.nav.journal">창업일기</a>
+      <a href="../../blog/index.html" class="active" data-i18n="common.nav.blog">블로그</a>
+      <a href="../../quiz.html" data-i18n="common.nav.quiz">피부진단</a>
+      <a href="../../index.html#contact" data-i18n="common.nav.contact">문의</a>
+      <div class="lang-switch">
+        <button data-lang="ko">KO</button>
+        <button data-lang="es">ES</button>
+        <button data-lang="en">EN</button>
+      </div>
     </nav>
   </div>
 </header>
 
 <section class="page-hero" style="min-height:auto; padding:110px 0 60px; color: var(--navy); background: var(--surface-alt); border-bottom: 1px solid var(--border);">
-  
+
   <div class="wrap">
-    <span class="pill-badge light">소식</span>
-    <h1 style="margin-top:14px;">블로그를 시작합니다</h1>
+    <span class="pill-badge light" data-i18n="posts.welcome.category">소식</span>
+    <h1 style="margin-top:14px;" data-i18n="posts.welcome.title">블로그를 시작합니다</h1>
     <p class="page-hero-sub" style="color: var(--text-soft);">2026-09-03</p>
   </div>
 </section>
 
 <section class="about-block" style="text-align:left; border-bottom:none;">
   <div class="wrap" style="max-width:720px;">
-    <div class="post-content">
+    <div class="post-content" data-i18n-html="posts.welcome.content">
 <h3>환영합니다</h3>
 <p>이 글은 노션에서 자동으로 가져온 샘플 글입니다. 이 문단을 지우고 실제 글을 써보세요.</p>
     </div>
@@ -41,36 +46,37 @@
 
 <section style="padding-top:0; text-align:center;">
   <div class="wrap" style="max-width:720px;">
-    <a class="btn-outline" href="../index.html">&larr; 블로그 목록으로</a>
+    <a class="btn-outline" href="../index.html" data-i18n="blog.back_to_list">&larr; 블로그 목록으로</a>
   </div>
 </section>
 
 <section class="closing-cta-soft">
   <div class="wrap">
-    <h2 class="reveal">Konecta의 다음 이야기가 궁금하다면</h2>
-    <p class="reveal">새 글이 올라오면 인스타그램에서 가장 먼저 알려드려요.</p>
-    <a class="btn-pill reveal" href="https://www.instagram.com/konecta.co.kr/" target="_blank" rel="noopener">인스타그램 팔로우하기</a>
+    <h2 class="reveal" data-i18n="blog.post_next_title">Konecta의 다음 이야기가 궁금하다면</h2>
+    <p class="reveal" data-i18n="blog.post_next_desc">새 글이 올라오면 인스타그램에서 가장 먼저 알려드려요.</p>
+    <a class="btn-pill reveal" href="https://www.instagram.com/konecta.co.kr/" target="_blank" rel="noopener" data-i18n="blog.next_btn">인스타그램 팔로우하기</a>
   </div>
 </section>
 
 <section class="footer-contact">
   <div class="wrap">
     <span class="pill-badge light">CONTACT</span>
-    <h2>협업 · 투자 · 파트너 문의를 환영합니다</h2>
+    <h2 data-i18n="contact.title">협업 · 투자 · 파트너 문의를 환영합니다</h2>
     <div class="contact-buttons">
       <a class="btn" href="https://www.instagram.com/konecta.co.kr/" target="_blank" rel="noopener">
-        <span class="btn-title">인스타그램 DM</span>
-        <span class="btn-desc">고객·일반 문의는 이쪽으로 편하게 남겨주세요</span>
+        <span class="btn-title" data-i18n="contact.ig_t">인스타그램 DM</span>
+        <span class="btn-desc" data-i18n="contact.ig_d">고객·일반 문의는 이쪽으로 편하게 남겨주세요</span>
       </a>
       <a class="btn" href="mailto:lucywon82@gmail.com">
-        <span class="btn-title">이메일 문의</span>
-        <span class="btn-desc">브랜드 협업 · 파트너십 문의는 이메일로</span>
+        <span class="btn-title" data-i18n="contact.mail_t">이메일 문의</span>
+        <span class="btn-desc" data-i18n="contact.mail_d">브랜드 협업 · 파트너십 문의는 이메일로</span>
       </a>
     </div>
-    <p class="copyright">&copy; 2026 Konecta. All rights reserved.</p>
+    <p class="copyright" data-i18n="common.footer.copyright">&copy; 2026 Konecta. All rights reserved.</p>
   </div>
 </section>
 
+<script src="../../js/i18n.js"></script>
 <script src="../../js/main.js"></script>
 </body>
 </html>
