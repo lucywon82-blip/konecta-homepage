@@ -303,7 +303,10 @@
       "contactLabel": "연락처 (인스타그램 아이디 / 이메일 / 왓츠앱 번호)",
       "submitButton": "제출하기",
       "thanksTitle": "제출해주셔서 감사합니다!",
-      "thanksDescription": "입력해주신 연락처로 진단 결과를 보내드릴게요."
+      "thanksDescription": "입력해주신 연락처로 진단 결과를 보내드릴게요.",
+      "glowScanTitle": "AI로 더 자세히 알아볼까요?",
+      "glowScanDesc": "사진이나 영상, 또는 몇 가지 선택만으로 나에게 맞는 한국식 스킨케어 루틴과 메이크업 팁을 바로 받아보세요.",
+      "glowScanButton": "GlowScan으로 AI 분석 받기"
     }
   },
   "posts": {

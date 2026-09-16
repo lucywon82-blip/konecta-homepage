@@ -101,6 +101,7 @@
 <script src="js/i18n.js"></script>
 <script src="js/main.js"></script>
 <script>
+var GLOWSCAN_URL = "https://claude.ai/artifact/9qJzKb1WofkJim1YBs1fT3";
 var FIELD_IDS = ["country", "ageGroup", "contactMethod", "awarenessChannel", "kbeautyExperience", "skinType", "routineStyle", "budget", "firstPurchasePref", "routineTime"];
 // Canonical Korean option text per question (by FIELD_IDS order), used only when
 // building the payload sent to Notion — so answers stay in one consistent language
@@ -208,6 +209,11 @@ function render() {
     html += heartIcon(46, "#ED7B5D");
     html += '<h2>' + escapeHtml(fs2.thanksTitle) + '</h2>';
     html += '<p>' + escapeHtml(fs2.thanksDescription) + '</p>';
+    html += '<div style="width:100%; border-top:1.5px dashed var(--border); margin-top:6px; padding-top:20px; display:flex; flex-direction:column; gap:10px;">';
+    html += '<h3 style="margin:0; font-size:16px; color:var(--navy);">' + escapeHtml(fs2.glowScanTitle) + '</h3>';
+    html += '<p style="margin:0;">' + escapeHtml(fs2.glowScanDesc) + '</p>';
+    html += '<a class="quiz-cta enabled" style="text-decoration:none;" href="' + GLOWSCAN_URL + '" target="_blank" rel="noopener">' + escapeHtml(fs2.glowScanButton) + heartIcon(13, "#fff") + '</a>';
+    html += '</div>';
     html += '</div>';
   }
 

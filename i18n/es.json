@@ -303,7 +303,10 @@
       "contactLabel": "Contacto (usuario de Instagram / correo / número de WhatsApp)",
       "submitButton": "Enviar",
       "thanksTitle": "¡Gracias por enviarlo!",
-      "thanksDescription": "Te enviaremos tu resultado al contacto que dejaste."
+      "thanksDescription": "Te enviaremos tu resultado al contacto que dejaste.",
+      "glowScanTitle": "¿Quieres saber más con IA?",
+      "glowScanDesc": "Con una foto, un video o solo unas pocas selecciones, recibe al instante tu rutina de skincare y tips de maquillaje al estilo coreano.",
+      "glowScanButton": "Analizar con GlowScan"
     }
   },
   "posts": {
