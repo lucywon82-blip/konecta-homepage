@@ -16,3 +16,11 @@
   to = "https://konecta-app.konecta.workers.dev/:splat"
   status = 200
   force = true
+
+# 클라우드플레어 Pages 전환 과정의 호환용 — quiz.html이 이제 /api/submit-quiz를
+# 호출하는데, 넷리파이에서는 기존 함수(/.netlify/functions/submit-quiz)로 그대로 넘긴다.
+[[redirects]]
+  from = "/api/submit-quiz"
+  to = "/.netlify/functions/submit-quiz"
+  status = 200
+  force = true

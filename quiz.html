@@ -260,7 +260,7 @@ function handleSubmit() {
   });
   var payload = Object.assign({ name: state.name, contact: state.contact, lang: currentLang }, canonicalAnswers);
 
-  fetch('/.netlify/functions/submit-quiz', {
+  fetch('/api/submit-quiz', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
