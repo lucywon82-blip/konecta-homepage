@@ -394,33 +394,6 @@ async function main() {
     process.exit(1);
   }
 
-  console.log("[진단] 토큰 길이:", token.length, "/ data_source_id:", JSON.stringify(dataSourceId));
-  try {
-    const me = await notionFetch(token, "https://api.notion.com/v1/users/me");
-    console.log("[진단] 토큰 인증 성공. 통합 이름:", me.name || me.bot?.owner?.type);
-  } catch (e) {
-    console.log("[진단] 토큰 인증 실패:", e.message);
-  }
-  try {
-    const ds = await notionFetch(token, `https://api.notion.com/v1/data_sources/${dataSourceId}`);
-    console.log("[진단] data_source 속성 목록:", Object.keys(ds.properties || {}));
-    console.log("[진단] '발행' 속성 정의:", JSON.stringify(ds.properties?.["발행"]));
-  } catch (e) {
-    console.log("[진단] data_source 조회 실패:", e.message);
-  }
-  try {
-    const all = await notionFetch(token, `https://api.notion.com/v1/data_sources/${dataSourceId}/query`, {
-      method: "POST",
-      body: JSON.stringify({}),
-    });
-    console.log("[진단] 필터 없이 전체 조회 결과 개수:", all.results.length);
-    for (const page of all.results) {
-      console.log("[진단]  -", getPropText(page.properties, "제목"), "| 발행 값:", JSON.stringify(page.properties["발행"]));
-    }
-  } catch (e) {
-    console.log("[진단] 전체 조회 실패:", e.message);
-  }
-
   console.log("노션에서 발행된 글을 가져오는 중...");
   const resp = await notionFetch(token, `https://api.notion.com/v1/data_sources/${dataSourceId}/query`, {
     method: "POST",
