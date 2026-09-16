@@ -72,15 +72,20 @@ async function notionFetch(token, url, options = {}) {
 }
 
 const NON_BLOG_MARKER_EMOJIS = ["📱", "🗂️", "🖼️"];
+const NON_BLOG_MARKER_EXACT = ["카드뉴스", "카드 뉴스", "릴스 대본"];
 
 function isNonBlogSectionHeading(text) {
   // 노션 페이지 안에 함께 적어둔 릴스 대본·카드뉴스 문구·SNS용 이미지 등은
-  // 이런 이모지/문구가 붙은 제목으로 시작한다. 홈페이지 블로그 글에는
-  // 필요 없는 내용이라, 이 제목을 만나면 그 아래는 더 이상 가져오지 않는다.
+  // 이런 이모지/문구가 붙은 제목이나 "카드뉴스" 같은 일반 문단으로 시작한다
+  // (노션에서 헤딩이 아니라 그냥 문단으로 적혀 있는 경우가 많다). 홈페이지
+  // 블로그 글에는 필요 없는 내용이라, 이 지점을 만나면 그 아래는 더 이상
+  // 가져오지 않는다.
   const stripped = (text || "").trim();
   if (!stripped) return false;
   if (NON_BLOG_MARKER_EMOJIS.some((e) => stripped.startsWith(e))) return true;
   if (stripped.includes("자동 생성")) return true;
+  if (NON_BLOG_MARKER_EXACT.includes(stripped)) return true;
+  if (stripped.toLowerCase().startsWith("tarjetas de konecta")) return true;
   return false;
 }
 
@@ -108,7 +113,7 @@ async function blocksToHtml(token, blockId) {
       const btype = block.type;
       const data = block[btype] || {};
 
-      if (["heading_1", "heading_2", "heading_3"].includes(btype) && isNonBlogSectionHeading(plainText(data.rich_text))) {
+      if (["heading_1", "heading_2", "heading_3", "paragraph"].includes(btype) && isNonBlogSectionHeading(plainText(data.rich_text))) {
         stop = true;
         break;
       }

@@ -59,18 +59,25 @@ def plain_text(rich_text):
 
 
 NON_BLOG_MARKER_EMOJIS = ("📱", "🗂️", "🖼️")
+NON_BLOG_MARKER_EXACT = ("카드뉴스", "카드 뉴스", "릴스 대본")
 
 
 def is_non_blog_section_heading(text):
     # 노션 페이지 안에 함께 적어둔 릴스 대본·카드뉴스 문구·SNS용 이미지 등은
-    # 이런 이모지/문구가 붙은 제목으로 시작한다. 홈페이지 블로그 글에는
-    # 필요 없는 내용이라, 이 제목을 만나면 그 아래는 더 이상 가져오지 않는다.
+    # 이런 이모지/문구가 붙은 제목이나 "카드뉴스" 같은 일반 문단으로 시작한다
+    # (노션에서 헤딩이 아니라 그냥 문단으로 적혀 있는 경우가 많다). 홈페이지
+    # 블로그 글에는 필요 없는 내용이라, 이 지점을 만나면 그 아래는 더 이상
+    # 가져오지 않는다.
     stripped = text.strip()
     if not stripped:
         return False
     if stripped.startswith(NON_BLOG_MARKER_EMOJIS):
         return True
     if "자동 생성" in stripped:
+        return True
+    if stripped in NON_BLOG_MARKER_EXACT:
+        return True
+    if stripped.lower().startswith("tarjetas de konecta"):
         return True
     return False
 
@@ -94,7 +101,7 @@ def blocks_to_html(notion, block_id, depth=0):
             btype = block["type"]
             data = block.get(btype, {})
 
-            if btype in ("heading_1", "heading_2", "heading_3") and is_non_blog_section_heading(
+            if btype in ("heading_1", "heading_2", "heading_3", "paragraph") and is_non_blog_section_heading(
                 plain_text(data.get("rich_text", []))
             ):
                 stop = True
