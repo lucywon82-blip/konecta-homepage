@@ -58,6 +58,23 @@ def plain_text(rich_text):
     return "".join(t.get("plain_text", "") for t in rich_text)
 
 
+NON_BLOG_MARKER_EMOJIS = ("📱", "🗂️", "🖼️")
+
+
+def is_non_blog_section_heading(text):
+    # 노션 페이지 안에 함께 적어둔 릴스 대본·카드뉴스 문구·SNS용 이미지 등은
+    # 이런 이모지/문구가 붙은 제목으로 시작한다. 홈페이지 블로그 글에는
+    # 필요 없는 내용이라, 이 제목을 만나면 그 아래는 더 이상 가져오지 않는다.
+    stripped = text.strip()
+    if not stripped:
+        return False
+    if stripped.startswith(NON_BLOG_MARKER_EMOJIS):
+        return True
+    if "자동 생성" in stripped:
+        return True
+    return False
+
+
 def blocks_to_html(notion, block_id, depth=0):
     html_parts = []
     list_buffer = []  # (tag, items)
@@ -70,11 +87,18 @@ def blocks_to_html(notion, block_id, depth=0):
             list_buffer.clear()
 
     cursor = None
+    stop = False
     while True:
         resp = notion.blocks.children.list(block_id=block_id, start_cursor=cursor, page_size=100)
         for block in resp["results"]:
             btype = block["type"]
             data = block.get(btype, {})
+
+            if btype in ("heading_1", "heading_2", "heading_3") and is_non_blog_section_heading(
+                plain_text(data.get("rich_text", []))
+            ):
+                stop = True
+                break
 
             if btype == "paragraph":
                 flush_list()
@@ -128,7 +152,7 @@ def blocks_to_html(notion, block_id, depth=0):
             if block.get("has_children") and btype not in ("bulleted_list_item", "numbered_list_item"):
                 html_parts.append(blocks_to_html(notion, block["id"], depth + 1))
 
-        if not resp.get("has_more"):
+        if stop or not resp.get("has_more"):
             break
         cursor = resp.get("next_cursor")
 
