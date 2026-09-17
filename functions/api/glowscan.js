@@ -78,13 +78,23 @@ export async function onRequestPost({ request, env }) {
         return json(413, { error: "image_too_large" });
       }
       const type = ALLOWED_IMAGE_TYPES.includes(mediaType) ? mediaType : "image/jpeg";
-      result = await env.AI.run(VISION_MODEL, {
-        messages,
-        image: `data:${type};base64,${imageBase64}`,
-        max_tokens: 1200,
-      });
+      const visionMessages = [
+        { role: "system", content: SYSTEM_PROMPT },
+        {
+          role: "user",
+          content: [
+            { type: "text", text: prompt },
+            { type: "image_url", image_url: { url: `data:${type};base64,${imageBase64}` } },
+          ],
+        },
+      ];
+      result = await env.AI.run(VISION_MODEL, { messages: visionMessages, max_tokens: 1200 });
     } else {
-      result = await env.AI.run(TEXT_MODEL, { messages, max_tokens: 1200 });
+      result = await env.AI.run(TEXT_MODEL, {
+        messages,
+        max_tokens: 1200,
+        response_format: { type: "json_object" },
+      });
     }
 
     const text = typeof result?.response === "string" ? result.response : "";
