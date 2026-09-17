@@ -84,9 +84,19 @@ export async function onRequestPost({ request, env }) {
           ],
         },
       ];
-      result = await env.AI.run(VISION_MODEL, { messages: visionMessages, max_tokens: 1200 });
+      result = await env.AI.run(VISION_MODEL, {
+        messages: visionMessages,
+        max_tokens: 1200,
+        temperature: 0.4,
+        repetition_penalty: 1.3,
+      });
     } else {
-      result = await env.AI.run(TEXT_MODEL, { messages, max_tokens: 1200 });
+      result = await env.AI.run(TEXT_MODEL, {
+        messages,
+        max_tokens: 1200,
+        temperature: 0.4,
+        repetition_penalty: 1.3,
+      });
     }
 
     // Workers AI 모델에 따라 { response: "..." } 형태이거나, OpenAI 호환
