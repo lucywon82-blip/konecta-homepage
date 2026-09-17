@@ -9,10 +9,11 @@ const MAX_IMAGE_BASE64_CHARS = 4_000_000; // base64 기준 약 3MB 원본 이미
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 const VISION_MODEL = "@cf/meta/llama-3.2-11b-vision-instruct";
-const TEXT_MODEL = "@cf/mistralai/mistral-small-3.1-24b-instruct";
+const TEXT_MODEL = "@cf/qwen/qwen3.8-27b";
 
-const SYSTEM_PROMPT =
-  "You are a K-beauty skincare and makeup advisor. Always reply with valid JSON only — no markdown code fences, no extra commentary before or after the JSON.";
+// 무료 모델들이 한국어/스페인어로 직접 JSON 문장을 생성하면 반복되거나
+// 빈 응답이 되는 경우가 많아서, 항상 영어로 생성한 뒤 이 표로 번역한다.
+const LANG_NAMES = { ko: "Korean", es: "Spanish", en: "English" };
 
 function json(status, body) {
   return new Response(JSON.stringify(body), {
@@ -42,6 +43,37 @@ function extractJson(text) {
   return null;
 }
 
+// Workers AI 모델마다 { response: "..." } 또는 OpenAI 호환
+// { choices: [{ message: { content: "..." } }] } 형태로 응답해서 둘 다 처리한다.
+function extractText(result) {
+  if (typeof result?.response === "string") return result.response;
+  if (typeof result?.choices?.[0]?.message?.content === "string") return result.choices[0].message.content;
+  return "";
+}
+
+async function runTextModel(env, prompt) {
+  const result = await env.AI.run(TEXT_MODEL, {
+    messages: [{ role: "user", content: prompt }],
+    max_tokens: 1200,
+  });
+  return extractJson(extractText(result));
+}
+
+// 영어로 생성된 결과의 문장 필드만 번역한다. hex코드/undertone/faceShape
+// 같은 고정 영어 코드값은 건드리지 않는다.
+async function translateFields(env, fields, langName) {
+  const prompt =
+    `Translate every string value in this JSON object to ${langName}. ` +
+    "Keep the exact same JSON keys and array structure, do not add or remove keys. " +
+    "Reply with ONLY the JSON object, no other text:\n" +
+    JSON.stringify(fields);
+  try {
+    return await runTextModel(env, prompt);
+  } catch {
+    return null;
+  }
+}
+
 export async function onRequestPost({ request, env }) {
   if (!env.AI) {
     return json(500, { error: "server_config" });
@@ -54,15 +86,14 @@ export async function onRequestPost({ request, env }) {
     return json(400, { error: "bad_request" });
   }
 
-  const { mode, prompt, imageBase64, mediaType } = data || {};
+  const { mode, prompt, imageBase64, mediaType, lang } = data || {};
   if ((mode !== "vision" && mode !== "quiz") || typeof prompt !== "string" || !prompt.trim()) {
     return json(400, { error: "bad_request" });
   }
   if (prompt.length > MAX_PROMPT_CHARS) {
     return json(400, { error: "prompt_too_large" });
   }
-
-  const messages = [{ role: "user", content: prompt }];
+  const langName = lang && lang !== "en" ? LANG_NAMES[lang] : null; // null이면 영어 그대로 반환
 
   try {
     let result;
@@ -86,20 +117,12 @@ export async function onRequestPost({ request, env }) {
       ];
       result = await env.AI.run(VISION_MODEL, { messages: visionMessages, max_tokens: 1200 });
     } else {
-      result = await env.AI.run(TEXT_MODEL, { messages, max_tokens: 1200 });
+      result = await env.AI.run(TEXT_MODEL, { messages: [{ role: "user", content: prompt }], max_tokens: 1200 });
     }
 
-    // Workers AI 모델에 따라 { response: "..." } 형태이거나, OpenAI 호환
-    // { choices: [{ message: { content: "..." } }] } 형태로 응답한다.
-    let text = "";
-    if (typeof result?.response === "string") {
-      text = result.response;
-    } else if (typeof result?.choices?.[0]?.message?.content === "string") {
-      text = result.choices[0].message.content;
-    }
-    let parsed = extractJson(text);
+    let parsed = extractJson(extractText(result));
     if (!parsed) {
-      console.error("GlowScan: could not parse JSON from model reply:", text.slice(0, 500));
+      console.error("GlowScan: could not parse JSON from model reply.");
       // 502/504 등은 Cloudflare 엣지가 자체 오류 페이지로 본문을 덮어써서
       // 클라이언트가 우리 JSON을 못 받으므로, 여기서는 일반 5xx만 쓴다.
       return json(500, { error: "invalid_json" });
@@ -107,6 +130,21 @@ export async function onRequestPost({ request, env }) {
     // 일부 모델이 { response: {...} } 처럼 한 번 더 감싸서 줄 때가 있어 풀어준다.
     if (parsed && !parsed.routine && !parsed.skinToneHex && parsed.response && typeof parsed.response === "object") {
       parsed = parsed.response;
+    }
+
+    // 여기까지는 항상 영어로 생성된 결과. 화면 언어가 영어가 아니면
+    // 문장 필드만 번역한다(hex코드·undertone·faceShape 코드는 그대로 유지).
+    if (langName) {
+      const translatable =
+        mode === "vision"
+          ? { skinToneLabel: parsed.skinToneLabel, concerns: parsed.concerns, routine: parsed.routine, tips: parsed.tips }
+          : { routine: parsed.routine, tips: parsed.tips };
+      const translated = await translateFields(env, translatable, langName);
+      if (translated) {
+        Object.assign(parsed, translated);
+      } else {
+        console.error("GlowScan: translation to", langName, "failed, returning English fallback.");
+      }
     }
 
     return json(200, parsed);

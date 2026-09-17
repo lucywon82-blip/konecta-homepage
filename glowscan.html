@@ -647,11 +647,14 @@
 
     try{
       var payload;
-      var p = PROMPTS[lang] || PROMPTS.es;
+      // 무료 Workers AI 모델들이 한국어/스페인어로 직접 JSON을 생성시키면
+      // 품질이 크게 떨어져서(반복·빈 응답), 항상 영어로 생성한 뒤
+      // 서버에서 화면 언어로 번역한다. lang을 같이 보내서 서버가 안다.
+      var p = PROMPTS.en;
 
       if (currentBlob){
         var base64 = await blobToBase64(currentBlob);
-        payload = { mode: "vision", prompt: p.vision, imageBase64: base64, mediaType: "image/jpeg" };
+        payload = { mode: "vision", prompt: p.vision, imageBase64: base64, mediaType: "image/jpeg", lang: lang };
       } else {
         var toneHex = TONE_HEXES[selectedToneIdx];
         var toneLabel = gsData.toneLabels[selectedToneIdx];
@@ -660,7 +663,7 @@
         var concernsText = selectedConcernCodes.length
           ? selectedConcernCodes.map(function(c){ return gsData.concerns[c]; }).join(", ")
           : p.noneConcern;
-        payload = { mode: "quiz", prompt: p.quiz(toneHex, toneLabel, undertoneLabel, shapeLabel, concernsText) };
+        payload = { mode: "quiz", prompt: p.quiz(toneHex, toneLabel, undertoneLabel, shapeLabel, concernsText), lang: lang };
       }
 
       var res = await fetch("/api/glowscan", {
