@@ -62,10 +62,7 @@ export async function onRequestPost({ request, env }) {
     return json(400, { error: "prompt_too_large" });
   }
 
-  const messages = [
-    { role: "system", content: SYSTEM_PROMPT },
-    { role: "user", content: prompt },
-  ];
+  const messages = [{ role: "user", content: prompt }];
 
   try {
     let result;
@@ -79,7 +76,6 @@ export async function onRequestPost({ request, env }) {
       }
       const type = ALLOWED_IMAGE_TYPES.includes(mediaType) ? mediaType : "image/jpeg";
       const visionMessages = [
-        { role: "system", content: SYSTEM_PROMPT },
         {
           role: "user",
           content: [
