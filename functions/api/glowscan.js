@@ -9,7 +9,7 @@ const MAX_IMAGE_BASE64_CHARS = 4_000_000; // base64 기준 약 3MB 원본 이미
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 const VISION_MODEL = "@cf/meta/llama-3.2-11b-vision-instruct";
-const TEXT_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
+const TEXT_MODEL = "@cf/qwen/qwen3.8-27b";
 
 const SYSTEM_PROMPT =
   "You are a K-beauty skincare and makeup advisor. Always reply with valid JSON only — no markdown code fences, no extra commentary before or after the JSON.";
