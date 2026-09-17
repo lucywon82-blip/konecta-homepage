@@ -51,16 +51,17 @@ function extractText(result) {
   return "";
 }
 
-async function runTextModel(env, prompt) {
+async function runTextModel(env, prompt, maxTokens) {
   const result = await env.AI.run(TEXT_MODEL, {
     messages: [{ role: "user", content: prompt }],
-    max_tokens: 1200,
+    max_tokens: maxTokens,
   });
   return extractJson(extractText(result));
 }
 
 // 영어로 생성된 결과의 문장 필드만 번역한다. hex코드/undertone/faceShape
-// 같은 고정 영어 코드값은 건드리지 않는다.
+// 같은 고정 영어 코드값은 건드리지 않는다. 번역은 원문을 그대로 풀어
+// 쓰는 작업이라 원문보다 길어질 수 있어 생성보다 여유 있게 잡는다.
 async function translateFields(env, fields, langName) {
   const prompt =
     `Translate every string value in this JSON object to ${langName}. ` +
@@ -68,7 +69,7 @@ async function translateFields(env, fields, langName) {
     "Reply with ONLY the JSON object, no other text:\n" +
     JSON.stringify(fields);
   try {
-    return await runTextModel(env, prompt);
+    return await runTextModel(env, prompt, 2000);
   } catch {
     return null;
   }
