@@ -1,0 +1,11 @@
+# Cloudflare Pages 프로젝트 설정 파일.
+# GlowScan(피부 진단) 기능이 무료 Cloudflare Workers AI를 쓸 수 있도록
+# AI 바인딩을 정의한다. 이 파일이 저장소에 있으면 Cloudflare Pages가
+# 깃 연동 빌드 시 자동으로 읽어서 바인딩을 적용한다.
+
+name = "konecta-homepage"
+pages_build_output_dir = "."
+compatibility_date = "2026-09-17"
+
+[ai]
+binding = "AI"

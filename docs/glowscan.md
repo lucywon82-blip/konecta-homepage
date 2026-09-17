@@ -12,24 +12,24 @@ AI가 피부톤·얼굴형을 분석해서 한국식 스킨케어 루틴과 메�
   노션 API 호출 중 504(게이트웨이 타임아웃)를 받은 것 — 노션 쪽 일시 장애였습니다.
   재배포로 성공했고, 지금은 `코넥타.co.kr` / `www.konecta.co.kr`에 GlowScan
   페이지·API가 정상 반영되어 있습니다.
-- `ANTHROPIC_API_KEY`를 Cloudflare Pages 프로젝트의 **Production**과
-  **Preview** 환경 양쪽에 "비밀(암호화)" 타입으로 등록 완료했습니다.
-- **아직 남은 것**: Claude Console(console.anthropic.com) 계정의 사용 크레딧이
-  $0이라, 실제로 "분석하기"를 누르면 크레딧 부족 오류가 날 수 있습니다. 실제
-  테스트 전에 Claude Console에서 크레딧을 충전해야 합니다.
+- Anthropic API 키로 연동했었는데, 계정 크레딧이 $0이라 "분석하기"를 누르면
+  계속 502 오류가 났습니다. 2026-09-17에 **Cloudflare Workers AI(무료 티어)**
+  로 전환해서 해결했습니다 — 이제 외부 API 키나 결제 계정이 필요 없습니다.
 - 아래 "알려진 제한사항"의 속도 제한(rate limiting) 설정은 여전히 미완료
   상태입니다.
 
 ## 왜 전환했나
 
-처음에는 Claude Artifact(`sample` 캡ability, 즉 방문자 본인의 Claude 계정을
+처음에는 Claude Artifact(`sample` capability, 즉 방문자 본인의 Claude 계정을
 빌려 쓰는 방식)로 만들었는데, 이 방식은 **방문자 본인이 Claude 계정에
-로그인되어 있고, 그 계정/클라이언트가 AI 캡ability를 지원할 때만** 동작한다는
+로그인되어 있고, 그 계정/클라이언트가 AI capability를 지원할 때만** 동작한다는
 근본적 한계가 있었습니다. 실제 홈페이지 방문자(페루·칠레 일반 고객)는 대부분
 Claude 계정이 없거나 로그인이 안 되어 있어서, 데모로는 괜찮지만 실서비스로는
-불안정했습니다. 그래서 Konecta 자체 Anthropic API 키로 서버(Cloudflare Pages
-Function)에서 직접 호출하는 방식으로 옮겼습니다 — 이제 방문자의 Claude 계정
-여부와 무관하게 항상 동작합니다.
+불안정했습니다. 그래서 서버(Cloudflare Pages Function)에서 직접 AI를 호출하는
+방식으로 옮겼습니다 — 처음엔 Konecta 자체 Anthropic API 키를 썼지만, 크레딧
+문제로 2026-09-17에 **Cloudflare Workers AI**(같은 Cloudflare 인프라에서 도는
+무료 모델)로 다시 전환했습니다. 방문자의 Claude 계정 여부와도, 별도 API
+결제와도 무관하게 항상 동작합니다.
 
 ## 위치
 
@@ -39,21 +39,27 @@ Function)에서 직접 호출하는 방식으로 옮겼습니다 — 이제 방�
   Pages)으로 배포됩니다. 더 이상 Claude Artifact나 별도 공유 링크에
   의존하지 않습니다.
 
-### 꼭 필요한 설정 — Anthropic API 키
+### 꼭 필요한 설정 — Workers AI 바인딩
 
-Cloudflare Pages 프로젝트 설정 → **Settings → Environment variables**에서
-아래 값을 **Secret(암호화)** 로 등록해야 실제로 작동합니다. 이 키가 없으면
-`glowscan.html`은 정상적으로 뜨지만 "분석하기"를 눌렀을 때 서버 설정
-오류 메시지가 표시됩니다.
+별도 API 키 발급이나 환경변수 등록이 필요 없습니다. 저장소 루트의
+`wrangler.toml`에 아래처럼 AI 바인딩만 정의되어 있으면, Cloudflare Pages가
+깃 연동 빌드 시 자동으로 인식해서 적용합니다.
 
-| 변수명 | 필수 | 설명 |
+```toml
+[ai]
+binding = "AI"
+```
+
+사용 모델:
+
+| 모드 | 모델 | 설명 |
 |---|---|---|
-| `ANTHROPIC_API_KEY` | ✅ 필수 | [console.anthropic.com](https://console.anthropic.com)에서 발급. 유료(사용량 기반 과금) |
-| `ANTHROPIC_MODEL_VISION` | 선택 | 사진 분석용 모델. 기본값 `claude-sonnet-5` |
-| `ANTHROPIC_MODEL_TEXT` | 선택 | 선택형(설문) 분석용 모델. 기본값 `claude-haiku-4-5-20251001` |
+| `vision`(사진 분석) | `@cf/meta/llama-3.2-11b-vision-instruct` | 사진에서 피부톤·언더톤·얼굴형까지 직접 판단 |
+| `quiz`(설문 분석) | `@cf/meta/llama-3.1-8b-instruct` | 사용자가 고른 항목 기반으로 루틴·팁만 생성 |
 
-Production과 Preview 환경 둘 다에 등록해야 프리뷰 배포에서도 테스트할 수
-있습니다.
+하루 10,000 뉴런(Neurons) 무료 한도 안에서 동작하며, 초과 시에도 요금이
+자동으로 청구되지 않고 다음 날 초기화될 때까지 요청이 실패합니다(대량
+트래픽이 생기면 유료 전환을 고려).
 
 ## 홈페이지 연동 지점
 
@@ -79,11 +85,11 @@ GlowScan 페이지는 사이트 공통 `js/i18n.js`를 그대로 사용하므로
 2. 브라우저에서 사진을 최대 1024px로 축소한 JPEG로 변환하고(용량/비용 절감),
    현재 화면 언어에 맞는 프롬프트 문자열과 함께 `POST /api/glowscan`으로
    전송합니다.
-3. `functions/api/glowscan.js`가 Anthropic API(`/v1/messages`)를 서버에서
-   직접 호출하고, 응답 텍스트에서 JSON만 뽑아 그대로 돌려줍니다. 프롬프트
-   내용(문구, JSON 스키마 요구사항)은 전부 클라이언트(`glowscan.html`)에
-   있고, 서버는 "그 프롬프트 그대로 Claude에 전달해서 결과를 돌려주는"
-   역할만 합니다.
+3. `functions/api/glowscan.js`가 Cloudflare Workers AI(`env.AI.run(...)`)를
+   서버에서 직접 호출하고, 응답 텍스트에서 JSON만 뽑아 그대로 돌려줍니다.
+   프롬프트 내용(문구, JSON 스키마 요구사항)은 전부 클라이언트
+   (`glowscan.html`)에 있고, 서버는 "그 프롬프트 그대로 모델에 전달해서
+   결과를 돌려주는" 역할만 합니다.
 4. 사진이 있으면(`mode:"vision"`) 결과에 피부톤 HEX·언더톤·얼굴형까지 AI가
    직접 판단해서 돌려주고, 사진이 없으면(`mode:"quiz"`) 사용자가 고른
    톤/언더톤/얼굴형은 그대로 쓰고 루틴·팁만 AI가 생성합니다.

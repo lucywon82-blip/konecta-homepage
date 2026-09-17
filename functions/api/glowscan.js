@@ -1,19 +1,17 @@
 // 클라우드플레어 Pages Function: GlowScan(피부 진단) 페이지의 AI 분석 요청을
-// Konecta 자체 Anthropic API 키로 대신 호출해준다.
-// 방문자가 Claude 계정이 있는지와 무관하게 항상 동작하도록, 클라이언트가
-// 만든 프롬프트(+선택적으로 이미지)를 그대로 Anthropic API에 전달하고
-// 응답 텍스트에서 JSON만 뽑아 돌려준다.
-//
-// 필요한 환경변수(클라우드플레어 Pages 프로젝트 설정 → Settings → Environment
-// variables에서 등록, "암호화" 옵션으로 저장):
-//   ANTHROPIC_API_KEY        - console.anthropic.com에서 발급한 API 키 (필수)
-//   ANTHROPIC_MODEL_VISION   - 사진 분석용 모델 (선택, 기본값 claude-sonnet-5)
-//   ANTHROPIC_MODEL_TEXT     - 설문(텍스트) 분석용 모델 (선택, 기본값 claude-haiku-4-5-20251001)
+// 처리한다. 비용이 드는 외부 API(Anthropic) 대신 Cloudflare Workers AI의
+// 무료 티어(하루 10,000 뉴런)를 쓴다. 별도 API 키가 필요 없고, env.AI
+// 바인딩만 있으면 동작한다 (wrangler.toml의 [ai] binding = "AI" 참고).
 
-const ANTHROPIC_VERSION = "2023-06-01";
 const MAX_PROMPT_CHARS = 4000;
 const MAX_IMAGE_BASE64_CHARS = 4_000_000; // base64 기준 약 3MB 원본 이미지
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
+
+const VISION_MODEL = "@cf/meta/llama-3.2-11b-vision-instruct";
+const TEXT_MODEL = "@cf/meta/llama-3.1-8b-instruct";
+
+const SYSTEM_PROMPT =
+  "You are a K-beauty skincare and makeup advisor. Always reply with valid JSON only — no markdown code fences, no extra commentary before or after the JSON.";
 
 function json(status, body) {
   return new Response(JSON.stringify(body), {
@@ -44,8 +42,7 @@ function extractJson(text) {
 }
 
 export async function onRequestPost({ request, env }) {
-  const apiKey = env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
+  if (!env.AI) {
     return json(500, { error: "server_config" });
   }
 
@@ -64,53 +61,31 @@ export async function onRequestPost({ request, env }) {
     return json(400, { error: "prompt_too_large" });
   }
 
-  const content = [{ type: "text", text: prompt }];
-
-  if (mode === "vision") {
-    if (!imageBase64 || typeof imageBase64 !== "string") {
-      return json(400, { error: "image_required" });
-    }
-    if (imageBase64.length > MAX_IMAGE_BASE64_CHARS) {
-      return json(413, { error: "image_too_large" });
-    }
-    const type = ALLOWED_IMAGE_TYPES.includes(mediaType) ? mediaType : "image/jpeg";
-    content.unshift({
-      type: "image",
-      source: { type: "base64", media_type: type, data: imageBase64 },
-    });
-  }
-
-  const model =
-    mode === "vision"
-      ? env.ANTHROPIC_MODEL_VISION || "claude-sonnet-5"
-      : env.ANTHROPIC_MODEL_TEXT || "claude-haiku-4-5-20251001";
+  const messages = [
+    { role: "system", content: SYSTEM_PROMPT },
+    { role: "user", content: prompt },
+  ];
 
   try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "x-api-key": apiKey,
-        "anthropic-version": ANTHROPIC_VERSION,
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        model,
-        max_tokens: 900,
-        messages: [{ role: "user", content }],
-      }),
-    });
+    let result;
 
-    if (res.status === 429) {
-      return json(429, { error: "rate_limited" });
-    }
-    if (!res.ok) {
-      const errText = await res.text();
-      console.error("Anthropic API error:", res.status, errText);
-      return json(502, { error: "upstream_error" });
+    if (mode === "vision") {
+      if (!imageBase64 || typeof imageBase64 !== "string") {
+        return json(400, { error: "image_required" });
+      }
+      if (imageBase64.length > MAX_IMAGE_BASE64_CHARS) {
+        return json(413, { error: "image_too_large" });
+      }
+      const type = ALLOWED_IMAGE_TYPES.includes(mediaType) ? mediaType : "image/jpeg";
+      result = await env.AI.run(VISION_MODEL, {
+        messages,
+        image: `data:${type};base64,${imageBase64}`,
+      });
+    } else {
+      result = await env.AI.run(TEXT_MODEL, { messages });
     }
 
-    const result = await res.json();
-    const text = (result.content || []).map((block) => block.text || "").join("");
+    const text = (result && result.response) || "";
     const parsed = extractJson(text);
     if (!parsed) {
       console.error("GlowScan: could not parse JSON from model reply:", text.slice(0, 500));
@@ -119,7 +94,7 @@ export async function onRequestPost({ request, env }) {
 
     return json(200, parsed);
   } catch (err) {
-    console.error(err);
+    console.error("GlowScan Workers AI error:", err);
     return json(500, { error: "server_error" });
   }
 }
