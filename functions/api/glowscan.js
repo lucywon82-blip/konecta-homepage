@@ -81,16 +81,19 @@ export async function onRequestPost({ request, env }) {
       result = await env.AI.run(VISION_MODEL, {
         messages,
         image: `data:${type};base64,${imageBase64}`,
+        max_tokens: 1200,
       });
     } else {
-      result = await env.AI.run(TEXT_MODEL, { messages });
+      result = await env.AI.run(TEXT_MODEL, { messages, max_tokens: 1200 });
     }
 
     const text = (result && result.response) || "";
     const parsed = extractJson(text);
     if (!parsed) {
       console.error("GlowScan: could not parse JSON from model reply:", text.slice(0, 500));
-      return json(502, { error: "invalid_json" });
+      // 502/504 등은 Cloudflare 엣지가 자체 오류 페이지로 본문을 덮어써서
+      // 클라이언트가 우리 JSON을 못 받으므로, 여기서는 일반 5xx만 쓴다.
+      return json(500, { error: "invalid_json" });
     }
 
     return json(200, parsed);
