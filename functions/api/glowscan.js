@@ -6,7 +6,7 @@
 // secrets에 Secret 타입으로 등록):
 //   GEMINI_API_KEY - aistudio.google.com에서 발급한 API 키 (필수)
 
-const GEMINI_MODEL = "gemini-2.5-flash";
+const GEMINI_MODEL = "gemini-3.6-flash";
 const GEMINI_API = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
 const MAX_PROMPT_CHARS = 4000;
