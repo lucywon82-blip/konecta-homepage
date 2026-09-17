@@ -9,7 +9,7 @@ const MAX_IMAGE_BASE64_CHARS = 4_000_000; // base64 기준 약 3MB 원본 이미
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 const VISION_MODEL = "@cf/meta/llama-3.2-11b-vision-instruct";
-const TEXT_MODEL = "@cf/qwen/qwen3.8-27b";
+const TEXT_MODEL = "@cf/openai/gpt-oss-20b";
 
 const SYSTEM_PROMPT =
   "You are a K-beauty skincare and makeup advisor. Always reply with valid JSON only — no markdown code fences, no extra commentary before or after the JSON.";
@@ -84,19 +84,9 @@ export async function onRequestPost({ request, env }) {
           ],
         },
       ];
-      result = await env.AI.run(VISION_MODEL, {
-        messages: visionMessages,
-        max_tokens: 1200,
-        temperature: 0.4,
-        repetition_penalty: 1.3,
-      });
+      result = await env.AI.run(VISION_MODEL, { messages: visionMessages, max_tokens: 1200 });
     } else {
-      result = await env.AI.run(TEXT_MODEL, {
-        messages,
-        max_tokens: 1200,
-        temperature: 0.4,
-        repetition_penalty: 1.3,
-      });
+      result = await env.AI.run(TEXT_MODEL, { messages, max_tokens: 1200 });
     }
 
     // Workers AI 모델에 따라 { response: "..." } 형태이거나, OpenAI 호환
