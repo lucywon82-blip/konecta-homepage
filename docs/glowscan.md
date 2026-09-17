@@ -1,83 +1,110 @@
 # GlowScan — AI K-뷰티 얼굴 분석 도구
 
-2026-09-16에 추가한 기능. 남미 고객이 사진이나 짧은 동영상을 올리면 AI가
-피부톤·얼굴형을 분석해서 한국식 스킨케어 루틴과 메이크업 팁을 추천해주는
-독립형 웹 도구입니다.
+2026-09-16에 추가, 2026-09-17에 Claude Artifact에서 이 저장소의 자체 페이지 +
+Cloudflare Pages Function으로 전환. 남미 고객이 사진이나 짧은 동영상을 올리면
+AI가 피부톤·얼굴형을 분석해서 한국식 스킨케어 루틴과 메이크업 팁을
+추천해주는 기능입니다.
+
+## 왜 전환했나
+
+처음에는 Claude Artifact(`sample` 캡ability, 즉 방문자 본인의 Claude 계정을
+빌려 쓰는 방식)로 만들었는데, 이 방식은 **방문자 본인이 Claude 계정에
+로그인되어 있고, 그 계정/클라이언트가 AI 캡ability를 지원할 때만** 동작한다는
+근본적 한계가 있었습니다. 실제 홈페이지 방문자(페루·칠레 일반 고객)는 대부분
+Claude 계정이 없거나 로그인이 안 되어 있어서, 데모로는 괜찮지만 실서비스로는
+불안정했습니다. 그래서 Konecta 자체 Anthropic API 키로 서버(Cloudflare Pages
+Function)에서 직접 호출하는 방식으로 옮겼습니다 — 이제 방문자의 Claude 계정
+여부와 무관하게 항상 동작합니다.
 
 ## 위치
 
-- **실행 링크**: https://claude.ai/artifact/9qJzKb1WofkJim1YBs1fT3
-- Claude Artifact(단일 HTML 파일)로 만들어졌고, 이 저장소 코드와는 별도로
-  Claude 플랫폼에 게시되어 있습니다. 공유 설정은 "Anyone with the link"(링크
-  가진 누구나 열람 가능)으로 되어 있어야 홈페이지 방문자가 볼 수 있습니다.
-- 원본 소스 파일은 이 저장소에는 없고, Claude Code 세션에서 관리합니다.
-  (수정하려면 해당 세션을 이어가거나, artifact를 읽어와 새로 편집해야 합니다.)
+- **페이지**: `glowscan.html` (예: `https://konecta.co.kr/glowscan`)
+- **API**: `functions/api/glowscan.js` (Cloudflare Pages Function)
+- 완전히 이 저장소 안에 있고, 사이트의 다른 페이지와 같은 방식(Cloudflare
+  Pages)으로 배포됩니다. 더 이상 Claude Artifact나 별도 공유 링크에
+  의존하지 않습니다.
+
+### 꼭 필요한 설정 — Anthropic API 키
+
+Cloudflare Pages 프로젝트 설정 → **Settings → Environment variables**에서
+아래 값을 **Secret(암호화)** 로 등록해야 실제로 작동합니다. 이 키가 없으면
+`glowscan.html`은 정상적으로 뜨지만 "분석하기"를 눌렀을 때 서버 설정
+오류 메시지가 표시됩니다.
+
+| 변수명 | 필수 | 설명 |
+|---|---|---|
+| `ANTHROPIC_API_KEY` | ✅ 필수 | [console.anthropic.com](https://console.anthropic.com)에서 발급. 유료(사용량 기반 과금) |
+| `ANTHROPIC_MODEL_VISION` | 선택 | 사진 분석용 모델. 기본값 `claude-sonnet-5` |
+| `ANTHROPIC_MODEL_TEXT` | 선택 | 선택형(설문) 분석용 모델. 기본값 `claude-haiku-4-5-20251001` |
+
+Production과 Preview 환경 둘 다에 등록해야 프리뷰 배포에서도 테스트할 수
+있습니다.
 
 ## 홈페이지 연동 지점
 
 `quiz.html`의 설문 제출 완료 화면("제출해주셔서 감사합니다!" 화면) 하단에
-GlowScan으로 연결되는 배너 + 버튼이 추가되어 있습니다.
+GlowScan으로 연결되는 배너 + 버튼이 있습니다 (`GLOWSCAN_URL = "glowscan.html"`).
 
-- `quiz.html` — `GLOWSCAN_URL` 상수 + 완료 화면(`state.step > CONTACT_STEP`)
-  렌더링 부분에 배너 HTML 추가
-- `i18n/ko.json`, `i18n/es.json`, `i18n/en.json` — `quiz.finalStep` 안에
-  `glowScanTitle` / `glowScanDesc` / `glowScanButton` 키 추가
+- `i18n/ko.json`, `i18n/es.json`, `i18n/en.json`
+  - `quiz.finalStep.glowScanTitle` / `glowScanDesc` / `glowScanButton` — 퀴즈
+    완료 화면의 배너 문구
+  - `glowscan.*` — GlowScan 페이지 자체의 모든 UI 문구 (라벨, 버튼, 에러
+    메시지, 피부톤/언더톤/얼굴형/피부고민 라벨 등)
 
-버튼은 새 탭으로 GlowScan을 엽니다 (`target="_blank"`).
+GlowScan 페이지는 사이트 공통 `js/i18n.js`를 그대로 사용하므로, 다른
+페이지에서 언어를 바꾸면(KO/ES/EN, `localStorage`의 `konecta_lang`) GlowScan도
+같은 언어로 열립니다.
 
 ## 동작 방식
 
-두 가지 모드로 동작하며, 접속한 기기/뷰어가 이미지 전송을 지원하는지에 따라
-자동으로 전환됩니다 (Claude의 `sample` 캡ability, `sample.limits().images`로
-판단).
+1. 사용자가 사진/짧은 동영상을 업로드하거나 (동영상은 자동으로 프레임 한 장을
+   캡처), 또는 사진 없이 피부톤(스와치 8종) · 서브톤 · 얼굴형(아이콘 6종) ·
+   피부 고민(최대 3개)을 직접 선택합니다. 둘 중 하나만 있어도 "분석하기"가
+   활성화됩니다.
+2. 브라우저에서 사진을 최대 1024px로 축소한 JPEG로 변환하고(용량/비용 절감),
+   현재 화면 언어에 맞는 프롬프트 문자열과 함께 `POST /api/glowscan`으로
+   전송합니다.
+3. `functions/api/glowscan.js`가 Anthropic API(`/v1/messages`)를 서버에서
+   직접 호출하고, 응답 텍스트에서 JSON만 뽑아 그대로 돌려줍니다. 프롬프트
+   내용(문구, JSON 스키마 요구사항)은 전부 클라이언트(`glowscan.html`)에
+   있고, 서버는 "그 프롬프트 그대로 Claude에 전달해서 결과를 돌려주는"
+   역할만 합니다.
+4. 사진이 있으면(`mode:"vision"`) 결과에 피부톤 HEX·언더톤·얼굴형까지 AI가
+   직접 판단해서 돌려주고, 사진이 없으면(`mode:"quiz"`) 사용자가 고른
+   톤/언더톤/얼굴형은 그대로 쓰고 루틴·팁만 AI가 생성합니다.
 
-1. **비전 모드 (이미지 전송 지원 시)**
-   - 사용자가 올린 사진, 또는 동영상에서 자동 캡처한 프레임 한 장을
-     Claude Vision에 직접 전달
-   - 피부톤(HEX), 언더톤, 얼굴형, 피부 고민, 스킨케어 루틴 6~8단계,
-     메이크업 팁 3개를 JSON으로 받아 화면에 표시
+얼굴형(`oval/round/square/heart/long/diamond`)과 언더톤
+(`cool/warm/neutral`)은 AI 응답에서 언어와 무관한 영어 코드로만 받고, 화면
+표시는 현재 언어의 라벨 테이블에서 매핑합니다 — 언어를 바꿔도 매칭이
+깨지지 않습니다.
 
-2. **설문 모드 (이미지 전송 미지원 시 — 예: Claude 데스크톱 앱 일부 화면)**
-   - 사진은 참고용 미리보기로만 쓰이고 분석에는 사용되지 않음
-   - 대신 피부톤(스와치 8종) · 서브톤 · 얼굴형(아이콘 6종) · 피부 고민(최대 3개)을
-     직접 선택
-   - 선택한 정보를 텍스트로 Claude에 보내 루틴·팁만 생성 (이미지 전송 없이도
-     항상 동작)
+## 보안/비용 관련 참고사항
 
-두 모드 모두 결과는 실시간으로 Claude API를 호출해서 생성되며, 정적으로
-하드코딩된 추천 문구가 아닙니다.
-
-## 다국어 지원 (한/영/스)
-
-우측 상단에 KO/ES/EN 전환 버튼이 있습니다.
-
-- 첫 방문 시 브라우저 언어(`navigator.language`)를 감지해 기본 언어를 정함
-  (지원하지 않는 언어면 스페인어 기본값)
-- 선택한 언어는 `localStorage`(`glowscan_lang`)에 저장되어 다음 방문에도 유지
-- 화면 UI 문구뿐 아니라, Claude에게 보내는 프롬프트 자체도 선택한 언어로
-  응답하도록 요청함 (`skinToneLabel`/`concerns`/`routine`/`tips`가 실제로
-  해당 언어로 생성됨)
-- 얼굴형(`oval/round/square/heart/long/diamond`)과 서브톤(`cool/warm/neutral`)은
-  AI 응답에서 언어와 무관한 영어 코드로만 받고, 화면 표시는 코드별로 3개
-  언어 라벨을 별도로 매핑해서 보여줌 — 언어를 바꿔도 매칭이 깨지지 않음
+- `/api/glowscan`은 별도 인증 없이 누구나 호출할 수 있는 공개 엔드포인트입니다
+  (사이트 방문자가 로그인 없이 쓸 수 있어야 하므로). 모델/최대 토큰 수는
+  서버에서 고정되어 있지만, 프롬프트 내용 자체는 클라이언트가 보내는 값을
+  그대로 사용합니다.
+- 악용(과도한 요청, 관련 없는 프롬프트 남용 등)을 막으려면 Cloudflare
+  대시보드의 **Security → Rate limiting rules**에서 `/api/glowscan` 경로에
+  대한 속도 제한 규칙을 추가하는 걸 권장합니다 (코드 배포와 무관하게 대시보드
+  설정만으로 가능).
+- 이미지 업로드는 base64 기준 약 3MB(원본 약 2MB대)로 서버에서 크기를
+  제한합니다. 그 이상은 `image_too_large` 오류를 반환합니다.
+- 업로드된 사진은 저장되지 않고, 분석 요청 한 번에만 쓰이고 버려집니다
+  (로그/DB 없음).
 
 ## 디자인
 
-Konecta 공식 브랜드 컬러/타이포를 그대로 사용:
-
-- 코랄 `#ED7B5D` (포인트), 네이비 `#2B3648` (텍스트), 그 외 스타일 가이드
-  팔레트
-- 폰트: Sora(제목) + Plus Jakarta Sans(본문) + IBM Plex Mono(수치 표기),
-  Pretendard 폴백 체인 유지
-- 라이트/다크 모드 모두 대응
+Konecta 공식 브랜드 컬러(코랄 `#ED7B5D`, 네이비 `#2B3648` 등)와 사이트 공통
+`css/style.css` 변수를 그대로 사용합니다. 헤더·푸터도 다른 페이지와 동일한
+마크업을 재사용해서 사이트 안에서 이질감이 없습니다.
 
 ## 알려진 제한사항 / 다음에 할 일
 
-- GlowScan은 Claude Artifact로 존재하기 때문에, 실제 서비스로 정식 출시하려면
-  자체 백엔드(또는 별도 웹앱)로 다시 만드는 게 안전합니다. 지금은 데모/MVP
-  성격이 강합니다.
-- 사진은 저장되지 않고 그 자리에서만 분석됩니다(로그·DB 없음).
-- 실제 방문자 트래픽이 늘어나면 Claude 쪽 사용량 정책(속도 제한 등)에 걸릴 수
-  있습니다 — `rate_limited` 에러 문구가 이미 준비되어 있음.
-- 얼굴형 자동 판별(비전 모드)은 AI의 주관적 판단이라 100% 정확하지 않을 수
+- 위에서 언급한 **속도 제한(rate limiting) 대시보드 설정**은 아직 안 되어
+  있습니다 — 실제 트래픽이 생기기 전에 설정 권장.
+- 얼굴형 자동 판별(사진 모드)은 AI의 주관적 판단이라 100% 정확하지 않을 수
   있습니다.
+- 지금은 분석 결과를 저장하거나 공유하는 기능이 없습니다 (한 번 보고 끝).
+  필요해지면 캡처/공유 버튼이나 Notion 연동(퀴즈처럼 이메일 수집)을 추가할
+  수 있습니다.

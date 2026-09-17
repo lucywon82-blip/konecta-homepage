@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GlowScan · K-뷰티 AI 얼굴 분석 | Konecta</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .gs-wrap{max-width:960px; margin:0 auto; padding:0 24px;}
+  .gs-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px; padding-block:48px 40px;}
+  @media (max-width:760px){ .gs-grid{grid-template-columns:1fr;} }
+
+  .gs-panel{
+    background:var(--white); border:1px solid var(--border); border-radius:20px;
+    padding:26px; display:flex; flex-direction:column; gap:16px;
+  }
+  .gs-panel-title{display:flex; align-items:center; justify-content:space-between; gap:8px;}
+  .gs-panel-title h2{font-size:19px; margin:0;}
+  .gs-tag{font-size:12px; font-weight:700; color:var(--text-soft); background:var(--surface-alt); border:1px solid var(--border); padding:4px 10px; border-radius:999px;}
+  .gs-tag.live{color:var(--coral-deep); background:var(--coral-light); border-color:transparent;}
+
+  .gs-dropzone{
+    border:2px dashed var(--border); border-radius:16px; padding:26px 16px; text-align:center;
+    display:flex; flex-direction:column; align-items:center; gap:10px; color:var(--text-soft);
+    background:var(--surface-alt); transition:border-color .15s ease, background .15s ease; font-size:14px; cursor:pointer;
+  }
+  .gs-dropzone.drag{border-color:var(--coral); background:var(--coral-light);}
+  .gs-dropzone svg{color:var(--coral);}
+  .gs-dropzone strong{color:var(--navy); font-size:15px;}
+
+  .gs-preview{display:flex; flex-direction:column; gap:10px; align-items:center;}
+  .gs-preview img{width:100%; max-width:260px; border-radius:14px; aspect-ratio:4/5; object-fit:cover; border:1px solid var(--border);}
+  .gs-link-btn{background:none; border:none; color:var(--coral-deep); font-weight:600; font-size:13.5px; text-decoration:underline; cursor:pointer; font-family:inherit;}
+
+  .gs-divider{display:flex; align-items:center; gap:10px; font-size:12px; color:var(--text-soft); margin:2px 0;}
+  .gs-divider::before, .gs-divider::after{content:""; flex:1; height:1px; background:var(--border);}
+
+  .gs-block{display:flex; flex-direction:column; gap:8px;}
+  .gs-label{font-size:12.5px; font-weight:700; color:var(--text-soft);}
+  .gs-swatches{display:flex; flex-wrap:wrap; gap:9px;}
+  .gs-swatch{
+    width:32px; height:32px; border-radius:50%; border:2px solid var(--border); padding:0;
+    cursor:pointer; transition:transform .1s ease, border-color .15s ease;
+  }
+  .gs-swatch:hover{transform:scale(1.08);}
+  .gs-swatch.selected{border-color:var(--coral); box-shadow:0 0 0 3px var(--coral-light);}
+  .gs-toggle-row{display:flex; flex-wrap:wrap; gap:8px;}
+  .gs-toggle-row button{
+    padding:8px 14px; border-radius:999px; border:1px solid var(--border); background:var(--surface-alt);
+    color:var(--text-soft); font-size:13px; font-weight:600; font-family:inherit; cursor:pointer;
+    transition:background .15s ease, color .15s ease;
+  }
+  .gs-toggle-row button.selected{background:var(--coral); color:#fff; border-color:var(--coral);}
+  .gs-chip-toggle{
+    border:1px solid var(--border); background:var(--surface-alt); color:var(--text-soft);
+    font-size:12.5px; font-weight:600; padding:6px 12px; border-radius:999px; cursor:pointer; font-family:inherit;
+  }
+  .gs-chip-toggle.selected{background:var(--coral-light); color:var(--coral-deep); border-color:transparent;}
+
+  #gsStatus{font-size:13.5px; color:var(--text-soft); min-height:1.2em;}
+  #gsStatus.error{color:#D9534F;}
+  .gs-notice{
+    font-size:13.5px; color:var(--text-soft); background:var(--surface-alt); border:1px solid var(--border);
+    border-radius:12px; padding:12px 14px; line-height:1.5;
+  }
+
+  .gs-swatch-row{display:flex; align-items:center; gap:14px;}
+  .gs-result-swatch{width:56px; height:56px; border-radius:50%; border:1px solid var(--border); flex:none;}
+  .gs-swatch-label strong{display:block; font-size:16px; color:var(--navy);}
+  .gs-swatch-label span{font-size:13px; color:var(--text-soft); font-family:'IBM Plex Mono',monospace;}
+
+  .gs-chips{display:flex; flex-wrap:wrap; gap:8px;}
+  .gs-chip{font-size:12.5px; font-weight:600; padding:6px 12px; border-radius:999px; background:var(--coral-light); color:var(--coral-deep);}
+
+  .gs-steps{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px;}
+  .gs-steps li{display:flex; gap:10px; font-size:14.5px; line-height:1.45; color:var(--navy);}
+  .gs-step-num{
+    flex:none; width:22px; height:22px; border-radius:50%; background:var(--coral); color:#fff;
+    font-size:11.5px; font-weight:700; display:flex; align-items:center; justify-content:center; margin-top:1px;
+  }
+  .gs-tips{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px;}
+  .gs-tips li{display:flex; gap:8px; font-size:14px; line-height:1.5; color:var(--navy);}
+  .gs-tips li::before{content:"✦"; color:var(--coral); flex:none;}
+
+  .gs-shapes-section{padding-block:8px 56px;}
+  .gs-shapes-section h2{font-size:19px; margin:0 0 4px;}
+  .gs-shapes-section > p{color:var(--text-soft); font-size:14px; margin:0 0 20px;}
+  .gs-shapes-row{display:grid; grid-template-columns:repeat(6,1fr); gap:10px;}
+  @media (max-width:600px){ .gs-shapes-row{grid-template-columns:repeat(3,1fr);} }
+  .gs-shape-card{
+    display:flex; flex-direction:column; align-items:center; gap:6px; padding:12px 6px;
+    border-radius:14px; border:1.5px solid var(--border); background:var(--surface-alt);
+    transition:border-color .15s ease, background .15s ease; font:inherit; cursor:default;
+  }
+  .gs-shape-card.active, .gs-shape-card.picked{border-color:var(--coral); background:var(--coral-light);}
+  .gs-shape-card svg{color:var(--text-soft);}
+  .gs-shape-card.active svg, .gs-shape-card.picked svg{color:var(--coral-deep);}
+  .gs-shape-card span{font-size:12px; font-weight:600; color:var(--text-soft); text-align:center;}
+  .gs-shape-card.active span, .gs-shape-card.picked span{color:var(--coral-deep);}
+  button.gs-shape-card{cursor:pointer;}
+  button.gs-shape-card:hover{border-color:var(--coral);}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="wrap">
+    <a class="logo" href="index.html">konecta</a>
+    <nav>
+      <a href="brand.html" data-i18n="common.nav.brand">브랜드 소개</a>
+      <a href="journal.html" data-i18n="common.nav.journal">창업일기</a>
+      <a href="blog/index.html" data-i18n="common.nav.blog">블로그</a>
+      <a href="quiz.html" data-i18n="common.nav.quiz">피부진단</a>
+      <a href="index.html#contact" data-i18n="common.nav.contact">문의</a>
+      <div class="lang-switch">
+        <button data-lang="ko">KO</button>
+        <button data-lang="es">ES</button>
+        <button data-lang="en">EN</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="page-hero" style="min-height:auto; padding:72px 0 44px; color:var(--navy); background:var(--surface-alt); border-bottom:1px solid var(--border);">
+  <div class="wrap">
+    <span class="pill-badge light" data-i18n="glowscan.eyebrow">✨ AI · K-뷰티 얼굴 분석</span>
+    <h1 style="margin-top:14px; max-width:640px;" data-i18n-html="glowscan.title">나에게 맞는<br>한국식 뷰티 루틴 찾기</h1>
+    <p class="page-hero-sub" style="color:var(--text-soft); max-width:560px;" data-i18n="glowscan.intro">사진이나 짧은 동영상을 올리면 GlowScan이 피부톤과 얼굴형을 분석해서, 나에게 맞는 한국식 스킨케어 루틴과 메이크업 팁을 추천해드려요.</p>
+  </div>
+</section>
+
+<div class="gs-wrap">
+  <div class="gs-grid">
+    <section class="gs-panel">
+      <div class="gs-panel-title">
+        <h2 data-i18n="glowscan.panel1Title">1. 내 사진</h2>
+        <span class="gs-tag" data-i18n="glowscan.tagFotoVideo">사진 또는 동영상</span>
+      </div>
+
+      <div id="gsUploadArea">
+        <label class="gs-dropzone" id="gsDropzone" for="gsFileInput" tabindex="0">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 16V4M12 4l-4 4M12 4l4 4"/><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          <strong data-i18n="glowscan.dropzoneTitle">사진이나 동영상을 올려주세요</strong>
+          <span data-i18n="glowscan.dropzoneDesc">얼굴이 잘 보이게, 밝은 조명, 정면으로. JPG, PNG 또는 짧은 동영상(MP4).</span>
+        </label>
+        <input type="file" id="gsFileInput" accept="image/jpeg,image/png,image/webp,video/mp4,video/webm,video/quicktime" hidden>
+      </div>
+
+      <div class="gs-preview" id="gsPreviewWrap" hidden>
+        <img id="gsPreviewImg" alt="">
+        <button class="gs-link-btn" id="gsClearBtn" type="button" data-i18n="glowscan.cambiarFoto">사진 바꾸기</button>
+      </div>
+
+      <div class="gs-divider" data-i18n="glowscan.orDivider">또는 사진 없이 아래 항목만 선택해도 돼요</div>
+
+      <div class="gs-block">
+        <span class="gs-label" data-i18n="glowscan.toneLabel">피부톤</span>
+        <div class="gs-swatches" id="gsTonePicker"></div>
+      </div>
+      <div class="gs-block">
+        <span class="gs-label" data-i18n="glowscan.undertoneLabel">언더톤</span>
+        <div class="gs-toggle-row" id="gsUndertonePicker"></div>
+      </div>
+      <div class="gs-block">
+        <span class="gs-label" data-i18n="glowscan.shapeLabel">얼굴형</span>
+        <div class="gs-shapes-row" id="gsShapePicker" style="grid-template-columns:repeat(6,1fr);"></div>
+      </div>
+      <div class="gs-block">
+        <span class="gs-label" data-i18n="glowscan.concernsLabel">피부 고민 (선택, 최대 3개)</span>
+        <div class="gs-chips" id="gsConcernPicker"></div>
+      </div>
+
+      <button class="pill-btn" id="gsAnalyzeBtn" type="button" disabled data-i18n="glowscan.analyzeBtn">내 얼굴 분석하기</button>
+      <div id="gsStatus"></div>
+      <div class="gs-notice" id="gsNotice" hidden></div>
+    </section>
+
+    <section class="gs-panel">
+      <div class="gs-panel-title">
+        <h2 data-i18n="glowscan.panel2Title">2. 나의 진단 결과</h2>
+        <span class="gs-tag" id="gsResultTag" data-i18n="glowscan.tagEjemplo">예시</span>
+      </div>
+
+      <div class="gs-swatch-row">
+        <div class="gs-result-swatch" id="gsSwatch" style="background:#E8B894"></div>
+        <div class="gs-swatch-label">
+          <strong id="gsToneLabel">밝은 편 웜톤</strong>
+          <span id="gsToneHex">#E8B894 · 웜톤</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="gs-tag" style="margin-bottom:8px;"><span data-i18n="glowscan.faceShapePrefix">얼굴형:</span> <span id="gsFaceShapeText">계란형</span></div>
+        <div class="gs-chips" id="gsConcernsChips"></div>
+      </div>
+
+      <div>
+        <h3 style="font-size:15px; margin:0 0 10px;" data-i18n="glowscan.routineTitle">추천 루틴</h3>
+        <ol class="gs-steps" id="gsRoutineList"></ol>
+      </div>
+
+      <div>
+        <h3 style="font-size:15px; margin:0 0 8px;" data-i18n="glowscan.tipsTitle">한국식 메이크업 팁</h3>
+        <ul class="gs-tips" id="gsTipsList"></ul>
+      </div>
+    </section>
+  </div>
+
+  <div class="gs-shapes-section">
+    <h2 data-i18n="glowscan.shapesSectionTitle">얼굴형별 한국식 스타일</h2>
+    <p data-i18n="glowscan.shapesSectionDesc">얼굴형마다 어울리는 테크닉이 달라요 — 분석 후 내 얼굴형이 자동으로 표시됩니다.</p>
+    <div class="gs-shapes-row" id="gsShapesRow"></div>
+  </div>
+</div>
+
+<section class="footer-contact">
+  <div class="wrap">
+    <span class="pill-badge light">CONTACT</span>
+    <h2 data-i18n="contact.title">협업 · 투자 · 파트너 문의를 환영합니다</h2>
+    <div class="contact-buttons">
+      <a class="btn" href="https://www.instagram.com/konecta.co.kr/" target="_blank" rel="noopener">
+        <span class="btn-title" data-i18n="contact.ig_t">인스타그램 DM</span>
+        <span class="btn-desc" data-i18n="contact.ig_d">고객·일반 문의는 이쪽으로 편하게 남겨주세요</span>
+      </a>
+      <a class="btn" href="mailto:lucywon82@gmail.com">
+        <span class="btn-title" data-i18n="contact.mail_t">이메일 문의</span>
+        <span class="btn-desc" data-i18n="contact.mail_d">브랜드 협업 · 파트너십 문의는 이메일로</span>
+      </a>
+    </div>
+    <p class="copyright" data-i18n="common.footer.copyright">&copy; 2026 Konecta. All rights reserved.</p>
+    <p style="margin-top:14px; font-size:12px; color:#8D97A6;" data-i18n="glowscan.footerNote">GlowScan은 AI 기반 진단 도구입니다. 뷰티 가이드일 뿐 피부과 진료를 대신하지 않아요. 업로드한 사진은 분석 후 저장되지 않습니다.</p>
+  </div>
+</section>
+
+<script src="js/i18n.js"></script>
+<script src="js/main.js"></script>
+<script>
+(function(){
+  var SHAPE_CODES = ["oval", "round", "square", "heart", "long", "diamond"];
+  var SHAPE_PATHS = {
+    oval:   '<ellipse cx="30" cy="36" rx="20" ry="28"/>',
+    round:  '<circle cx="30" cy="36" r="25"/>',
+    square: '<rect x="9" y="10" width="42" height="52" rx="10"/>',
+    heart:  '<path d="M30 64 C14 44 6 32 6 20 C6 10 16 6 22 12 C26 16 28 20 30 24 C32 20 34 16 38 12 C44 6 54 10 54 20 C54 32 46 44 30 64 Z"/>',
+    long:   '<ellipse cx="30" cy="36" rx="16" ry="32"/>',
+    diamond:'<polygon points="30,6 50,36 30,66 10,36"/>'
+  };
+  var UNDERTONE_CODES = ["cool", "warm", "neutral"];
+  var CONCERN_CODES = ["brightT", "pores", "dryness", "spots", "fineLines", "acne", "redness"];
+  var TONE_HEXES = ["#F7E1D2", "#F2D3B8", "#E8B894", "#D9A077", "#C48A5D", "#A56B42", "#7A4B2E", "#5C3A24"];
+
+  // Prompt templates sent to our own /api/glowscan endpoint. These are LLM
+  // instructions, not UI copy, so they live here instead of the shared
+  // i18n JSON files.
+  var PROMPTS = {
+    es: {
+      vision: "Eres una experta en K-beauty (belleza coreana) asesorando a una clienta latinoamericana. " +
+        "Analiza la foto de rostro adjunta y responde SOLO en español, con un objeto JSON, sin texto adicional, con este formato exacto:\n" +
+        '{"skinToneHex":"#RRGGBB en hexadecimal que se acerque al tono de piel real",' +
+        '"skinToneLabel":"descripción corta en español, ej: Tono medio cálido",' +
+        '"undertone":"cool, warm o neutral (en inglés, exactamente una de estas 3 palabras)",' +
+        '"faceShape":"oval, round, square, heart, long o diamond (en inglés, exactamente una de estas 6 palabras)",' +
+        '"concerns":["hasta 3 observaciones cortas y amables sobre la piel, en español"],' +
+        '"routine":["6 a 8 pasos de una rutina de skincare coreana en orden, cada uno una frase corta en español"],' +
+        '"tips":["3 consejos concretos de maquillaje o técnica al estilo coreano adaptados a este rostro, en español"]}',
+      quiz: function(toneHex, toneLabel, undertoneLabel, shapeLabel, concernsText){
+        return "Eres una experta en K-beauty (belleza coreana) asesorando a una clienta latinoamericana. " +
+          "Estos son los datos que la clienta indicó sobre sí misma: tono de piel aproximado " + toneHex +
+          " (" + toneLabel + "), subtono " + undertoneLabel + ", forma de rostro " + shapeLabel +
+          ", preocupaciones: " + concernsText + ". " +
+          "Responde SOLO en español, con un objeto JSON, sin texto adicional, con este formato exacto:\n" +
+          '{"routine":["6 a 8 pasos de una rutina de skincare coreana en orden, cada uno una frase corta en español, adaptada al tono y preocupaciones indicados"],' +
+          '"tips":["3 consejos concretos de maquillaje o técnica al estilo coreano adaptados a esa forma de rostro y tono de piel, en español"]}';
+      },
+      noneConcern: "ninguna en particular"
+    },
+    ko: {
+      vision: "너는 라틴아메리카 고객을 상담하는 K-뷰티(한국식 뷰티) 전문가야. " +
+        "첨부된 얼굴 사진을 분석해서, 다른 텍스트 없이 한국어로만 아래 형식과 정확히 일치하는 JSON 객체 하나로만 답해:\n" +
+        '{"skinToneHex":"실제 피부톤에 가까운 #RRGGBB 형식의 헥스 코드",' +
+        '"skinToneLabel":"한국어로 된 짧은 설명, 예: 밝은 웜톤",' +
+        '"undertone":"cool, warm, neutral 중 정확히 하나 (영어 단어 그대로)",' +
+        '"faceShape":"oval, round, square, heart, long, diamond 중 정확히 하나 (영어 단어 그대로)",' +
+        '"concerns":["피부에 대한 짧고 친절한 관찰 최대 3개, 한국어"],' +
+        '"routine":["순서대로 6~8단계의 한국식 스킨케어 루틴, 각 단계는 한국어로 짧게"],' +
+        '"tips":["이 얼굴에 맞춘 구체적인 한국식 메이크업/테크닉 팁 3개, 한국어"]}',
+      quiz: function(toneHex, toneLabel, undertoneLabel, shapeLabel, concernsText){
+        return "너는 라틴아메리카 고객을 상담하는 K-뷰티(한국식 뷰티) 전문가야. " +
+          "고객이 직접 알려준 정보: 피부톤 " + toneHex + " (" + toneLabel + "), 언더톤 " + undertoneLabel +
+          ", 얼굴형 " + shapeLabel + ", 피부 고민: " + concernsText + ". " +
+          "다른 텍스트 없이 한국어로만 아래 형식과 정확히 일치하는 JSON 객체 하나로만 답해:\n" +
+          '{"routine":["순서대로 6~8단계의 한국식 스킨케어 루틴, 각 단계는 한국어로 짧게, 위 톤과 고민에 맞춰서"],' +
+          '"tips":["그 얼굴형과 피부톤에 맞춘 구체적인 한국식 메이크업/테크닉 팁 3개, 한국어"]}';
+      },
+      noneConcern: "특별히 없음"
+    },
+    en: {
+      vision: "You are a K-beauty (Korean beauty) expert advising a Latin American client. " +
+        "Analyze the attached face photo and reply with ONLY a JSON object, in English, no extra text, in exactly this format:\n" +
+        '{"skinToneHex":"#RRGGBB hex code close to the real skin tone",' +
+        '"skinToneLabel":"short description in English, e.g. Warm light tone",' +
+        '"undertone":"exactly one of: cool, warm, neutral",' +
+        '"faceShape":"exactly one of: oval, round, square, heart, long, diamond",' +
+        '"concerns":["up to 3 short, kind observations about the skin, in English"],' +
+        '"routine":["6 to 8 steps of a Korean skincare routine in order, each a short sentence in English"],' +
+        '"tips":["3 concrete Korean-style makeup or technique tips suited to this face, in English"]}',
+      quiz: function(toneHex, toneLabel, undertoneLabel, shapeLabel, concernsText){
+        return "You are a K-beauty (Korean beauty) expert advising a Latin American client. " +
+          "Here is what the client told us about herself: approximate skin tone " + toneHex +
+          " (" + toneLabel + "), undertone " + undertoneLabel + ", face shape " + shapeLabel +
+          ", concerns: " + concernsText + ". " +
+          "Reply with ONLY a JSON object, in English, no extra text, in exactly this format:\n" +
+          '{"routine":["6 to 8 steps of a Korean skincare routine in order, each a short sentence in English, adapted to the tone and concerns given"],' +
+          '"tips":["3 concrete Korean-style makeup or technique tips suited to that face shape and skin tone, in English"]}';
+      },
+      noneConcern: "none in particular"
+    }
+  };
+
+  var gsData = null;   // current language's glowscan.* strings (from i18n.js)
+  var lang = "ko";
+  var lastResult = null;
+  var currentBlob = null;
+
+  var fileInput = document.getElementById("gsFileInput");
+  var dropzone = document.getElementById("gsDropzone");
+  var previewWrap = document.getElementById("gsPreviewWrap");
+  var previewImg = document.getElementById("gsPreviewImg");
+  var clearBtn = document.getElementById("gsClearBtn");
+  var analyzeBtn = document.getElementById("gsAnalyzeBtn");
+  var statusEl = document.getElementById("gsStatus");
+  var noticeEl = document.getElementById("gsNotice");
+  var tonePicker = document.getElementById("gsTonePicker");
+  var undertonePicker = document.getElementById("gsUndertonePicker");
+  var shapePicker = document.getElementById("gsShapePicker");
+  var concernPicker = document.getElementById("gsConcernPicker");
+  var shapesRow = document.getElementById("gsShapesRow");
+
+  var selectedToneIdx = null, selectedUndertoneCode = null, selectedShapeCode = null, selectedConcernCodes = [];
+
+  function setStatus(msg, isError){
+    statusEl.textContent = msg || "";
+    statusEl.classList.toggle("error", !!isError);
+  }
+  function showNotice(msg){
+    noticeEl.hidden = !msg;
+    noticeEl.textContent = msg || "";
+  }
+
+  function createShapeRow(container, interactive){
+    if (!container || !gsData) return;
+    container.innerHTML = "";
+    SHAPE_CODES.forEach(function(code){
+      var card = document.createElement(interactive ? "button" : "div");
+      if (interactive) card.type = "button";
+      card.className = "gs-shape-card";
+      card.dataset.code = code;
+      card.innerHTML = '<svg width="34" height="40" viewBox="0 0 60 70" fill="none" stroke="currentColor" stroke-width="3">' + SHAPE_PATHS[code] + '</svg><span>' + gsData.shapes[code] + '</span>';
+      container.appendChild(card);
+    });
+  }
+
+  function highlightShape(code){
+    shapesRow.querySelectorAll(".gs-shape-card").forEach(function(card){
+      card.classList.toggle("active", card.dataset.code === code);
+    });
+  }
+  function highlightPickedShape(){
+    shapePicker.querySelectorAll(".gs-shape-card").forEach(function(c){
+      c.classList.toggle("picked", c.dataset.code === selectedShapeCode);
+    });
+  }
+
+  function rebuildTonePicker(){
+    tonePicker.innerHTML = "";
+    TONE_HEXES.forEach(function(hex, i){
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "gs-swatch" + (selectedToneIdx === i ? " selected" : "");
+      b.style.background = hex;
+      b.dataset.idx = i;
+      b.title = gsData.toneLabels[i];
+      b.setAttribute("aria-label", gsData.toneLabels[i]);
+      tonePicker.appendChild(b);
+    });
+  }
+  function rebuildUndertonePicker(){
+    undertonePicker.innerHTML = "";
+    UNDERTONE_CODES.forEach(function(code){
+      var b = document.createElement("button");
+      b.type = "button";
+      b.dataset.code = code;
+      b.textContent = gsData.undertones[code];
+      b.className = selectedUndertoneCode === code ? "selected" : "";
+      undertonePicker.appendChild(b);
+    });
+  }
+  function rebuildConcernPicker(){
+    concernPicker.innerHTML = "";
+    CONCERN_CODES.forEach(function(code){
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "gs-chip-toggle" + (selectedConcernCodes.indexOf(code) !== -1 ? " selected" : "");
+      b.dataset.code = code;
+      b.textContent = gsData.concerns[code];
+      concernPicker.appendChild(b);
+    });
+  }
+
+  tonePicker.addEventListener("click", function(e){
+    var b = e.target.closest(".gs-swatch");
+    if (!b) return;
+    selectedToneIdx = parseInt(b.dataset.idx, 10);
+    Array.from(tonePicker.children).forEach(function(c){ c.classList.toggle("selected", c === b); });
+    updateAnalyzeEnabled();
+  });
+  undertonePicker.addEventListener("click", function(e){
+    var b = e.target.closest("button");
+    if (!b) return;
+    selectedUndertoneCode = b.dataset.code;
+    Array.from(undertonePicker.children).forEach(function(c){ c.classList.toggle("selected", c === b); });
+  });
+  shapePicker.addEventListener("click", function(e){
+    var card = e.target.closest(".gs-shape-card");
+    if (!card) return;
+    selectedShapeCode = card.dataset.code;
+    highlightPickedShape();
+    updateAnalyzeEnabled();
+  });
+  concernPicker.addEventListener("click", function(e){
+    var b = e.target.closest(".gs-chip-toggle");
+    if (!b) return;
+    var code = b.dataset.code;
+    var already = selectedConcernCodes.indexOf(code) !== -1;
+    if (already){
+      selectedConcernCodes = selectedConcernCodes.filter(function(c){ return c !== code; });
+      b.classList.remove("selected");
+    } else if (selectedConcernCodes.length < 3){
+      selectedConcernCodes.push(code);
+      b.classList.add("selected");
+    }
+  });
+
+  function updateAnalyzeEnabled(){
+    analyzeBtn.disabled = !(currentBlob || (selectedToneIdx !== null && selectedShapeCode));
+  }
+
+  function EXAMPLE(){
+    var routineByLang = {
+      ko: ["오일 클렌저 + 순한 폼클렌저로 이중세안","피부 결을 정돈하는 수분 토너","모공 관리를 위한 나이아신아마이드 세럼","산뜻한 젤 크림 + SPF50 자외선 차단제","웜톤에 맞는 한국식 쿠션 파운데이션","눈 밑에만 컨실러","사과 부위에 자연스럽게 블러셔 (애교살 스타일)","코랄 톤 그라데이션 입술"],
+      en: ["Double cleanse: oil cleanser + gentle foam cleanser","Hydrating toner to rebalance the skin","Niacinamide serum for pores","Lightweight gel cream + SPF50 sunscreen","Korean cushion foundation in a warm medium shade","Concealer only under the eyes","Blush blended on the apples of the cheeks (aegyo style)","Coral gradient lips"],
+      es: ["Doble limpieza: aceite limpiador + espuma suave","Tónico hidratante para reequilibrar la piel","Sérum con niacinamida para poros","Crema ligera en gel + protector solar SPF50","Base cushion coreana tono medio cálido","Corrector solo bajo los ojos","Rubor difuminado en las manzanas (estilo aegyo)","Labios en degradado tono coral"]
+    };
+    var tipsByLang = {
+      ko: ["리퀴드 대신 쿠션 파운데이션으로 '글래스 스킨' 효과 내기","많이 아치형이 아닌, 곧고 부드러운 한국식 눈썹","콧대와 큐피드 활 부분에 하이라이터로 화사하게"],
+      en: ["Use a cushion base instead of liquid for that 'glass skin' effect","Soft, straight brows instead of a high arch, Korean-style","Highlight the nose bridge and cupid's bow for a luminous look"],
+      es: ["Usa base cushion en vez de líquida para lograr el efecto 'glass skin'","Cejas rectas y suaves en vez de muy arqueadas, al estilo coreano","Ilumina el puente de la nariz y el arco de Cupido para un look luminoso"]
+    };
+    return {
+      skinToneHex: "#E8B894",
+      skinToneLabel: gsData.toneLabels[2] + " " + gsData.undertones.warm.toLowerCase(),
+      undertone: "warm",
+      faceShape: "oval",
+      concerns: [gsData.concerns.brightT, gsData.concerns.pores],
+      routine: routineByLang[lang] || routineByLang.es,
+      tips: tipsByLang[lang] || tipsByLang.es
+    };
+  }
+
+  function renderResult(data, isExample){
+    var hex = /^#[0-9a-fA-F]{6}$/.test(data.skinToneHex || "") ? data.skinToneHex : "#E8B894";
+    var undertoneCode = UNDERTONE_CODES.indexOf(data.undertone) !== -1 ? data.undertone : "neutral";
+    var shapeCode = SHAPE_CODES.indexOf(data.faceShape) !== -1 ? data.faceShape : "oval";
+
+    document.getElementById("gsSwatch").style.background = hex;
+    document.getElementById("gsToneLabel").textContent = data.skinToneLabel || gsData.toneLabel;
+    document.getElementById("gsToneHex").textContent = hex.toUpperCase() + " · " + gsData.undertones[undertoneCode];
+    document.getElementById("gsFaceShapeText").textContent = gsData.shapes[shapeCode];
+    highlightShape(shapeCode);
+
+    var concernsWrap = document.getElementById("gsConcernsChips");
+    concernsWrap.innerHTML = "";
+    (data.concerns || []).slice(0, 4).forEach(function(c){
+      var span = document.createElement("span");
+      span.className = "gs-chip";
+      span.textContent = c;
+      concernsWrap.appendChild(span);
+    });
+
+    var routineWrap = document.getElementById("gsRoutineList");
+    routineWrap.innerHTML = "";
+    (data.routine || []).forEach(function(step, i){
+      var li = document.createElement("li");
+      var num = document.createElement("span");
+      num.className = "gs-step-num";
+      num.textContent = String(i + 1);
+      var text = document.createElement("span");
+      text.textContent = step;
+      li.appendChild(num);
+      li.appendChild(text);
+      routineWrap.appendChild(li);
+    });
+
+    var tipsWrap = document.getElementById("gsTipsList");
+    tipsWrap.innerHTML = "";
+    (data.tips || []).forEach(function(tip){
+      var li = document.createElement("li");
+      li.textContent = tip;
+      tipsWrap.appendChild(li);
+    });
+
+    var tag = document.getElementById("gsResultTag");
+    tag.textContent = isExample ? gsData.tagEjemplo : gsData.tagTuResultado;
+    tag.classList.toggle("live", !isExample);
+  }
+
+  function applyGlowscanText(data, currentLang){
+    gsData = data;
+    lang = currentLang;
+    rebuildTonePicker();
+    rebuildUndertonePicker();
+    rebuildConcernPicker();
+    createShapeRow(shapesRow, false);
+    createShapeRow(shapePicker, true);
+    highlightPickedShape();
+    renderResult(lastResult || EXAMPLE(), !lastResult);
+  }
+
+  document.addEventListener("konecta:i18n", function(e){
+    if (!e.detail || !e.detail.data || !e.detail.data.glowscan) return;
+    applyGlowscanText(e.detail.data.glowscan, e.detail.lang);
+  });
+  // In case the i18n event already fired before this script ran.
+  if (window.konectaI18nData && window.konectaI18nData.glowscan) {
+    applyGlowscanText(window.konectaI18nData.glowscan, window.konectaI18nLang || "ko");
+  }
+
+  // ---- file handling ----
+  function fileToImageElement(file){
+    return new Promise(function(resolve, reject){
+      var img = new Image();
+      img.onload = function(){ resolve(img); };
+      img.onerror = function(){ reject(new Error("image_load_failed")); };
+      img.src = URL.createObjectURL(file);
+    });
+  }
+  function fileToVideoFrame(file){
+    return new Promise(function(resolve, reject){
+      var video = document.createElement("video");
+      video.muted = true;
+      video.playsInline = true;
+      video.src = URL.createObjectURL(file);
+      video.onloadeddata = function(){
+        video.currentTime = Math.min(0.5, (video.duration || 1) / 2);
+      };
+      video.onseeked = function(){ resolve(video); };
+      video.onerror = function(){ reject(new Error("video_load_failed")); };
+    });
+  }
+  function fileToJpegBlob(file, maxDim){
+    return (file.type.indexOf("video/") === 0 ? fileToVideoFrame(file) : fileToImageElement(file)).then(function(source){
+      var w = source.videoWidth || source.naturalWidth || source.width;
+      var h = source.videoHeight || source.naturalHeight || source.height;
+      var scale = Math.min(1, maxDim / Math.max(w, h));
+      var canvas = document.createElement("canvas");
+      canvas.width = Math.max(1, Math.round(w * scale));
+      canvas.height = Math.max(1, Math.round(h * scale));
+      canvas.getContext("2d").drawImage(source, 0, 0, canvas.width, canvas.height);
+      return new Promise(function(resolve, reject){
+        canvas.toBlob(function(blob){
+          if (!blob) { reject(new Error("encode_failed")); return; }
+          resolve(blob);
+        }, "image/jpeg", 0.85);
+      });
+    });
+  }
+  function blobToBase64(blob){
+    return new Promise(function(resolve, reject){
+      var reader = new FileReader();
+      reader.onload = function(){ resolve(String(reader.result).split(",")[1]); };
+      reader.onerror = function(){ reject(new Error("read_failed")); };
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  async function handleFile(file){
+    if (!file) return;
+    setStatus(gsData.preparando);
+    try{
+      // Extract (and, for video, capture a frame from) the photo once here —
+      // this resized JPEG blob is reused both for the preview <img> and for
+      // the analysis request, so a video file never gets handed to <img>
+      // directly (which can't render it).
+      var jpegBlob = await fileToJpegBlob(file, 1024);
+      currentBlob = jpegBlob;
+      previewImg.src = URL.createObjectURL(jpegBlob);
+      previewWrap.hidden = false;
+      document.getElementById("gsUploadArea").hidden = true;
+      updateAnalyzeEnabled();
+      setStatus("");
+    } catch(e){
+      setStatus(gsData.fileReadError, true);
+    }
+  }
+
+  fileInput.addEventListener("change", function(){ handleFile(fileInput.files[0]); });
+  ["dragover","dragenter"].forEach(function(ev){
+    dropzone.addEventListener(ev, function(e){ e.preventDefault(); dropzone.classList.add("drag"); });
+  });
+  ["dragleave","drop"].forEach(function(ev){
+    dropzone.addEventListener(ev, function(e){ e.preventDefault(); dropzone.classList.remove("drag"); });
+  });
+  dropzone.addEventListener("drop", function(e){
+    var file = e.dataTransfer.files && e.dataTransfer.files[0];
+    if (file) handleFile(file);
+  });
+  clearBtn.addEventListener("click", function(){
+    currentBlob = null;
+    fileInput.value = "";
+    previewWrap.hidden = true;
+    document.getElementById("gsUploadArea").hidden = false;
+    updateAnalyzeEnabled();
+    setStatus("");
+  });
+
+  var ERROR_KEY_MAP = {
+    rate_limited: "errorRateLimited",
+    image_too_large: "errorImageTooBig",
+    server_config: "errorServer",
+    server_error: "errorServer",
+    upstream_error: "errorGeneric",
+    invalid_json: "errorGeneric",
+    bad_request: "errorGeneric",
+    image_required: "errorGeneric",
+    prompt_too_large: "errorGeneric"
+  };
+
+  analyzeBtn.addEventListener("click", async function(){
+    if (!currentBlob && !(selectedToneIdx !== null && selectedShapeCode)){
+      setStatus(gsData.needToneShape, true);
+      return;
+    }
+
+    analyzeBtn.disabled = true;
+    setStatus(gsData.analizando);
+    showNotice("");
+
+    try{
+      var payload;
+      var p = PROMPTS[lang] || PROMPTS.es;
+
+      if (currentBlob){
+        var base64 = await blobToBase64(currentBlob);
+        payload = { mode: "vision", prompt: p.vision, imageBase64: base64, mediaType: "image/jpeg" };
+      } else {
+        var toneHex = TONE_HEXES[selectedToneIdx];
+        var toneLabel = gsData.toneLabels[selectedToneIdx];
+        var undertoneLabel = gsData.undertones[selectedUndertoneCode || "neutral"];
+        var shapeLabel = gsData.shapes[selectedShapeCode];
+        var concernsText = selectedConcernCodes.length
+          ? selectedConcernCodes.map(function(c){ return gsData.concerns[c]; }).join(", ")
+          : p.noneConcern;
+        payload = { mode: "quiz", prompt: p.quiz(toneHex, toneLabel, undertoneLabel, shapeLabel, concernsText) };
+      }
+
+      var res = await fetch("/api/glowscan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      var body = await res.json().catch(function(){ return {}; });
+
+      if (!res.ok){
+        var key = ERROR_KEY_MAP[body.error] || "errorGeneric";
+        setStatus(gsData[key], true);
+        return;
+      }
+
+      var data;
+      if (payload.mode === "vision"){
+        data = body;
+      } else {
+        data = {
+          skinToneHex: TONE_HEXES[selectedToneIdx],
+          skinToneLabel: gsData.toneLabels[selectedToneIdx],
+          undertone: selectedUndertoneCode || "neutral",
+          faceShape: selectedShapeCode,
+          concerns: selectedConcernCodes.map(function(c){ return gsData.concerns[c]; }),
+          routine: body.routine,
+          tips: body.tips
+        };
+      }
+      lastResult = data;
+      renderResult(data, false);
+      setStatus(gsData.listoMsg);
+    } catch(e){
+      setStatus(gsData.errorGeneric, true);
+    } finally {
+      updateAnalyzeEnabled();
+    }
+  });
+})();
+</script>
+</body>
+</html>
