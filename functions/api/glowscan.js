@@ -90,21 +90,27 @@ export async function onRequestPost({ request, env }) {
       ];
       result = await env.AI.run(VISION_MODEL, { messages: visionMessages, max_tokens: 1200 });
     } else {
-      result = await env.AI.run(TEXT_MODEL, {
-        messages,
-        max_tokens: 1200,
-        response_format: { type: "json_object" },
-      });
+      result = await env.AI.run(TEXT_MODEL, { messages, max_tokens: 1200 });
     }
 
-    console.error("GlowScan DEBUG raw result:", JSON.stringify(result).slice(0, 800));
-    const text = typeof result?.response === "string" ? result.response : "";
-    const parsed = extractJson(text);
+    // Workers AI 모델에 따라 { response: "..." } 형태이거나, OpenAI 호환
+    // { choices: [{ message: { content: "..." } }] } 형태로 응답한다.
+    let text = "";
+    if (typeof result?.response === "string") {
+      text = result.response;
+    } else if (typeof result?.choices?.[0]?.message?.content === "string") {
+      text = result.choices[0].message.content;
+    }
+    let parsed = extractJson(text);
     if (!parsed) {
       console.error("GlowScan: could not parse JSON from model reply:", text.slice(0, 500));
       // 502/504 등은 Cloudflare 엣지가 자체 오류 페이지로 본문을 덮어써서
       // 클라이언트가 우리 JSON을 못 받으므로, 여기서는 일반 5xx만 쓴다.
       return json(500, { error: "invalid_json" });
+    }
+    // 일부 모델이 { response: {...} } 처럼 한 번 더 감싸서 줄 때가 있어 풀어준다.
+    if (parsed && !parsed.routine && !parsed.skinToneHex && parsed.response && typeof parsed.response === "object") {
+      parsed = parsed.response;
     }
 
     return json(200, parsed);
