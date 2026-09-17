@@ -87,7 +87,7 @@ export async function onRequestPost({ request, env }) {
       result = await env.AI.run(TEXT_MODEL, { messages, max_tokens: 1200 });
     }
 
-    const text = (result && result.response) || "";
+    const text = typeof result?.response === "string" ? result.response : "";
     const parsed = extractJson(text);
     if (!parsed) {
       console.error("GlowScan: could not parse JSON from model reply:", text.slice(0, 500));
