@@ -5,6 +5,21 @@ Cloudflare Pages Function으로 전환. 남미 고객이 사진이나 짧은 동
 AI가 피부톤·얼굴형을 분석해서 한국식 스킨케어 루틴과 메이크업 팁을
 추천해주는 기능입니다.
 
+## 지금 상태 (2026-09-17 기준)
+
+- Cloudflare Pages 배포(`3da5e17`, 이 GlowScan 기능 커밋)가 처음엔 실패했는데,
+  원인은 GlowScan 코드가 아니라 블로그 자동 생성 스크립트(`build-blog.mjs`)가
+  노션 API 호출 중 504(게이트웨이 타임아웃)를 받은 것 — 노션 쪽 일시 장애였습니다.
+  재배포로 성공했고, 지금은 `코넥타.co.kr` / `www.konecta.co.kr`에 GlowScan
+  페이지·API가 정상 반영되어 있습니다.
+- `ANTHROPIC_API_KEY`를 Cloudflare Pages 프로젝트의 **Production**과
+  **Preview** 환경 양쪽에 "비밀(암호화)" 타입으로 등록 완료했습니다.
+- **아직 남은 것**: Claude Console(console.anthropic.com) 계정의 사용 크레딧이
+  $0이라, 실제로 "분석하기"를 누르면 크레딧 부족 오류가 날 수 있습니다. 실제
+  테스트 전에 Claude Console에서 크레딧을 충전해야 합니다.
+- 아래 "알려진 제한사항"의 속도 제한(rate limiting) 설정은 여전히 미완료
+  상태입니다.
+
 ## 왜 전환했나
 
 처음에는 Claude Artifact(`sample` 캡ability, 즉 방문자 본인의 Claude 계정을
