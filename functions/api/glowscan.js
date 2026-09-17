@@ -1,14 +1,15 @@
 // 클라우드플레어 Pages Function: GlowScan(피부 진단) 페이지의 AI 분석 요청을
 // 처리한다. 비용이 드는 외부 API(Anthropic) 대신 Cloudflare Workers AI의
 // 무료 티어(하루 10,000 뉴런)를 쓴다. 별도 API 키가 필요 없고, env.AI
-// 바인딩만 있으면 동작한다 (wrangler.toml의 [ai] binding = "AI" 참고).
+// 바인딩만 있으면 동작한다 (Cloudflare 대시보드 Settings → Bindings에서
+// "Workers AI" 바인딩을 변수명 AI로 등록해뒀다).
 
 const MAX_PROMPT_CHARS = 4000;
 const MAX_IMAGE_BASE64_CHARS = 4_000_000; // base64 기준 약 3MB 원본 이미지
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 const VISION_MODEL = "@cf/meta/llama-3.2-11b-vision-instruct";
-const TEXT_MODEL = "@cf/meta/llama-3.1-8b-instruct";
+const TEXT_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
 
 const SYSTEM_PROMPT =
   "You are a K-beauty skincare and makeup advisor. Always reply with valid JSON only — no markdown code fences, no extra commentary before or after the JSON.";
