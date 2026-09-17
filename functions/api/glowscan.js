@@ -97,6 +97,7 @@ export async function onRequestPost({ request, env }) {
       });
     }
 
+    console.error("GlowScan DEBUG raw result:", JSON.stringify(result).slice(0, 800));
     const text = typeof result?.response === "string" ? result.response : "";
     const parsed = extractJson(text);
     if (!parsed) {
