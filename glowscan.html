@@ -651,7 +651,7 @@
 
       if (currentBlob){
         var base64 = await blobToBase64(currentBlob);
-        payload = { mode: "vision", prompt: p.vision, imageBase64: base64, mediaType: "image/jpeg" };
+        payload = { mode: "vision", prompt: p.vision, promptEn: PROMPTS.en.vision, lang: lang, imageBase64: base64, mediaType: "image/jpeg" };
       } else {
         var toneHex = TONE_HEXES[selectedToneIdx];
         var toneLabel = gsData.toneLabels[selectedToneIdx];
@@ -660,7 +660,7 @@
         var concernsText = selectedConcernCodes.length
           ? selectedConcernCodes.map(function(c){ return gsData.concerns[c]; }).join(", ")
           : p.noneConcern;
-        payload = { mode: "quiz", prompt: p.quiz(toneHex, toneLabel, undertoneLabel, shapeLabel, concernsText) };
+        payload = { mode: "quiz", prompt: p.quiz(toneHex, toneLabel, undertoneLabel, shapeLabel, concernsText), lang: lang, promptEn: PROMPTS.en.quiz(toneHex, toneLabel, undertoneLabel, shapeLabel, concernsText) };
       }
 
       var res = await fetch("/api/glowscan", {

@@ -9,6 +9,12 @@
 const GEMINI_MODEL = "gemini-3.6-flash";
 const GEMINI_API = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
+// Gemini가 일부 Cloudflare 서버 위치에서 "지역 미지원"으로 거절되므로,
+// 실패하면 Cloudflare Workers AI(무료)로 영어 생성 후 화면 언어로 번역한다.
+const VISION_MODEL = "@cf/meta/llama-3.2-11b-vision-instruct";
+const TEXT_MODEL = "@cf/qwen/qwen3.8-27b";
+const LANG_NAMES = { ko: "Korean", es: "Spanish" };
+
 const MAX_PROMPT_CHARS = 4000;
 const MAX_IMAGE_BASE64_CHARS = 4_000_000; // base64 기준 약 3MB 원본 이미지
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -41,9 +47,57 @@ function extractJson(text) {
   return null;
 }
 
+function extractText(result) {
+  if (typeof result?.response === "string") return result.response;
+  if (typeof result?.choices?.[0]?.message?.content === "string") return result.choices[0].message.content;
+  return "";
+}
+
+async function translateFields(env, fields, langName) {
+  const prompt =
+    `Translate every string value in this JSON object to ${langName}. ` +
+    "Keep the exact same JSON keys and array structure. Reply with ONLY the JSON object:\n" +
+    JSON.stringify(fields);
+  try {
+    const r = await env.AI.run(TEXT_MODEL, { messages: [{ role: "user", content: prompt }], max_tokens: 2000 });
+    return extractJson(extractText(r));
+  } catch {
+    return null;
+  }
+}
+
+async function workersAiFallback(env, { mode, promptEn, imageBase64, type, lang }) {
+  if (!env.AI || !promptEn) return null;
+  let result;
+  if (mode === "vision") {
+    result = await env.AI.run(VISION_MODEL, {
+      messages: [{ role: "user", content: [
+        { type: "text", text: promptEn },
+        { type: "image_url", image_url: { url: `data:${type};base64,${imageBase64}` } },
+      ] }],
+      max_tokens: 1200,
+    });
+  } else {
+    result = await env.AI.run(TEXT_MODEL, { messages: [{ role: "user", content: promptEn }], max_tokens: 1200 });
+  }
+  let parsed = extractJson(extractText(result));
+  if (parsed && !parsed.routine && !parsed.skinToneHex && parsed.response && typeof parsed.response === "object") {
+    parsed = parsed.response;
+  }
+  const langName = LANG_NAMES[lang];
+  if (parsed && langName) {
+    const fields = mode === "vision"
+      ? { skinToneLabel: parsed.skinToneLabel, concerns: parsed.concerns, routine: parsed.routine, tips: parsed.tips }
+      : { routine: parsed.routine, tips: parsed.tips };
+    const t = await translateFields(env, fields, langName);
+    if (t) Object.assign(parsed, t);
+  }
+  return parsed;
+}
+
 export async function onRequestPost({ request, env }) {
   const apiKey = env.GEMINI_API_KEY;
-  if (!apiKey) {
+  if (!apiKey && !env.AI) {
     return json(500, { error: "server_config" });
   }
 
@@ -54,7 +108,7 @@ export async function onRequestPost({ request, env }) {
     return json(400, { error: "bad_request" });
   }
 
-  const { mode, prompt, imageBase64, mediaType } = data || {};
+  const { mode, prompt, imageBase64, mediaType, promptEn, lang } = data || {};
   if ((mode !== "vision" && mode !== "quiz") || typeof prompt !== "string" || !prompt.trim()) {
     return json(400, { error: "bad_request" });
   }
@@ -63,6 +117,7 @@ export async function onRequestPost({ request, env }) {
   }
 
   const parts = [{ text: prompt }];
+  let imgType = "image/jpeg";
 
   if (mode === "vision") {
     if (!imageBase64 || typeof imageBase64 !== "string") {
@@ -72,8 +127,21 @@ export async function onRequestPost({ request, env }) {
       return json(413, { error: "image_too_large" });
     }
     const type = ALLOWED_IMAGE_TYPES.includes(mediaType) ? mediaType : "image/jpeg";
+    imgType = type;
     parts.push({ inline_data: { mime_type: type, data: imageBase64 } });
   }
+
+  const fallback = async () => {
+    try {
+      const out = await workersAiFallback(env, { mode, promptEn, imageBase64, type: imgType, lang });
+      if (out) return json(200, out);
+    } catch (err) {
+      console.error("Workers AI fallback error:", err);
+    }
+    return json(500, { error: "upstream_error" });
+  };
+
+  if (!apiKey) return fallback();
 
   try {
     const res = await fetch(`${GEMINI_API}?key=${apiKey}`, {
@@ -81,36 +149,27 @@ export async function onRequestPost({ request, env }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         contents: [{ role: "user", parts }],
-        generationConfig: {
-          maxOutputTokens: 2048,
-          responseMimeType: "application/json",
-        },
+        generationConfig: { maxOutputTokens: 2048, responseMimeType: "application/json" },
       }),
     });
 
-    if (res.status === 429) {
-      return json(429, { error: "rate_limited" });
-    }
     if (!res.ok) {
       const errText = await res.text();
-      console.error("Gemini API error:", res.status, errText.slice(0, 500));
-      // 502/504는 Cloudflare 엣지가 본문을 자체 오류 페이지로 덮어써서
-      // 클라이언트가 우리 JSON을 못 받으므로, 여기서는 일반 5xx만 쓴다.
-      return json(500, { error: "upstream_error" });
+      console.error("Gemini API error, using fallback:", res.status, errText.slice(0, 200));
+      return fallback();
     }
 
     const result = await res.json();
     const text = result?.candidates?.[0]?.content?.parts?.map((p) => p.text || "").join("") || "";
     const parsed = extractJson(text);
     if (!parsed) {
-      console.error("GlowScan: could not parse JSON from Gemini reply:", text.slice(0, 500));
-      return json(500, { error: "invalid_json" });
+      console.error("Gemini reply not parseable, using fallback");
+      return fallback();
     }
-
     return json(200, parsed);
   } catch (err) {
     console.error("GlowScan Gemini error:", err);
-    return json(500, { error: "server_error" });
+    return fallback();
   }
 }
 
