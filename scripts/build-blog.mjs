@@ -1,7 +1,6 @@
 // 노션 데이터베이스에서 '발행' 체크된 글을 가져와
 // 사이트 디자인 그대로 blog/index.html, blog/<슬러그>/index.html 을 생성합니다.
-//
-// build_blog.py(넷리파이용)와 동일한 로직의 Node 버전 — 클라우드플레어 Pages 빌드 환경(Python 미지원)용.
+// Cloudflare Pages가 배포할 때마다 이 스크립트를 빌드 명령으로 실행합니다.
 //
 // 실행: node scripts/build-blog.mjs
 

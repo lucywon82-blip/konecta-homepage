@@ -1,6 +1,5 @@
 // 클라우드플레어 Pages Function: 피부진단 퀴즈(quiz.html) 제출을 받아
 // 노션 "Konecta 뷰티 진단 설문 응답" 데이터베이스에 기록한다.
-// netlify/functions/submit-quiz.js 와 동일한 로직의 클라우드플레어 버전.
 // 노션 토큰은 서버(이 함수) 안에만 있고 브라우저로는 절대 전달되지 않는다.
 
 const NOTION_VERSION = "2025-09-03";

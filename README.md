@@ -18,43 +18,40 @@ K-뷰티를 남미(페루·칠레) 시장과 연결하는 뷰티 플랫폼 Konec
 
 개인 업무 프로그램(일정·예약·매출 대시보드)은 별도 저장소
 [`konecta-work-app`](https://github.com/lucywon82-blip/konecta-work-app)로
-분리되었습니다 (2026-09-16). `netlify.toml`의 `/app/*` 리다이렉트는 그
+분리되었습니다 (2026-09-16). `_redirects`의 `/app/*` 규칙은 그
 저장소가 배포된 클라우드플레어 워커(`konecta-app.konecta.workers.dev`)로
 요청을 그대로 전달하는 역할만 이 저장소에 남아 있습니다.
 
-## 노션 블로그 자동 업로드 (네틀리파이)
+## 배포 — Cloudflare Pages
 
-노션 "홈페이지 블로그" 데이터베이스에서 **발행 체크박스를 켠 글**이, 네틀리파이에서
-**배포할 때마다** 자동으로 홈페이지 블로그 페이지로 반영됩니다. 더 이상
-`python scripts/build_blog.py`를 로컬에서 돌려 커밋·푸시할 필요가 없습니다.
+이 저장소는 Cloudflare Pages로 배포됩니다 (2026-09-21부로 Netlify는 완전히
+정리했습니다 — 크레딧 소진으로 배포가 막히는 문제가 있었습니다). `main`
+브랜치에 푸시하면 Cloudflare Pages가 자동으로 빌드·배포합니다.
 
-동작 방식: `netlify.toml`의 빌드 명령이 배포 시마다 `scripts/build_blog.py`를 실행해
-노션에서 발행된 글을 가져와 `blog/` 폴더를 새로 만들고, 그대로 배포합니다.
+- **빌드 명령**: `node scripts/build-blog.mjs` (Cloudflare Pages 프로젝트 설정에 등록됨)
+- **빌드 출력 디렉터리**: `/` (저장소 루트)
+- **Functions**: `functions/` 폴더 아래 파일이 자동으로 `/api/*` 서버리스 함수로 배포됨
+  (`functions/api/submit-quiz.js`, `functions/api/glowscan.js`)
+- **환경변수** (Cloudflare Pages → Settings → Environment variables에 Production/Preview 둘 다 등록):
+  - `NOTION_TOKEN`, `NOTION_DATA_SOURCE_ID` — 블로그 빌드용
+  - `NOTION_QUIZ_DATA_SOURCE_ID` — 퀴즈 제출 저장용
+  - `ANTHROPIC_API_KEY` (그리고 선택적으로 `ANTHROPIC_MODEL_VISION`, `ANTHROPIC_MODEL_TEXT`) — GlowScan용, 자세한 내용은 [`docs/glowscan.md`](docs/glowscan.md) 참고
 
-이미 설정 완료된 것 (2026-09-10 기준):
-- 네틀리파이 환경변수 `NOTION_TOKEN`, `NOTION_DATA_SOURCE_ID` 등록됨
-- 노션 "홈페이지 블로그" 페이지 ↔ "Konecta 블로그" 통합 연결 확인됨
-- 위 빌드 자동화 코드 `main` 브랜치 반영 완료
+## 노션 블로그 자동 업로드
+
+노션 "홈페이지 블로그" 데이터베이스에서 **발행 체크박스를 켠 글**이, Cloudflare Pages가
+**배포할 때마다** 자동으로 홈페이지 블로그 페이지로 반영됩니다. 로컬에서 빌드 스크립트를
+직접 돌려 커밋·푸시할 필요가 없습니다 — `main`에 아무 커밋이나 푸시되면(또는 Cloudflare
+Pages 대시보드에서 "Retry deployment"를 누르면) 그 시점의 노션 발행 글로 `blog/` 폴더가
+새로 생성되어 그대로 배포됩니다.
 
 ### 다음에 홈페이지를 발행(배포)할 때 해야 할 일
 
-1. 노션 "홈페이지 블로그" 데이터베이스에 글을 쓰고 **"발행" 체크박스를 켠다**
-2. 네틀리파이(app.netlify.com) → **코넥타 홈페이지 프로젝트** 로 들어간다
-3. (배너에 "운영 크레딧" 관련 경고가 떠서 배포가 막혀 있으면, 팀 업그레이드 하거나
-   다음 결제 주기까지 기다려야 배포가 가능하다)
-4. **"Trigger deploy"** 버튼을 눌러 새 배포를 실행한다
-5. 배포가 끝나면 노션에 쓴 글이 자동으로 `/blog` 페이지에 올라와 있다
-
-→ 즉, 로컬에서 스크립트를 돌리거나 git에 커밋할 필요 없이 **노션에 발행 체크 → 네틀리파이에서 Trigger deploy 클릭**, 이 두 가지만 하면 됩니다.
-
-수동으로 매번 누르지 않고 노션 발행 즉시(또는 정기적으로) 자동 반영되게 하고
-싶어지면, 네틀리파이 Build hook을 하나 만들어 스케줄 함수나 노션 자동화(Automation)에서
-호출하도록 확장할 수 있습니다 — 필요해지면 다시 요청해주세요.
-
-## GitHub Pages로 배포하기
-
-저장소 Settings → Pages에서 브랜치를 `main`, 폴더를 `/ (root)`로 설정하면
-`https://<사용자명>.github.io/<저장소명>/` 주소로 바로 공개됩니다.
+1. 노션 "홈페이지 블로그" 데이터베이스에 글을 쓰고 **"발행" 체크박스를 켠다** (커버 이미지도
+   꼭 함께 넣어야 블로그 카드에 사진이 뜬다)
+2. `main` 브랜치에 새 커밋을 푸시하거나, Cloudflare Pages(dash.cloudflare.com) →
+   **코넥타 홈페이지 프로젝트** → 최근 배포 → **"Retry deployment"**를 누른다
+3. 배포가 끝나면 노션에 쓴 글이 자동으로 `/blog` 페이지에 올라와 있다
 
 ## 다른 컴퓨터에서 이어 작업하기
 
