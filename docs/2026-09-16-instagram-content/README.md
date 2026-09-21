@@ -46,28 +46,41 @@
 
 ## 🖼️ 카드뉴스 이미지 (PNG, 인스타그램 업로드용)
 
-**한국어 (slide-1.png ~ slide-7.png)**
-| 슬라이드 | 로컬 파일 | Notion file-upload ID |
-|---|---|---|
-| 1 | slide-1.png | 3e26f130-48af-8179-b983-00b214480565 |
-| 2 | slide-2.png | 3e26f130-48af-8191-b9a8-00b22978d2f7 |
-| 3 | slide-3.png | 3e26f130-48af-8149-8124-00b2a029a08a |
-| 4 | slide-4.png | 3e26f130-48af-814a-a1f4-00b2e45be766 |
-| 5 | slide-5.png | 3e26f130-48af-813f-a9c8-00b206438ed3 |
-| 6 | slide-6.png | 3e26f130-48af-81a7-bb6d-00b222d1b913 |
-| 7 | slide-7.png | 3e26f130-48af-81e4-82e4-00b23772cd43 |
+이미지 파일은 이 폴더의 `images/`에 실제 PNG로 함께 저장되어 있습니다 (Notion과 별개로 GitHub 안에서 바로 확인·다운로드 가능).
 
-**스페인어 (slide-1-es.png ~ slide-7-es.png)**
-| 슬라이드 | 로컬 파일 | Notion file-upload ID |
-|---|---|---|
-| 1 | slide-1-es.png | 3e26f130-48af-8137-9e81-00b2599c7912 |
-| 2 | slide-2-es.png | 3e26f130-48af-81d1-b35c-00b2694c8893 |
-| 3 | slide-3-es.png | 3e26f130-48af-81cc-8fa2-00b211f190fa |
-| 4 | slide-4-es.png | 3e26f130-48af-81e8-8aed-00b27dcd0021 |
-| 5 | slide-5-es.png | 3e26f130-48af-81e2-978e-00b2914961a5 |
-| 6 | slide-6-es.png | 3e26f130-48af-81fc-9d74-00b230b173bb |
-| 7 | slide-7-es.png | 3e26f130-48af-81c7-a717-00b2d89205d9 |
+**한국어**
+
+![슬라이드 1](images/slide-1.png)
+![슬라이드 2](images/slide-2.png)
+![슬라이드 3](images/slide-3.png)
+![슬라이드 4](images/slide-4.png)
+![슬라이드 5](images/slide-5.png)
+![슬라이드 6](images/slide-6.png)
+![슬라이드 7](images/slide-7.png)
+
+**스페인어**
+
+![Slide 1 ES](images/slide-1-es.png)
+![Slide 2 ES](images/slide-2-es.png)
+![Slide 3 ES](images/slide-3-es.png)
+![Slide 4 ES](images/slide-4-es.png)
+![Slide 5 ES](images/slide-5-es.png)
+![Slide 6 ES](images/slide-6-es.png)
+![Slide 7 ES](images/slide-7-es.png)
+
+Notion에도 동일 파일이 첨부되어 있으며, 아래는 참고용 file-upload ID 매핑입니다.
+
+| 슬라이드 | 파일 | Notion file-upload ID (KR) | Notion file-upload ID (ES) |
+|---|---|---|---|
+| 1 | slide-1(-es).png | 3e26f130-48af-8179-b983-00b214480565 | 3e26f130-48af-8137-9e81-00b2599c7912 |
+| 2 | slide-2(-es).png | 3e26f130-48af-8191-b9a8-00b22978d2f7 | 3e26f130-48af-81d1-b35c-00b2694c8893 |
+| 3 | slide-3(-es).png | 3e26f130-48af-8149-8124-00b2a029a08a | 3e26f130-48af-81cc-8fa2-00b211f190fa |
+| 4 | slide-4(-es).png | 3e26f130-48af-814a-a1f4-00b2e45be766 | 3e26f130-48af-81e8-8aed-00b27dcd0021 |
+| 5 | slide-5(-es).png | 3e26f130-48af-813f-a9c8-00b206438ed3 | 3e26f130-48af-81e2-978e-00b2914961a5 |
+| 6 | slide-6(-es).png | 3e26f130-48af-81a7-bb6d-00b222d1b913 | 3e26f130-48af-81fc-9d74-00b230b173bb |
+| 7 | slide-7(-es).png | 3e26f130-48af-81e4-82e4-00b23772cd43 | 3e26f130-48af-81c7-a717-00b2d89205d9 |
 
 ## 상태
 - Notion 블로그 페이지 하단에 릴스 대본, 카드뉴스 문구, 한국어/스페인어 카드뉴스 이미지(PNG) 모두 첨부 완료
+- GitHub(이 폴더)에도 동일 PNG 14장 + 대본/문구 텍스트 원본 보관
 - 인스타그램 실제 게시는 하지 않음 (초안 단계, 게시는 사용자가 직접 진행)

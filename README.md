@@ -7,6 +7,14 @@ K-뷰티를 남미(페루·칠레) 시장과 연결하는 뷰티 플랫폼 Konec
 
 `index.html` 파일을 브라우저로 열면 됩니다. 별도 설치나 빌드 과정이 필요 없습니다.
 
+다국어(i18n) 전환처럼 `fetch()`로 JSON을 불러오는 기능은 `file://`로 직접 열면
+브라우저 보안 정책 때문에 제대로 안 될 수 있습니다. 이럴 때는 `_devserver.ps1`을
+실행하면 `http://localhost:8091/`에서 정적 파일 서버로 미리 볼 수 있습니다.
+
+```powershell
+powershell -File _devserver.ps1
+```
+
 ## 폴더 구조
 
 - `index.html` — 홈 (제품 플로우, 테스트 키트 티저, 뉴스레터, 문의)
