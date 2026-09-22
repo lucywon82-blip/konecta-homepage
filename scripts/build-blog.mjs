@@ -218,7 +218,7 @@ const FOOTER = (root) => `<section class="footer-contact">
     <span class="pill-badge light">CONTACT</span>
     <h2 data-i18n="contact.title">협업 · 투자 · 파트너 문의를 환영합니다</h2>
     <div class="contact-buttons">
-      <a class="btn" href="https://www.instagram.com/konecta.co.kr/" target="_blank" rel="noopener">
+      <a class="btn" href="https://www.instagram.com/konecta.2026/" target="_blank" rel="noopener">
         <span class="btn-title" data-i18n="contact.ig_t">인스타그램 DM</span>
         <span class="btn-desc" data-i18n="contact.ig_d">고객·일반 문의는 이쪽으로 편하게 남겨주세요</span>
       </a>
@@ -365,7 +365,7 @@ function renderListPage(posts) {
   <div class="wrap">
     <h2 class="reveal" data-i18n="blog.next_title">다음 글은 인스타그램에서 먼저 알려드려요</h2>
     <p class="reveal" data-i18n="blog.next_desc">새 글이 올라오면 인스타그램에도 소식을 남깁니다.</p>
-    <a class="btn-pill reveal" href="https://www.instagram.com/konecta.co.kr/" target="_blank" rel="noopener" data-i18n="blog.next_btn">인스타그램 팔로우하기</a>
+    <a class="btn-pill reveal" href="https://www.instagram.com/konecta.2026/" target="_blank" rel="noopener" data-i18n="blog.next_btn">인스타그램 팔로우하기</a>
   </div>
 </section>`;
 
@@ -411,7 +411,7 @@ ${post.content_html}
   <div class="wrap">
     <h2 class="reveal" data-i18n="blog.post_next_title">Konecta의 다음 이야기가 궁금하다면</h2>
     <p class="reveal" data-i18n="blog.post_next_desc">새 글이 올라오면 인스타그램에서 가장 먼저 알려드려요.</p>
-    <a class="btn-pill reveal" href="https://www.instagram.com/konecta.co.kr/" target="_blank" rel="noopener" data-i18n="blog.next_btn">인스타그램 팔로우하기</a>
+    <a class="btn-pill reveal" href="https://www.instagram.com/konecta.2026/" target="_blank" rel="noopener" data-i18n="blog.next_btn">인스타그램 팔로우하기</a>
   </div>
 </section>`;
 
