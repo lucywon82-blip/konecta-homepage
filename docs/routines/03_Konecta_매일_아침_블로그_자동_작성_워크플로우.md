@@ -64,7 +64,7 @@ LIMIT 1
 페이지 본문 구성 (이 순서 그대로):
 ```
 미리보기: <5번에서 발행한 아티팩트 링크>
-(3번에서 쓴 본문 문단들)
+(3번에서 쓴 본문 문단들 — 5번에서 인용구 카드로 고른 문장은 여기서 평문이 아니라 실제 Notion 인용구 블록으로 넣는다)
 카드뉴스
 <4번에서 업로드한 이미지들을 순서대로 markdown 이미지로 삽입>
 ```
@@ -80,7 +80,7 @@ konecta-homepage 프로젝트(`C:\Users\kkimg\konecta-homepage`, GitHub: lucywon
 2. git add, commit(첫 줄은 영문 요약, 예: "Add YYYY-MM-DD blog content (<주제 요약>) and publish to homepage"), 커밋 메시지 끝에 "Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>" 추가.
 3. `git push origin main` — konecta-homepage에 대한 push 승인은 이미 상시 허용되어 있으므로(2026-09-21부로) 매번 묻지 않는다. push가 non-fast-forward로 거부되면 `git fetch` 후 커밋 내용을 확인하고 `git pull --rebase origin main` 한 뒤 다시 push한다(강제 push는 하지 않는다).
 4. 이 push가 Cloudflare Pages 재배포를 트리거하고, 빌드 시 `scripts/build-blog.mjs`가 Notion "홈페이지 블로그"에서 발행=true인 글을 모두 가져와 실제 `/blog` 페이지에 반영한다. 별도로 "Retry deployment"를 누르거나 로컬에서 빌드 스크립트를 실행할 필요는 없다(Cloudflare 환경변수는 이미 설정되어 있음).
-5. 배포가 끝난 뒤 `curl -sL https://konecta.co.kr/blog/<슬러그>/`로 200 응답과 커버 이미지가 실제로 반영됐는지 확인한다 (배포에 1~3분 정도 걸릴 수 있으므로, 백그라운드에서 `until curl ... | grep -q ...; do sleep 5; done` 형태로 기다렸다가 확인).
+5. 배포가 끝난 뒤 `curl -sL https://konecta.co.kr/blog/<슬러그>/`로 200 응답과 커버 이미지·인용구 하이라이트 박스가 실제로 반영됐는지 확인한다 (배포에 1~3분 정도 걸릴 수 있으므로, 백그라운드에서 `until curl ... | grep -q ...; do sleep 5; done` 형태로 기다렸다가 확인).
 
 ## 9. SNS(인스타그램) 실제 게시 — Claude in Chrome 사용
 Konecta의 정식 인스타그램 계정은 **`@konecta.2026`** 이다(2026-09-22부로 확정, 기존 `@konecta.co.kr`/`noriter_beautycenter`는 더 이상 쓰지 않음).
