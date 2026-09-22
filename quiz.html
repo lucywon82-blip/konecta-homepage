@@ -199,7 +199,7 @@ function render() {
     html += progressHtml(TOTAL);
     html += '<h2 class="quiz-qtitle">' + escapeHtml(fs.title) + '</h2>';
     html += '<div class="quiz-field"><label>' + escapeHtml(fs.nameLabel) + '</label><input id="nameInput" type="text" value="' + escapeHtml(state.name) + '"></div>';
-    html += '<div class="quiz-field"><label>' + escapeHtml(fs.contactLabel) + '</label><input id="contactInput" type="text" placeholder="@konecta.co.kr" value="' + escapeHtml(state.contact) + '"></div>';
+    html += '<div class="quiz-field"><label>' + escapeHtml(fs.contactLabel) + '</label><input id="contactInput" type="text" placeholder="@konecta.2026" value="' + escapeHtml(state.contact) + '"></div>';
     if (state.error) html += '<div class="quiz-errmsg">' + escapeHtml(state.error) + '</div>';
     html += '<div class="quiz-spacer"></div>';
     html += '<button class="quiz-cta enabled" data-action="submit">' + (state.submitting ? escapeHtml(SUBMITTING_TEXT[currentLang] || SUBMITTING_TEXT.ko) : escapeHtml(fs.submitButton)) + heartIcon(13, "#fff") + '</button>';
