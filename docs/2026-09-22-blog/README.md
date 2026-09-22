@@ -23,4 +23,6 @@ Notion "홈페이지 블로그" 페이지 하단에도 동일 카드뉴스가 SV
 
 - 노션 "발행" 체크박스를 켜서 Cloudflare Pages 빌드 시 실제 `/blog` 페이지에 반영되도록 함
 - 이 커밋을 `main`에 푸시해 Cloudflare Pages 재배포를 트리거함
-- SNS(인스타그램 등) 실제 게시는 아직 자동화되어 있지 않음 — 이 저장소 안에 실제 게시 API 연동(Meta Graph API 등)이 없어 초안(카드뉴스·릴스 대본)만 준비되고, 게시는 사용자가 직접 진행해야 함
+- SNS: Claude in Chrome으로 `@konecta.2026` 계정에 로그인해 카드뉴스 6장 + 캡션을 실제로 게시함 (https://www.instagram.com/p/DdlsdEmn4BB/). 로그인 자체는 사용자가 직접 함 — Claude는 비밀번호를 입력하지 않음
+- 노션 페이지에 커버 이미지 누락으로 `/blog` 목록 카드에 사진이 안 뜨는 실수가 있었음 → Unsplash 외부 이미지로 커버 추가해 수정 (`docs/routines/03_...` 워크플로우 문서에 재발 방지 규칙 기록)
+- 홈페이지 인스타그램 링크를 기존 `@konecta.co.kr`(noriter_beautycenter)에서 `@konecta.2026`로 전면 교체, 홈 화면에 계정 이전 안내 문구 추가

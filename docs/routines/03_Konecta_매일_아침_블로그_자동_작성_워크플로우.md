@@ -9,6 +9,8 @@
 > - 발행 체크 후 `konecta-homepage` 저장소에 오늘 카드뉴스(PNG)와 글 요약을 `docs/YYYY-MM-DD-blog/`로 커밋하고 `main`에 push한다 — 이 push가 Cloudflare Pages 재배포를 트리거해 실제 `/blog`에 반영된다 (push 승인은 상시 허용됨, 2026-09-21부).
 > - SNS(인스타그램 등) 실제 게시는 아직 자동화 전이다 — 이 저장소에 Meta Graph API 같은 실제 게시 연동이 없어서, daily-instagram-content가 만드는 릴스 대본·카드뉴스는 여전히 초안이며 사용자가 직접 게시해야 한다. 연동이 준비되면 이 문서를 다시 갱신한다.
 > - 참고: 2026-09-22 실행 시점에는 실제로 동작 중인 자동화 프롬프트가 이 문서의 1~7번(네이버용 글 포함 전체 구조)과 다르게, 홈페이지용 글 1개만 만드는 더 단순한 흐름으로 되어 있었다(`docs/2026-09-22-blog/README.md` 참고). 두 문서를 다시 일치시키는 정리가 필요할 수 있음.
+> - **커버 이미지는 매번 필수** (2026-09-22에 빠뜨려서 `/blog` 목록 카드에 사진이 안 뜨는 실수가 있었음): 노션 페이지를 만든 뒤 반드시 `notion-update-page`의 `cover` 파라미터로 외부(Unsplash) 이미지 URL을 지정한다. `cover`가 없거나 Notion에 업로드한 파일(`type:"file"`)이면 `scripts/build-blog.mjs`가 사진을 렌더링하지 않는다 — 반드시 `type:"external"`인 `https://images.unsplash.com/photo-<id>?w=1600&q=80&auto=format&fit=crop` 형식이어야 한다. 이미지를 고르면 curl로 실제로 받아서(Read로 보고) 글 주제와 실제로 어울리는지 확인한 다음에 지정한다(추측만으로 URL을 넣지 않는다).
+> - **인스타그램 계정은 `@konecta.2026`** (2026-09-22부로 변경, 기존 `@konecta.co.kr`/`noriter_beautycenter`는 더 이상 쓰지 않음). 실제 게시가 필요하면 Claude in Chrome으로 이 계정에 로그인된 상태에서 직접 게시할 수 있다(로그인 자체는 사용자가 비밀번호를 입력해야 함 — Claude가 대신 입력하지 않는다).
 
 ## 1. 오늘의 주제 찾기
 Notion 블로그 콘텐츠 캘린더(collection://b7b82e4e-33ea-41f1-8ffc-19b4265c1a8e, https://app.notion.com/p/4d006da5b45344e49b484e0cf38f3f6c)에서 발행일이 오늘 날짜이고 상태가 "예정"인 주제를 SQL로 찾는다. 없으면 다른 작업 없이 정확히 "오늘 예정된 주제가 없어"라고만 답하고 끝낸다(카드뉴스도 만들지 않음). 여러 개면 하나만 처리.
